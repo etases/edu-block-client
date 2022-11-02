@@ -1,15 +1,10 @@
-import { useSessionStorage } from '@hooks'
+import { useDashboardPage } from '@hooks/use-page'
 import { Center, Title } from '@mantine/core'
-import { useEffect } from 'react'
 
 const PAGE_TITLE = 'Dashboard'
 
 export function Dashboard() {
-  const { setState: setTitle } = useSessionStorage({ key: 'title' })
-
-  useEffect(() => {
-    setTitle(PAGE_TITLE)
-  }, [])
+  const {} = useDashboardPage()
 
   return (
     <Center

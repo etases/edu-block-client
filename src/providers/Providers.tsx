@@ -9,17 +9,17 @@ import { SpotlightProvider } from './spotlight-provider'
 export function Providers() {
   return (
     <MantineProvider>
-      <NotificationProvider>
-        <ModalProvider>
-          <SpotlightProvider>
-            <JotaiProvider>
+      <JotaiProvider>
+        <NotificationProvider>
+          <ModalProvider>
+            <SpotlightProvider>
               <QueryProvider>
                 <Router />
               </QueryProvider>
-            </JotaiProvider>
-          </SpotlightProvider>
-        </ModalProvider>
-      </NotificationProvider>
+            </SpotlightProvider>
+          </ModalProvider>
+        </NotificationProvider>
+      </JotaiProvider>
     </MantineProvider>
   )
 }

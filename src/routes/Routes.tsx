@@ -1,7 +1,10 @@
 import { useRoutes } from 'react-router-dom'
-import { appRoutes } from './appRoutes'
+import { routes as appRoutes } from './appRoutes'
 
+/**
+ * @deprecated
+ */
 export function Routes() {
-  const routes = useRoutes(appRoutes())
+  const routes = useRoutes([appRoutes({ role: 'ADMIN' })])
   return routes
 }

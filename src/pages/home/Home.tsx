@@ -1,15 +1,11 @@
-import { useSessionStorage } from '@hooks'
-import { Center, Title } from '@mantine/core'
-import { useEffect } from 'react'
+import { HorizontalStack, VerticalStack } from '@components'
+import { useHomePage } from '@hooks/use-page'
+import { Button, Center, Title } from '@mantine/core'
 
 const PAGE_TITLE = 'Home'
 
 export function Home() {
-  const { setState: setTitle } = useSessionStorage({ key: 'title' })
-
-  useEffect(() => {
-    setTitle(PAGE_TITLE)
-  }, [])
+  const { navigate } = useHomePage()
 
   return (
     <Center
@@ -18,7 +14,12 @@ export function Home() {
         height: '100%',
       }}
     >
-      <Title>{PAGE_TITLE}</Title>
+      <VerticalStack>
+        <Title>{PAGE_TITLE}</Title>
+        <HorizontalStack position={'center'}>
+          <Button onClick={() => navigate('/login')}>Login</Button>
+        </HorizontalStack>
+      </VerticalStack>
     </Center>
   )
 }

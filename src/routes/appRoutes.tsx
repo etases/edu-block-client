@@ -1,13 +1,83 @@
-import { App, Dashboard, Home, Login, NotFound, Root, Test } from '@pages'
-import { Navigate, RouteObject } from 'react-router-dom'
+import {
+  AccountList,
+  AccountProfile,
+  AccountRoot,
+  AdminAccountList,
+  App,
+  Classroom,
+  ClassroomDetails,
+  ClassroomList,
+  ClassroomStudentList,
+  ClassroomTeacherList,
+  Dashboard,
+  Home,
+  Login,
+  NotFound,
+  RecordList,
+  Root,
+  StaffAccountList,
+  StudentAccountList,
+  StudentProfile,
+  TeacherAccountList,
+  Test,
+} from '@pages'
+import { Navigate, Outlet, RouteObject } from 'react-router-dom'
 
-const routes: RouteObject = {
+export type ROLE = 'ADMIN' | 'STAFF' | 'TEACHER' | 'STUDENT' | 'ANY' | 'GUEST'
+
+type AuthRoutesType = {
+  [key in ROLE]: RouteObject[]
+}
+
+const adminRoutes: RouteObject[] = [
+  {
+    path: 'admin',
+    element: 'Admin',
+  },
+]
+
+const staffRoutes: RouteObject[] = [
+  {
+    path: 'staff',
+    element: 'Staff',
+  },
+]
+
+const teacherRoutes: RouteObject[] = [
+  {
+    path: 'teacher',
+    element: 'Teacher',
+  },
+]
+
+const studentRoutes: RouteObject[] = [
+  {
+    path: 'student',
+    element: 'Student',
+  },
+]
+
+const authRoutes: AuthRoutesType = {
+  ANY: [],
+  GUEST: [],
+  ADMIN: adminRoutes,
+  STAFF: staffRoutes,
+  TEACHER: teacherRoutes,
+  STUDENT: studentRoutes,
+}
+
+export const routes = ({ role = 'GUEST' }: { role: ROLE }): RouteObject => ({
   path: '/',
   element: <Root />,
   children: [
     {
       index: true,
-      element: <Navigate to={'home'} />,
+      element: (
+        <Navigate
+          to={'home'}
+          replace={true}
+        />
+      ),
     },
     {
       path: 'home',
@@ -20,12 +90,134 @@ const routes: RouteObject = {
       children: [
         {
           index: true,
-          element: <Navigate to={'dashboard'} />,
+          element: (
+            <Navigate
+              to={'dashboard'}
+              replace={true}
+            />
+          ),
         },
         {
           path: 'dashboard',
           element: <Dashboard />,
         },
+        {
+          path: 'account-list',
+          element: <AccountRoot />,
+          children: [
+            {
+              index: true,
+              element: (
+                <Navigate
+                  to={'all'}
+                  replace={true}
+                />
+              ),
+            },
+            {
+              path: 'all',
+              element: <AccountList />,
+            },
+            {
+              path: 'admins',
+              element: <AdminAccountList />,
+            },
+            {
+              path: 'staffs',
+              element: <StaffAccountList />,
+            },
+            {
+              path: 'teachers',
+              element: <TeacherAccountList />,
+            },
+            {
+              path: 'students',
+              element: <StudentAccountList />,
+            },
+          ],
+        },
+        {
+          path: 'classroom-list',
+          element: <Outlet />,
+          children: [
+            {
+              index: true,
+              element: (
+                <Navigate
+                  to={'all'}
+                  replace={true}
+                />
+              ),
+            },
+            {
+              path: 'all',
+              element: <ClassroomList />,
+            },
+          ],
+        },
+        {
+          path: 'record-list',
+          element: <Outlet />,
+          children: [
+            {
+              index: true,
+              element: (
+                <Navigate
+                  to={'all'}
+                  replace={true}
+                />
+              ),
+            },
+            {
+              path: 'all',
+              element: <RecordList />,
+            },
+          ],
+        },
+        {
+          path: 'account',
+          element: <Outlet />,
+          children: [
+            {
+              path: ':accountId',
+              element: <AccountProfile />,
+              children: [
+                {
+                  path: 'record',
+                  element: <StudentProfile />,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          path: 'classroom/:classroomId',
+          element: <Classroom />,
+          children: [
+            {
+              index: true,
+              element: (
+                <Navigate
+                  to={'details'}
+                  replace={true}
+                />
+              ),
+            },
+            {
+              path: 'details',
+              element: <ClassroomDetails />,
+            },
+            {
+              path: 'students',
+              element: <ClassroomStudentList />,
+            },
+            {
+              path: 'teachers',
+              element: <ClassroomTeacherList />,
+            },
+          ],
+        },
+        ...authRoutes[role],
       ],
     },
     {
@@ -33,10 +225,14 @@ const routes: RouteObject = {
       element: <Test />,
     },
     { path: 'not-found', element: <NotFound /> },
-    { path: '*', element: <Navigate to={'not-found'} /> },
+    {
+      path: '*',
+      element: (
+        <Navigate
+          to={'not-found'}
+          replace={true}
+        />
+      ),
+    },
   ],
-}
-
-export function appRoutes(): RouteObject[] {
-  return [routes]
-}
+})

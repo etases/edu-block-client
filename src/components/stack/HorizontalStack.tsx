@@ -4,6 +4,7 @@ export function HorizontalStack(props: GroupProps) {
   return (
     <Group
       spacing={'md'}
+      // py={'md'}
       {...props}
     />
   )

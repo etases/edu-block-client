@@ -4,6 +4,7 @@ export function VerticalStack(props: StackProps) {
   return (
     <Stack
       spacing={'md'}
+      // px={'md'}
       {...props}
     />
   )

@@ -1,15 +1,11 @@
-import { useSessionStorage } from '@hooks'
+import { Button, VerticalStack } from '@components'
+import { useNotFoundPage } from '@hooks/use-page'
 import { Center, Title } from '@mantine/core'
-import { useEffect } from 'react'
 
 const PAGE_TITLE = 'Not Found'
 
 export function NotFound() {
-  const { setState: setTitle } = useSessionStorage({ key: 'title' })
-
-  useEffect(() => {
-    setTitle(PAGE_TITLE)
-  }, [])
+  const { navigate } = useNotFoundPage()
 
   return (
     <Center
@@ -18,7 +14,10 @@ export function NotFound() {
         height: '100%',
       }}
     >
-      <Title>{PAGE_TITLE}</Title>
+      <VerticalStack>
+        <Title>{PAGE_TITLE}</Title>
+        <Button onClick={() => navigate(-1)}>Go Back</Button>
+      </VerticalStack>
     </Center>
   )
 }
