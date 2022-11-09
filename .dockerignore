@@ -2,7 +2,7 @@
 .gitignore
 .dockerignore
 .prettierrc
-Caddyfile
+# Caddyfile
 Dockerfile
 dist
 node_modules
