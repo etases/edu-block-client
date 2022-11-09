@@ -7,6 +7,7 @@ export function SelectInput(props: SelectProps) {
       radius={'md'}
       clearable={true}
       allowDeselect={true}
+      searchable={true}
       {...props}
     />
   )

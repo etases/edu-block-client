@@ -17,6 +17,7 @@ export function IconButton(
         size={'md'}
         radius={'md'}
         color={color}
+        variant={'transparent'}
         {...otherProps}
       />
     </Tooltip>

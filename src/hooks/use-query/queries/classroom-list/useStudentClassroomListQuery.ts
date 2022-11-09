@@ -24,7 +24,7 @@ export function useStudentClassroomListQuery() {
   const endpoint = ENDPOINT.READ.STUDENT_CLASSROOM_LIST
 
   const query = useQuery({
-    queryKey: [],
+    queryKey: [endpoint],
     queryFn: async function () {
       return request({
         endpoint,
@@ -58,6 +58,7 @@ export function useStudentClassroomListQuery() {
           teacherLastName,
           teacherId,
           teacherPhone,
+          teacherName: `${teacherFirstName} ${teacherLastName}`,
         })
       )
     },

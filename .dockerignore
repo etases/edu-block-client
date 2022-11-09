@@ -1,0 +1,9 @@
+.git
+.gitignore
+.dockerignore
+.prettierrc
+Caddyfile
+Dockerfile
+dist
+node_modules
+yarn.lock

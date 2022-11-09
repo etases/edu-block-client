@@ -1,6 +1,9 @@
 import { TableHeaderProps } from '@components/table'
-import { useClassroomCreateForm, useClassroomUpdateForm } from '@hooks/use-form'
-import { useClassroomListQuery } from '@hooks/use-query'
+import { useClassroomCreateForm } from '@hooks/use-form'
+import {
+  useAccountListByRoleQuery,
+  useClassroomListQuery,
+} from '@hooks/use-query'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useNavigate } from 'react-router-dom'
@@ -105,18 +108,55 @@ const searchSelectOption: SelectItem[] = [
   },
 ]
 
+const searchSelectTeacherCategoryGroup = {
+  id: 'Identity',
+  name: 'Name',
+  misc: 'Misc',
+}
+
+const searchSelectTeacherOption: SelectItem[] = [
+  {
+    value: 'id',
+    label: 'Id',
+    group: searchSelectTeacherCategoryGroup.id,
+  },
+  {
+    value: 'username',
+    label: 'Username',
+    group: searchSelectTeacherCategoryGroup.id,
+  },
+  {
+    value: 'firstname',
+    label: 'First name',
+    group: searchSelectTeacherCategoryGroup.name,
+  },
+  {
+    value: 'lastname',
+    label: 'Last name',
+    group: searchSelectTeacherCategoryGroup.name,
+  },
+  {
+    value: 'email',
+    label: 'Email',
+    group: searchSelectTeacherCategoryGroup.id,
+  },
+  {
+    value: 'phone',
+    label: 'Phone number',
+    group: searchSelectTeacherCategoryGroup.misc,
+  },
+]
+
 export function useClassroomListPage() {
   const {
     query: { data: classroomsData },
-    state,
+    state: classListState,
   } = useClassroomListQuery()
 
-  const updateClassroomForm = useClassroomUpdateForm()
-
-  const [
-    classroomUpdateModalState,
-    { close: closeClassroomUpdateModal, open: openClassroomUpdateModal },
-  ] = useDisclosure(false)
+  const {
+    query: { data: teacherList },
+    state: teacherListState,
+  } = useAccountListByRoleQuery({ role: 'TEACHER', limit: 5 })
 
   const [searchViewState, { close: closeSearchView, open: openSearchView }] =
     useDisclosure(false)
@@ -132,14 +172,9 @@ export function useClassroomListPage() {
 
   return {
     table: { tableHeaders, classroomList: classroomsData || [] },
-    form: { updateClassroomForm, createClassroomForm },
+    form: { createClassroomForm },
     state: {
       modal: {
-        classroomUpdateModal: {
-          classroomUpdateModalState,
-          closeClassroomUpdateModal,
-          openClassroomUpdateModal,
-        },
         searchView: {
           searchViewState,
           closeSearchView,
@@ -151,11 +186,14 @@ export function useClassroomListPage() {
           openClassroomCreateModal,
         },
       },
-      ...state,
+      classListState,
+      teacherListState,
     },
     others: {
       searchSelectOption,
+      searchSelectTeacherOption,
       navigate,
+      teacherList: teacherList || [],
     },
   }
 }

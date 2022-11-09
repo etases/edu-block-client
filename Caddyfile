@@ -1,0 +1,12 @@
+{
+	admin off
+	auto_https off
+}
+
+:80 {
+	try_files {path} /index.html?{query}
+	templates
+	file_server {
+		precompressed zstd br gzip
+	}
+}

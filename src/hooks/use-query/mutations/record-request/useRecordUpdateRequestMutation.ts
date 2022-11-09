@@ -6,29 +6,26 @@ import { notifyError } from '@utilities/functions'
 const RECORD_REQUEST_UPDATE_MUTATION_KEY = {}
 
 interface BodyInterface {
-  studentId: number | string
-  classroomId: number | string
-  firstHalfScore: number | string
-  secondHalfScore: number | string
-  finalScore: number | string
-  subjectId: number | string
+  studentId: number
+  classroomId: number
+  firstHalfScore: number
+  secondHalfScore: number
+  finalScore: number
+  subjectId: number
 }
 
 export function useRecordUpdateRequestMutation() {
   const endpoint = ENDPOINT.CREATE.RECORD_UPDATE_REQUEST
 
   const mutation = useMutation({
-    mutationKey: [
-      endpoint,
-      {
-        ...RECORD_REQUEST_UPDATE_MUTATION_KEY,
-      } as typeof RECORD_REQUEST_UPDATE_MUTATION_KEY,
-    ],
+    mutationKey: [endpoint],
     mutationFn: async function (variables: BodyInterface) {
       return await request({
         endpoint,
         method: 'POST',
-        body: { ...variables },
+        body: {
+          ...variables,
+        },
       })
     },
     onMutate(variables) {},
@@ -39,5 +36,5 @@ export function useRecordUpdateRequestMutation() {
     onSettled(data, error, variables, context) {},
   })
 
-  return mutation
+  return { mutation }
 }

@@ -3,7 +3,7 @@ import { request } from '@hooks/use-query/core'
 import { useAccessTokenStore } from '@hooks/use-store'
 import { useMutation } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
-import { redirect, useNavigate } from 'react-router-dom'
+import { redirect } from 'react-router-dom'
 
 export const LOGIN_MUTATION_KEY = {}
 
@@ -56,7 +56,7 @@ export function useLoginMutation() {
         message: data.message || 'Something went wrong!',
       })
 
-      redirect('/app')
+      redirect('/app/dashboard')
     },
     onSettled(data, error, variables, context) {},
   })

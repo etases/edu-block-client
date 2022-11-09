@@ -6,7 +6,7 @@ import {
 export function PasswordInput(props: InputProps) {
   return (
     <Input
-      variant={'filled'}
+      // variant={'filled'}
       size={'md'}
       radius={'md'}
       {...props}

@@ -41,9 +41,11 @@ export interface ClassroomApiInterface {
 export interface SubjectApiInterface {
   id: number
   name: string
+  identifier: string
 }
 
 export interface RecordApiInterface {
+  id: number
   subjectId: number
   subject: SubjectApiInterface
   firstHalfScore: number

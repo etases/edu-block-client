@@ -3,16 +3,18 @@ import { useForm } from '@mantine/form'
 
 interface FormInterface {
   name: string
-  grade: number
-  homeroomTeacherId: number
+  grade: string
+  homeroomTeacherId: string
+  year: string
 }
 
 export function useClassroomUpdateForm() {
   const form = useForm<FormInterface>({
     initialValues: {
       name: '',
-      grade: 0,
-      homeroomTeacherId: 0,
+      grade: '0',
+      homeroomTeacherId: '0',
+      year: new Date().getFullYear().toString(),
     },
     validate: {
       // name: (value) => value.length > 1,
@@ -29,12 +31,19 @@ export function useClassroomUpdateForm() {
     },
   } = useClassroomUpdateMutation()
 
-  function loadFormValues(selectedClassroomId: number, values: FormInterface) {
-    setSelectedClassroomId(selectedClassroomId)
+  function loadFormValues(values: FormInterface, classroomId?: number) {
+    if (classroomId) setSelectedClassroomId(classroomId)
     form.setValues(values)
   }
 
-  const submitForm = form.onSubmit((values) => updateClassroom(values))
+  const submitForm = form.onSubmit((values) =>
+    updateClassroom({
+      ...values,
+      grade: parseInt(values.grade),
+      homeroomTeacherId: parseInt(values.homeroomTeacherId),
+      year: parseInt(values.year),
+    })
+  )
 
   return {
     form,

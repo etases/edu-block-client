@@ -41,5 +41,6 @@ export function useStudentProfileUpdateForm() {
     submitForm,
     inputPropsOf: form.getInputProps,
     loadFormValues,
+    form,
   }
 }

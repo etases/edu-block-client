@@ -168,9 +168,11 @@ export function AccountList() {
                   >
                     <IconUser />
                   </IconButton>
-                  <IconButton label={'Update Password'}>
-                    <IconPassword />
-                  </IconButton>
+                  {accountRole === 'ADMIN' && (
+                    <IconButton label={'Update Password'}>
+                      <IconPassword />
+                    </IconButton>
+                  )}
                 </HorizontalStack>
               ),
             }

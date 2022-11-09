@@ -3,10 +3,11 @@ import {
   ClassroomApiInterface,
   EntryApiInterface,
 } from '@constants/api/schemas'
-import { request } from '@hooks/use-query/core'
+import { request, toQueryString } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError } from '@utilities/functions'
-import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 export const STUDENT_RECORD_QUERY_KEY = {}
 
@@ -16,27 +17,30 @@ interface DataInterface {
 }
 
 export function useStudentRecordQuery() {
-  const [selectedStudentId, setSelectedStudentId] = useState(0)
-  const [selectedClassroomId, setSelectedClassroomId] = useState(0)
+  const { accountId, classroomId } = useParams()
+  // const [selectedStudentId, setSelectedStudentId] = useState(accountId || '')
+  // const [selectedClassroomId, setSelectedClassroomId] = useState(
+  //   classroomId || ''
+  // )
+  const { account } = useAccountStore()
 
-  function resetSelectedStudentId() {
-    setSelectedStudentId(0)
-  }
-
-  function resetSelectedClassroomId() {
-    setSelectedClassroomId(0)
-  }
-
-  const endpoint = ENDPOINT.READ.STUDENT_RECORD.replace(
-    '{classroomId}',
-    selectedClassroomId.toString()
-  ).replace('{studentId}', selectedStudentId.toString())
+  const endpoint =
+    (accountId === account.id.toString()
+      ? ENDPOINT.READ.PERSONAL_RECORD_INFORMATION.replace(
+          '{classroomId}',
+          classroomId as string
+        )
+      : ENDPOINT.READ.STUDENT_RECORD.replace(
+          '{classroomId}',
+          classroomId as string
+        ).replace('{studentId}', accountId as string)) +
+    toQueryString({
+      fillAllSubjects: true,
+    })
 
   const query = useQuery({
-    queryKey: [
-      endpoint,
-      { ...STUDENT_RECORD_QUERY_KEY } as typeof STUDENT_RECORD_QUERY_KEY,
-    ],
+    enabled: !!accountId || !!classroomId || !!accountId,
+    queryKey: [endpoint],
     queryFn: async function () {
       return await request({
         endpoint,
@@ -44,7 +48,65 @@ export function useStudentRecordQuery() {
     },
     select(data) {
       const { data: recordData } = data
-      return recordData as DataInterface
+      return (recordData as DataInterface).entries
+        .map(
+          ({
+            approvalDate,
+            approver: {
+              profile: {
+                id: approverId,
+                avatar: approverAvatar,
+                email: approverEmail,
+                firstName: approverFirstName,
+                lastName: approverLastName,
+              },
+            },
+            finalScore,
+            firstHalfScore,
+            secondHalfScore,
+            requestDate,
+            subject: { id: subjectId, identifier: subjectName },
+            requester: {
+              profile: {
+                avatar: requesterAvatar,
+                email: requesterEmail,
+                id: requesterId,
+                firstName: requesterFirstName,
+                lastName: requesterLastName,
+              },
+            },
+            teacher: {
+              profile: {
+                avatar: teacherAvatar,
+                email: teacherEmail,
+                firstName: teacherFirstName,
+                lastName: teacherLastName,
+                id: teacherId,
+              },
+            },
+          }) => ({
+            approvalDate,
+            approverId,
+            approverAvatar,
+            approverEmail,
+            approverName: `${approverFirstName} ${approverLastName}`,
+            finalScore,
+            firstHalfScore,
+            secondHalfScore,
+            requestDate,
+            subjectId,
+            subjectName,
+            requesterAvatar,
+            requesterEmail,
+            requesterId,
+            requesterName: `${requesterFirstName} ${requesterLastName}`,
+            teacherAvatar,
+            teacherEmail,
+            teacherName: `${teacherFirstName} ${teacherLastName}`,
+            teacherId,
+          })
+        )
+        .sort((a, b) => a.subjectId - b.subjectId)
     },
     onError(err) {
       notifyError({ message: endpoint })
@@ -55,17 +117,6 @@ export function useStudentRecordQuery() {
 
   return {
     query,
-    state: {
-      classroom: {
-        selectedClassroomId,
-        setSelectedClassroomId,
-        resetSelectedClassroomId,
-      },
-      student: {
-        selectedStudentId,
-        setSelectedStudentId,
-        resetSelectedStudentId,
-      },
-    },
+    state: {},
   }
 }

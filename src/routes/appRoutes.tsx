@@ -3,6 +3,7 @@ import {
   AccountProfile,
   AccountRoot,
   AdminAccountList,
+  AdminDashboard,
   App,
   Classroom,
   ClassroomDetails,
@@ -16,9 +17,13 @@ import {
   RecordList,
   Root,
   StaffAccountList,
+  StaffDashboard,
   StudentAccountList,
+  StudentDashboard,
   StudentProfile,
+  StudentRecord,
   TeacherAccountList,
+  TeacherDashboard,
   Test,
 } from '@pages'
 import { Navigate, Outlet, RouteObject } from 'react-router-dom'
@@ -100,6 +105,24 @@ export const routes = ({ role = 'GUEST' }: { role: ROLE }): RouteObject => ({
         {
           path: 'dashboard',
           element: <Dashboard />,
+          children: [
+            {
+              path: 'admin',
+              element: <AdminDashboard />,
+            },
+            {
+              path: 'staff',
+              element: <StaffDashboard />,
+            },
+            {
+              path: 'teacher',
+              element: <TeacherDashboard />,
+            },
+            {
+              path: 'student',
+              element: <StudentDashboard />,
+            },
+          ],
         },
         {
           path: 'account-list',
@@ -185,6 +208,12 @@ export const routes = ({ role = 'GUEST' }: { role: ROLE }): RouteObject => ({
                 {
                   path: 'record',
                   element: <StudentProfile />,
+                  children: [
+                    {
+                      path: ':classroomId',
+                      element: <StudentRecord />,
+                    },
+                  ],
                 },
               ],
             },

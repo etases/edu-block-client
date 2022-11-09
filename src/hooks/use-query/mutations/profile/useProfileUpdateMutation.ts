@@ -1,6 +1,6 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 
@@ -17,6 +17,7 @@ interface BodyInterface {
 
 export function useProfileUpdateMutation() {
   const [selectedProfileId, setSelectedProfileId] = useState(0)
+  const queryClient = useQueryClient()
 
   function resetSelectedProfileId() {
     setSelectedProfileId(0)
@@ -42,6 +43,11 @@ export function useProfileUpdateMutation() {
     },
     onSuccess(data, variables, context) {
       notifyInformation({ message: endpoint })
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return (query.queryKey[0] as string).includes('account')
+        },
+      })
     },
     onSettled(data, error, variables, context) {},
   })

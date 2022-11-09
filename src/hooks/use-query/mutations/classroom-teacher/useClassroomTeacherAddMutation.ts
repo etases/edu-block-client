@@ -1,15 +1,24 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyError } from '@utilities/functions'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 interface BodyInterface {
-  accounts: number[]
+  teachers: {
+    teacherId: number
+    subjectId: number
+  }[]
 }
 
 export function useClassroomTeacherAddMutation() {
-  const [selectedClassroomId, setSelectedClassroomId] = useState(0)
+  const { classroomId } = useParams()
+  const queryClient = useQueryClient()
+
+  const [selectedClassroomId, setSelectedClassroomId] = useState(
+    classroomId || 0
+  )
 
   function resetSelectedClassroomId() {
     setSelectedClassroomId(0)
@@ -21,15 +30,22 @@ export function useClassroomTeacherAddMutation() {
   )
 
   const mutation = useMutation({
-    mutationKey: [],
+    mutationKey: [endpoint],
     mutationFn: async function (variables: BodyInterface) {
       return await request({ endpoint, method: 'POST', body: { ...variables } })
     },
     onMutate(variables) {},
     onError(error, variables, context) {
       notifyError({ message: endpoint })
+      console.log(error)
     },
-    onSuccess(data, variables, context) {},
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return (query.queryKey.at(0) as string).includes('classroom')
+        },
+      })
+    },
     onSettled(data, error, variables, context) {},
   })
 

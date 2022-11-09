@@ -3,8 +3,8 @@ import {
   AccountApiInterface,
   ProfileApiInterface,
 } from '@constants/api/schemas'
-import { request } from '@hooks/use-query/core'
-import { useDebouncedState } from '@mantine/hooks'
+import { request, toQueryString } from '@hooks/use-query/core'
+import { useDebouncedValue } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError } from '@utilities/functions'
 import dayjs from 'dayjs'
@@ -16,10 +16,22 @@ interface DataInterface
     profile: ProfileApiInterface
   }> {}
 
-export function useAccountListByRoleQuery() {
-  const [selectedRole, setSelectedRole] = useState('')
+interface UseAccountListByRoleQueryProps {
+  role: 'ADMIN' | 'STAFF' | 'TEACHER' | 'STUDENT'
+  limit?: number
+}
+
+export function useAccountListByRoleQuery(
+  props: UseAccountListByRoleQueryProps
+) {
+  const { role, limit } = props
+
+  const [selectedRole, setSelectedRole] = useState(role.toLowerCase())
   const [currentPage, setCurrentPage] = useState(0)
-  const [searchText, setSearchText] = useDebouncedState('', 500)
+  const [searchText, setSearchText] = useState('')
+  const [selectedField, setSelectedField] = useState('')
+  const [searchLimit, setSearchLimit] = useState(limit)
+  const [debouncedSearchText] = useDebouncedValue(searchText, 500)
 
   function resetCurrentPage() {
     setCurrentPage(0)
@@ -30,13 +42,18 @@ export function useAccountListByRoleQuery() {
     setSearchText('')
   }
 
-  const endpoint = ENDPOINT.READ.ACCOUNT_LIST_BY_ROLE.replace(
-    '{role}',
-    selectedRole
-  )
+  const endpoint =
+    ENDPOINT.READ.ACCOUNT_LIST_BY_ROLE.replace('{role}', selectedRole) +
+    toQueryString({
+      pageNumber: currentPage,
+      pageSize: searchLimit || 10,
+      filter: selectedField,
+      input: debouncedSearchText,
+    })
 
   const query = useQuery({
-    queryKey: [],
+    queryKey: [endpoint],
+    keepPreviousData: true,
     queryFn: async function () {
       return await request({
         endpoint,
@@ -48,14 +65,24 @@ export function useAccountListByRoleQuery() {
       return (accountListData as DataInterface).map(
         ({
           account: { id, role },
-          profile: { avatar, birthDate, firstName, lastName, male: isMale },
+          profile: {
+            avatar,
+            birthDate,
+            firstName,
+            lastName,
+            male: isMale,
+            email,
+          },
         }) => ({
           id,
           role,
           avatar,
           dob: dayjs(birthDate).format('YYYY-MM-DD'),
+          firstName,
+          lastName,
           name: `${firstName} ${lastName}`,
           gender: isMale ? 'M' : 'F',
+          email,
         })
       )
     },
@@ -82,6 +109,14 @@ export function useAccountListByRoleQuery() {
         searchText,
         setSearchText,
         resetSearchText,
+      },
+      field: {
+        selectedField,
+        setSelectedField,
+      },
+      limit: {
+        searchLimit,
+        setSearchLimit,
       },
     },
   }

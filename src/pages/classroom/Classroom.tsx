@@ -1,5 +1,5 @@
 import { HorizontalStack, VerticalStack } from '@components'
-import { Divider, Tabs, Title, useMantineTheme } from '@mantine/core'
+import { Divider, Tabs, Text, Title, useMantineTheme } from '@mantine/core'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 const { List: TabList, Tab: TabItem } = Tabs
@@ -26,7 +26,7 @@ export function Classroom() {
   return (
     <VerticalStack>
       <HorizontalStack>
-        <Title>Classroom {classroomId}</Title>
+        <Title>Classroom</Title>
       </HorizontalStack>
       <Divider />
       <Tabs
@@ -47,7 +47,12 @@ export function Classroom() {
                 value={value}
                 // color={color}
               >
-                <Title order={2}>{label}</Title>
+                <Text
+                  size={'lg'}
+                  weight={'bold'}
+                >
+                  {label}
+                </Text>
               </TabItem>
             )
           })}

@@ -1,19 +1,21 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyError } from '@utilities/functions'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 interface BodyInterface {
   accounts: number[]
 }
 
 export function useClassroomStudentDeleteMutation() {
-  const [selectedClassroomId, setSelectedClassroomId] = useState(0)
+  const { classroomId } = useParams()
+  const queryClient = useQueryClient()
 
-  function resetSelectedClassroomId() {
-    setSelectedClassroomId(0)
-  }
+  const [selectedClassroomId, setSelectedClassroomId] = useState(
+    classroomId || 0
+  )
 
   const endpoint = ENDPOINT.DELETE.CLASSROOM_STUDENT.replace(
     '{id}',
@@ -21,7 +23,7 @@ export function useClassroomStudentDeleteMutation() {
   )
 
   const mutation = useMutation({
-    mutationKey: [],
+    mutationKey: [endpoint],
     mutationFn: async function (variables: BodyInterface) {
       return await request({
         endpoint,
@@ -33,7 +35,13 @@ export function useClassroomStudentDeleteMutation() {
     onError(error, variables, context) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data, variables, context) {},
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return (query.queryKey.at(0) as string).includes('classroom')
+        },
+      })
+    },
     onSettled(data, error, variables, context) {},
   })
 
@@ -43,7 +51,6 @@ export function useClassroomStudentDeleteMutation() {
       classroom: {
         selectedClassroomId,
         setSelectedClassroomId,
-        resetSelectedClassroomId,
       },
     },
   }

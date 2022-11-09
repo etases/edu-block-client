@@ -6,7 +6,7 @@ import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
 
 export function Root() {
-  const { spacing, navigate, isFetching } = useRootPage()
+  const { spacing, navigate, loading } = useRootPage()
 
   return (
     <ScrollArea sx={{ width: '100%', height: '100%' }}>
@@ -24,7 +24,7 @@ export function Root() {
             color={'blue'}
             variant={'filled'}
             size={'md'}
-            loading={!!isFetching}
+            loading={!!loading}
           >
             <IconQuestionMark />
           </IconButton>

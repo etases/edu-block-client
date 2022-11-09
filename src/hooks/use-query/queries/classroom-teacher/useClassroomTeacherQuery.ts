@@ -47,10 +47,15 @@ export function useClassroomTeacherQuery() {
               id: teacherId,
             },
           },
-          subject: { id: subjectId, name: subjectName },
+          subject: {
+            id: subjectId,
+            name: subjectName,
+            identifier: subjectIdentifier,
+          },
         }) => ({
           subjectId,
           subjectName,
+          subjectIdentifier,
           teacherLastName,
           teacherAvatar,
           teacherEmail,

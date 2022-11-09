@@ -1,8 +1,8 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyError } from '@utilities/functions'
-import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 interface BodyInterface {
   ethnic: string
@@ -16,15 +16,13 @@ interface BodyInterface {
 }
 
 export function useStudentProfileUpdateMutation() {
-  const [selectedStudentId, setSelectedStudentId] = useState(0)
-
-  function resetSelectedStudentId() {
-    setSelectedStudentId(0)
-  }
+  // const [selectedStudentId, setSelectedStudentId] = useState(0)
+  const { accountId } = useParams()
+  const queryClient = useQueryClient()
 
   const endpoint = ENDPOINT.UPDATE.STUDENT_INFORMATION.replace(
     '{id}',
-    selectedStudentId.toString()
+    accountId || ''
   )
 
   const mutation = useMutation({
@@ -40,18 +38,18 @@ export function useStudentProfileUpdateMutation() {
     onError(error, variables, context) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data, variables, context) {},
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return (query.queryKey.at(0) as string).includes('account')
+        },
+      })
+    },
     onSettled(data, error, variables, context) {},
   })
 
   return {
     mutation,
-    state: {
-      student: {
-        selectedStudentId,
-        setSelectedStudentId,
-        resetSelectedStudentId,
-      },
-    },
+    state: {},
   }
 }

@@ -19,10 +19,11 @@ import { Outlet } from 'react-router-dom'
 
 export function AccountProfile() {
   const { accountProfile } = useAccountProfilePage()
+
   return (
     <VerticalStack>
       <HorizontalStack>
-        <Title>Account Profile {accountProfile?.id}</Title>
+        <Title>Account Profile</Title>
       </HorizontalStack>
       <Divider />
       <HorizontalStack position={'center'}>

@@ -1,13 +1,7 @@
-import { Avatar, HorizontalStack, VerticalStack } from '@components'
+import { Avatar, Button, HorizontalStack, VerticalStack } from '@components'
 import { useAccountStore } from '@hooks/use-store'
-import {
-  Button,
-  Divider,
-  Navbar as MNavbar,
-  NavLink,
-  Text,
-} from '@mantine/core'
-import { IconDashboard, IconSection, IconUsers } from '@tabler/icons'
+import { Divider, Navbar as MNavbar, NavLink, Text } from '@mantine/core'
+import { IconClock, IconDashboard, IconSection, IconUsers } from '@tabler/icons'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const { Section } = MNavbar
@@ -32,6 +26,11 @@ const navItems = [
     to: '/app/classroom-list',
     label: 'Classroom',
     icon: <IconSection />,
+  },
+  {
+    to: '/app/record-list',
+    label: 'Pending verification',
+    icon: <IconClock />,
   },
 ]
 

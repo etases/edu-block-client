@@ -1,17 +1,24 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
-import { useMutation } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 interface BodyInterface {
   name: string
   grade: number
   homeroomTeacherId: number
+  year: number
 }
 
 export function useClassroomUpdateMutation() {
-  const [selectedClassroomId, setSelectedClassroomId] = useState(0)
+  const { classroomId } = useParams()
+  const queryClient = useQueryClient()
+
+  const [selectedClassroomId, setSelectedClassroomId] = useState(
+    parseInt(classroomId || '0')
+  )
 
   function resetSelectedClassroomId() {
     setSelectedClassroomId(0)
@@ -31,7 +38,14 @@ export function useClassroomUpdateMutation() {
     onError(error, variables, context) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data, variables, context) {},
+    onSuccess(data, variables, context) {
+      notifyInformation({ message: 'Classroom updated' })
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return (query.queryKey.at(0) as string).includes('classroom')
+        },
+      })
+    },
     onSettled(data, error, variables, context) {},
   })
 

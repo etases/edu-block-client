@@ -23,7 +23,9 @@ import {
 } from '@mantine/core'
 import {
   IconCategory,
+  IconClearAll,
   IconClipboardPlus,
+  IconFilePlus,
   IconId,
   IconListSearch,
   IconSearch,
@@ -41,25 +43,34 @@ interface TeacherItemProps extends SelectItemProps {
 export function ClassroomList() {
   const {
     table: { tableHeaders, classroomList },
-    others: { searchSelectOption, navigate },
-    form: { createClassroomForm, updateClassroomForm },
+    others: {
+      searchSelectOption,
+      searchSelectTeacherOption,
+      navigate,
+      teacherList,
+    },
+    form: { createClassroomForm },
     state: {
       modal: {
         searchView: { searchViewState, closeSearchView, openSearchView },
-        classroomUpdateModal: {
-          classroomUpdateModalState,
-          closeClassroomUpdateModal,
-          openClassroomUpdateModal,
-        },
         classroomCreateModal: {
           classroomCreateModalState,
           closeClassroomCreateModal,
           openClassroomCreateModal,
         },
       },
-      search: { setSearchText, setSelectedSearchField, selectedSearchField },
-      page: { currentPage, setCurrentPage },
-      total: { totalPages },
+      classListState: {
+        search: { setSearchText, setSelectedSearchField, selectedSearchField },
+        page: { currentPage, setCurrentPage },
+        total: { totalPages },
+      },
+      teacherListState: {
+        search: {
+          searchText: teacherSearchText,
+          setSearchText: setTeacherSearchText,
+        },
+        field: { selectedField, setSelectedField },
+      },
     },
   } = useClassroomListPage()
 
@@ -122,6 +133,7 @@ export function ClassroomList() {
         <Table
           tableData={classroomList.map((item) => ({
             ...item,
+            classroomId: item.classroomId.toString().padStart(6, '0'),
             teacherAvatar: <Avatar src={item.teacherAvatar} />,
             actions: (
               <HorizontalStack>
@@ -175,73 +187,62 @@ export function ClassroomList() {
                   {...createClassroomForm.inputPropsOf('year')}
                 />
               </HorizontalStack>
-              <AutocompleteInput
-                required={true}
-                size={'md'}
-                radius={'md'}
-                placeholder={'Teacher Id'}
-                itemComponent={forwardRef<HTMLDivElement, TeacherItemProps>(
-                  (
-                    {
-                      avatar,
-                      email,
-                      firstName,
-                      lastName,
-                      ...others
-                    }: TeacherItemProps,
-                    ref
-                  ) => (
-                    <div
-                      ref={ref}
-                      {...others}
-                    >
-                      <VerticalStack>
-                        <HorizontalStack>
-                          <Avatar src={avatar} />
-                          <VerticalStack spacing={0}>
-                            <Text weight={'bold'}>
-                              {firstName} {lastName}
-                            </Text>
-                            <Text size={'sm'}>{email}</Text>
-                          </VerticalStack>
-                        </HorizontalStack>
-                      </VerticalStack>
-                    </div>
-                  )
-                )}
-                data={[
-                  {
-                    value: '5',
-                    avatar: 'https://i.imgflip.com/3cxd8o.png',
-                    email: 'abc@abc',
-                    firstName: 'Fn',
-                    lastName: 'Ln',
-                  },
-                  {
-                    value: '7',
-                    avatar: 'https://i.imgflip.com/3cxd8o.png',
-                    email: 'abc@abc.abc',
-                    firstName: 'Fnn',
-                    lastName: 'Lnn',
-                  },
-                ]}
-                filter={(value, item) =>
-                  Object.keys(item).some((field) =>
-                    (item[field] as string).toLowerCase().includes(value)
-                  )
-                }
-                {...createClassroomForm.inputPropsOf('homeroomTeacherId')}
-              />
+              <HorizontalStack grow={true}>
+                <SelectInput
+                  placeholder={'Search teacher by'}
+                  data={searchSelectTeacherOption}
+                />
+                <SelectInput
+                  // required={true}
+                  size={'md'}
+                  radius={'md'}
+                  placeholder={'Teacher'}
+                  itemComponent={forwardRef(
+                    (
+                      { avatar, email, firstName, lastName, ...others },
+                      ref
+                    ) => (
+                      <div
+                        ref={ref}
+                        {...others}
+                      >
+                        <VerticalStack>
+                          <HorizontalStack>
+                            <Avatar src={avatar} />
+                            <VerticalStack spacing={0}>
+                              <Text>
+                                {firstName} {lastName}
+                              </Text>
+                              <Text size={'sm'}>{email}</Text>
+                            </VerticalStack>
+                          </HorizontalStack>
+                        </VerticalStack>
+                      </div>
+                    )
+                  )}
+                  data={teacherList.map((item) => ({
+                    ...item,
+                    label: item.name,
+                    value: item.id,
+                  }))}
+                  filter={(value, item) => true}
+                  searchValue={teacherSearchText}
+                  onSearchChange={setTeacherSearchText}
+                  {...createClassroomForm.inputPropsOf('homeroomTeacherId')}
+                />
+              </HorizontalStack>
               <HorizontalStack position={'apart'}>
                 <Button
                   color={'red'}
                   onClick={createClassroomForm.form.reset}
+                  leftIcon={<IconClearAll />}
                 >
                   Clear data
                 </Button>
                 <Button
                   type={'submit'}
                   color={'green'}
+                  leftIcon={<IconFilePlus />}
                 >
                   Create classroom
                 </Button>

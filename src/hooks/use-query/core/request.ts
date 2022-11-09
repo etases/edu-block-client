@@ -5,7 +5,7 @@ interface BodyProps<T> {
 }
 
 interface QueryProps {
-  [key: string]: string | number
+  [key: string]: string | number | boolean
 }
 
 export type REQUEST_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
@@ -26,7 +26,15 @@ export function toQueryString(object: QueryProps): string {
 
   result += '?'
 
-  const params = Object.entries(object).reduce(
+  const filteredObject = Object.entries(object).reduce(
+    (prev, [key, value]) => ({
+      ...prev,
+      ...(object[key] ? { [key]: value } : {}),
+    }),
+    {}
+  )
+
+  const params = Object.entries(filteredObject).reduce(
     (prev, [key, value], index) =>
       `${prev}${index > 0 ? '&' : ''}${key}=${value}`,
     ''

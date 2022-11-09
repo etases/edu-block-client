@@ -1,6 +1,6 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 
 const ACCOUNT_LIST_MUTATION_KEY = {}
@@ -16,6 +16,8 @@ interface BodyInterface {
 }
 
 export function useAccountListCreateMutation() {
+  const queryClient = useQueryClient()
+
   const endpoint = ENDPOINT.CREATE.ACCOUNTS
   const mutation = useMutation({
     mutationKey: [],
@@ -34,6 +36,11 @@ export function useAccountListCreateMutation() {
     },
     onSuccess(data, variables, context) {
       notifyInformation({ message: data.message })
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return (query.queryKey.at(0) as string).includes('account')
+        },
+      })
     },
     onSettled(data, error, variables, context) {},
   })

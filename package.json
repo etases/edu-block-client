@@ -31,8 +31,10 @@
     "jotai": "^1.8.2",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
+    "react-datasheet-grid": "^4.6.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
+    "react-to-print": "^2.14.8",
     "vite-plugin-dynamic-import": "^1.2.1",
     "vite-plugin-remove-console": "^1.1.0",
     "vite-tsconfig-paths": "^3.5.0"

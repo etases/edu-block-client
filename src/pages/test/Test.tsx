@@ -1,4 +1,3 @@
-import { useAccountListQuery } from '@hooks/use-query'
 import { Center } from '@mantine/core'
 
 // const tableHeader: TableHeaderProps[] = [
@@ -30,7 +29,7 @@ import { Center } from '@mantine/core'
 // ]
 
 export function Test() {
-  const { data } = useAccountListQuery()
+  // const { data } = useAccountListQuery()
   return (
     <Center
       sx={{

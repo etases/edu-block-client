@@ -1,6 +1,6 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyError } from '@utilities/functions'
 
 interface BodyInterface {
@@ -11,10 +11,11 @@ interface BodyInterface {
 }
 
 export function useClassroomCreateMutation() {
+  const queryClient = useQueryClient()
   const endpoint = ENDPOINT.CREATE.CLASSROOM
 
   const mutation = useMutation({
-    mutationKey: [],
+    mutationKey: [endpoint],
     mutationFn: async function (variables: BodyInterface) {
       return await request({
         endpoint,
@@ -26,7 +27,13 @@ export function useClassroomCreateMutation() {
     onError(error, variables, context) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data, variables, context) {},
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({
+        predicate(query) {
+          return (query.queryKey.at(0) as string).includes('classroom')
+        },
+      })
+    },
     onSettled(data, error, variables, context) {},
   })
 

@@ -5,6 +5,7 @@ import {
   StudentApiInterface,
 } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError } from '@utilities/functions'
 import dayjs from 'dayjs'
@@ -20,14 +21,15 @@ interface DataInterface {
 
 export function useAccountInfoQuery() {
   const { accountId } = useParams()
+  const { account } = useAccountStore()
 
-  const endpoint = ENDPOINT.READ.ACCOUNT_INFORMATION.replace(
-    '{id}',
-    accountId || ''
-  )
+  const endpoint =
+    accountId !== account.id?.toString()
+      ? ENDPOINT.READ.ACCOUNT_INFORMATION.replace('{id}', accountId || '')
+      : ENDPOINT.READ.PERSONAL_ACCOUNT_INFORMATION
 
   const query = useQuery({
-    enabled: !!accountId,
+    // enabled: !!accountId,
     queryKey: [
       endpoint,
       { ...ACCOUNT_INFO_QUERY_KEY } as typeof ACCOUNT_INFO_QUERY_KEY,
