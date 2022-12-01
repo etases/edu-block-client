@@ -2,14 +2,12 @@ import { ENDPOINT } from '@constants'
 import { ClassroomApiInterface } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useParams } from 'react-router-dom'
 
 interface DataInterface extends ClassroomApiInterface {}
 
 export function useClassroomQuery() {
-  // const [selectedClassroomId, setSelectedClassroomId] = useState(0)
-
   const { classroomId } = useParams()
 
   const endpoint = ENDPOINT.READ.CLASSROOM_INFORMATION.replace(
@@ -60,7 +58,9 @@ export function useClassroomQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'Classroom information synced' })
+    },
     onSettled(data, error) {},
   })
 

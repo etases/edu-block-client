@@ -1,9 +1,10 @@
 import { ENDPOINT } from '@constants'
 import { ClassroomApiInterface } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 
 interface DataInterface extends Array<ClassroomApiInterface> {}
@@ -11,6 +12,7 @@ interface DataInterface extends Array<ClassroomApiInterface> {}
 export function useStudentClassroomListQuery() {
   const [currentPage, setCurrentPage] = useState(0)
   const [searchText, setSearchText] = useDebouncedState('', 500)
+  const { account } = useAccountStore()
 
   function resetCurrentPage() {
     setCurrentPage(0)
@@ -24,6 +26,7 @@ export function useStudentClassroomListQuery() {
   const endpoint = ENDPOINT.READ.STUDENT_CLASSROOM_LIST
 
   const query = useQuery({
+    enabled: account.role === 'STUDENT',
     queryKey: [endpoint],
     queryFn: async function () {
       return request({
@@ -65,7 +68,9 @@ export function useStudentClassroomListQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'List of classrooms synced' })
+    },
     onSettled(data, error) {},
   })
 

@@ -26,7 +26,7 @@ export function useClassroomDeleteTeacherForm() {
     mutation: { mutate: addTeacher },
   } = useClassroomTeacherDeleteMutation()
 
-  const submitForm = form.onSubmit((values) =>
+  const submitForm = form.onSubmit((values) => {
     addTeacher({
       ...values,
       teachers: values.teachers.map((item) => ({
@@ -35,7 +35,7 @@ export function useClassroomDeleteTeacherForm() {
         teacherId: parseInt(item.teacherId),
       })),
     })
-  )
+  })
 
   function addTeacherToList(teacher?: TeacherInterface) {
     form.insertListItem('teachers', teacher || {})

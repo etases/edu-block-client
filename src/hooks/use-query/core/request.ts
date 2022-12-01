@@ -15,8 +15,9 @@ interface RequestProps<TBody> {
   method?: REQUEST_METHOD
   baseUrl?: string
   endpoint: string
-  body?: BodyProps<TBody>
+  body?: BodyProps<TBody> | FormData
   query?: QueryProps
+  headers?: any
 }
 
 export function toQueryString(object: QueryProps): string {

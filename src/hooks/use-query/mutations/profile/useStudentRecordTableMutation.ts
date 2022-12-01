@@ -3,36 +3,38 @@ import { request } from '@hooks/use-query/core'
 import { useMutation } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 
-interface AccountsInterface {
-  username: string
-  password: string
-}
-
 interface BodyInterface {
-  accounts: AccountsInterface[]
+  requests: {
+    studentId: number
+    classroomId: number
+    subjectId: number
+    firstHalfScore: number
+    secondHalfScore: number
+    finalScore: number
+  }[]
 }
 
-export function useAccountListPasswordUpdateMutation() {
-  const endpoint = ENDPOINT.UPDATE.ACCOUNT_PASSWORD
+export function useStudentRecordTableMutation() {
+  const endpoint = ENDPOINT.UPDATE.STUDENT_RECORD_TABLE
 
   const mutation = useMutation({
     mutationKey: [],
-    mutationFn: async function (variables: BodyInterface) {
+    mutationFn: async function (values: BodyInterface) {
       return await request({
+        method: 'POST',
         endpoint,
-        method: 'PUT',
-        body: { ...variables },
+        body: { ...values },
       })
     },
-    onMutate(variables) {},
     onError(error, variables, context) {
-      notifyError({ message: endpoint })
+      notifyError({
+        message: 'Something went wrong! Please retry in a few minutes',
+      })
     },
     onSuccess(data, variables, context) {
       notifyInformation({ message: data.message })
     },
-    onSettled(data, error, variables, context) {},
   })
 
-  return mutation
+  return { mutation }
 }

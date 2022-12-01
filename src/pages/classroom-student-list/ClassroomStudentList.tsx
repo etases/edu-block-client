@@ -29,6 +29,7 @@ export function ClassroomStudentList() {
       studentList,
       navigate,
       classroomId,
+      account,
     },
     state: {
       modal: {
@@ -46,15 +47,17 @@ export function ClassroomStudentList() {
   } = useClassroomStudentsPage()
   return (
     <VerticalStack>
-      <HorizontalStack position={'right'}>
-        <Button
-          leftIcon={<IconUserPlus />}
-          onClick={openAddStudentModal}
-        >
-          Add students
-        </Button>
-      </HorizontalStack>
-      <Divider />
+      {account.role === 'STAFF' && (
+        <HorizontalStack position={'right'}>
+          <Button
+            leftIcon={<IconUserPlus />}
+            onClick={openAddStudentModal}
+          >
+            Add students
+          </Button>
+          <Divider />
+        </HorizontalStack>
+      )}
       <Table
         tableHeader={tableHeaders}
         tableData={tableData.map((item) => ({
@@ -71,13 +74,15 @@ export function ClassroomStudentList() {
               >
                 <IconUser />
               </IconButton>
-              <IconButton
-                label={'Remove from classroom'}
-                color={'red'}
-                onClick={() => deleteStudent({ accounts: [item.studentId] })}
-              >
-                <IconTrash />
-              </IconButton>
+              {account.role === 'STAFF' && (
+                <IconButton
+                  label={'Remove from classroom'}
+                  color={'red'}
+                  onClick={() => deleteStudent({ accounts: [item.studentId] })}
+                >
+                  <IconTrash />
+                </IconButton>
+              )}
             </HorizontalStack>
           ),
         }))}

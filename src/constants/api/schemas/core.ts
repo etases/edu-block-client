@@ -42,6 +42,7 @@ export interface SubjectApiInterface {
   id: number
   name: string
   identifier: string
+  otherNames: string[]
 }
 
 export interface RecordApiInterface {

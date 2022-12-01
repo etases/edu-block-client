@@ -1,5 +1,6 @@
 import { useClassroomCreateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
+import { notifyInformation } from '@utilities/functions'
 
 interface FormInterface {
   name: string
@@ -25,14 +26,16 @@ export function useClassroomCreateForm() {
 
   const { mutate: createClass } = useClassroomCreateMutation()
 
-  const submitForm = form.onSubmit((values) =>
+  const submitForm = form.onSubmit((values) => {
     createClass({
       ...values,
       grade: parseInt(values.grade),
       homeroomTeacherId: parseInt(values.homeroomTeacherId),
       year: parseInt(values.year),
     })
-  )
+
+    notifyInformation({ message: `Submitted new classroom information` })
+  })
 
   function loadFormValues(values: FormInterface) {
     form.setValues(values)

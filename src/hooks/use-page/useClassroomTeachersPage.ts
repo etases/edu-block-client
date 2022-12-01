@@ -6,6 +6,7 @@ import {
   useClassroomTeacherQuery,
   useSubjectQuery,
 } from '@hooks/use-query'
+import { useAccountStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
@@ -107,6 +108,8 @@ export function useClassroomTeachersPage() {
     { close: closeAddTeacherModal, open: openAddTeacherModal },
   ] = useDisclosure(false)
 
+  const { account } = useAccountStore()
+
   return {
     table: {
       tableHeaders,
@@ -118,6 +121,7 @@ export function useClassroomTeachersPage() {
       subjectList: subjectList || [],
       searchSelectOption,
       removeTeacher,
+      account,
     },
     state: {
       teacherListState,

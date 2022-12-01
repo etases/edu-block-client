@@ -25,6 +25,8 @@ import {
   TeacherAccountList,
   TeacherDashboard,
   Test,
+  VerifiedPage,
+  VerifiedRoot,
 } from '@pages'
 import { Navigate, Outlet, RouteObject } from 'react-router-dom'
 
@@ -89,6 +91,16 @@ export const routes = ({ role = 'GUEST' }: { role: ROLE }): RouteObject => ({
       element: <Home />,
     },
     { path: 'login', element: <Login /> },
+    {
+      path: 'verified',
+      element: <VerifiedRoot />,
+      children: [
+        {
+          path: ':accountId',
+          element: <VerifiedPage />,
+        },
+      ],
+    },
     {
       path: 'app',
       element: <App />,

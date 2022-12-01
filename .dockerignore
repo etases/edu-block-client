@@ -1,9 +1,15 @@
 .git
 .gitignore
+
 .dockerignore
-.prettierrc
-# Caddyfile
 Dockerfile
+
+.prettierrc
+
+# Caddyfile
+
 dist
 node_modules
-yarn.lock
+# yarn.lock
+
+cypress

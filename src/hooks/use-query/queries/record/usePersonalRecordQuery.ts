@@ -5,7 +5,7 @@ import {
 } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 
 export const PERSONAL_RECORD_QUERY_KEY = {}
@@ -45,7 +45,9 @@ export function usePersonalRecordQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'Personal record synced' })
+    },
     onSettled(data, error) {},
   })
 

@@ -7,5 +7,19 @@ export function SpotlightProvider(props: { children: ReactNode }) {
 
   const { spotlightActions } = useSpotlightActionsStore()
 
-  return <Provider actions={spotlightActions}>{children}</Provider>
+  return (
+    <Provider
+      actions={[
+        ...spotlightActions,
+        {
+          title: 'View verified data',
+          onTrigger(action) {
+            window.location.href = '/verified'
+          },
+        },
+      ]}
+    >
+      {children}
+    </Provider>
+  )
 }

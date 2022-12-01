@@ -5,6 +5,7 @@ import {
   useClassroomStudentDeleteMutation,
   useClassroomStudentQuery,
 } from '@hooks/use-query'
+import { useAccountStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -96,6 +97,7 @@ export function useClassroomStudentsPage() {
 
   const navigate = useNavigate()
   const { classroomId } = useParams()
+  const { account } = useAccountStore()
 
   return {
     table: { tableData: classroomStudents || [], tableHeaders },
@@ -111,6 +113,7 @@ export function useClassroomStudentsPage() {
       studentListState,
     },
     others: {
+      account,
       classroomId,
       deleteStudent,
       searchSelectOption,

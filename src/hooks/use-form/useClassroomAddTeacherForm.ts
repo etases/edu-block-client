@@ -1,5 +1,6 @@
 import { useClassroomTeacherAddMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
+import { notifyInformation } from '@utilities/functions'
 
 interface TeacherInterface {
   teacherId: string
@@ -26,7 +27,7 @@ export function useClassroomAddTeacherForm() {
     mutation: { mutate: addTeacher },
   } = useClassroomTeacherAddMutation()
 
-  const submitForm = form.onSubmit((values) =>
+  const submitForm = form.onSubmit((values) => {
     addTeacher({
       ...values,
       teachers: values.teachers.map((item) => ({
@@ -35,7 +36,10 @@ export function useClassroomAddTeacherForm() {
         teacherId: parseInt(item.teacherId),
       })),
     })
-  )
+    notifyInformation({
+      message: `Submitted list of new teachers for this classroom`,
+    })
+  })
 
   function addTeacherToList(teacher?: TeacherInterface) {
     form.insertListItem('teachers', teacher || {})

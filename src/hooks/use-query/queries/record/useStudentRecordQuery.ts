@@ -6,7 +6,7 @@ import {
 import { request, toQueryString } from '@hooks/use-query/core'
 import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useParams } from 'react-router-dom'
 
 export const STUDENT_RECORD_QUERY_KEY = {}
@@ -39,7 +39,9 @@ export function useStudentRecordQuery() {
     })
 
   const query = useQuery({
-    enabled: !!accountId || !!classroomId || !!accountId,
+    enabled:
+      (!!accountId || !!classroomId) &&
+      (account.role === 'TEACHER' || account.role === 'STUDENT'),
     queryKey: [endpoint],
     queryFn: async function () {
       return await request({
@@ -107,11 +109,17 @@ export function useStudentRecordQuery() {
           })
         )
         .sort((a, b) => a.subjectId - b.subjectId)
+        .sort((a, b) => Number(b.approvalDate) - Number(a.approvalDate))
+        .filter((item, index, all) =>
+          index === 0 ? true : all.at(index - 1)?.subjectId !== item.subjectId
+        )
     },
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'Student record synced' })
+    },
     onSettled(data, error) {},
   })
 

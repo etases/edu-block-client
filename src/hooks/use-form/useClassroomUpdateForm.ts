@@ -1,5 +1,6 @@
 import { useClassroomUpdateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
+import { notifyInformation } from '@utilities/functions'
 
 interface FormInterface {
   name: string
@@ -36,14 +37,17 @@ export function useClassroomUpdateForm() {
     form.setValues(values)
   }
 
-  const submitForm = form.onSubmit((values) =>
+  const submitForm = form.onSubmit((values) => {
     updateClassroom({
       ...values,
       grade: parseInt(values.grade),
       homeroomTeacherId: parseInt(values.homeroomTeacherId),
       year: parseInt(values.year),
     })
-  )
+    notifyInformation({
+      message: `Submitted new information for this classroom`,
+    })
+  })
 
   return {
     form,

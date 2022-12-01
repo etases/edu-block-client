@@ -1,5 +1,6 @@
 import { useRecordUpdateRequestMutation } from '@hooks/use-query/mutations'
 import { useForm } from '@mantine/form'
+import { notifyInformation } from '@utilities/functions'
 import { useParams } from 'react-router-dom'
 
 interface FormInterface {
@@ -46,6 +47,9 @@ export function useRecordUpdateRequestForm() {
       firstHalfScore: values.firstHalfScore,
       secondHalfScore: values.secondHalfScore,
       finalScore: values.finalScore,
+    })
+    notifyInformation({
+      message: `Submitted update request for this record`,
     })
   })
 

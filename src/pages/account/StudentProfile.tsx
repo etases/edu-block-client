@@ -3,13 +3,23 @@ import {
   Grid,
   GridCol,
   HorizontalStack,
+  IconButton,
   Modal,
+  NumberInput,
+  SelectInput,
   TextInput,
   VerticalStack,
 } from '@components'
 import { useStudentProfilePage } from '@hooks/use-page'
-import { Divider, Tabs, Text, Title } from '@mantine/core'
-import { IconCheck, IconClearAll, IconEdit } from '@tabler/icons'
+import { Divider, FileInput, Tabs, Text, Title } from '@mantine/core'
+import {
+  IconCheck,
+  IconClearAll,
+  IconEdit,
+  IconScan,
+  IconTrash,
+  IconUpload,
+} from '@tabler/icons'
 import { Outlet } from 'react-router-dom'
 
 const { List: TabList, Tab: TabItem } = Tabs
@@ -17,10 +27,15 @@ const { List: TabList, Tab: TabItem } = Tabs
 export function StudentProfile() {
   const {
     accountProfile,
-    others: { classroomList, navigate },
-    form: { updateForm },
+    others: { classroomList, navigate, account, subjects },
+    form: { updateForm, tableForm },
     state: {
       updateModal: { closeUpdateModal, openUpdateModal, updateModalState },
+      updateTableModal: {
+        closeUpdateTableModal,
+        openUpdateTableModal,
+        updateTableModalState,
+      },
     },
   } = useStudentProfilePage()
 
@@ -28,24 +43,26 @@ export function StudentProfile() {
     <VerticalStack>
       <HorizontalStack position={'apart'}>
         <HorizontalStack>
-          <Button
-            leftIcon={<IconEdit />}
-            onClick={() => {
-              openUpdateModal()
-              updateForm.loadFormValues({
-                ethnic: accountProfile?.ethnic || '',
-                fatherJob: accountProfile?.fatherJob || '',
-                fatherName: accountProfile?.father || '',
-                guardianJob: accountProfile?.guardianJob || '',
-                guardianName: accountProfile?.guardian || '',
-                homeTown: accountProfile?.homeTown || '',
-                motherJob: accountProfile?.motherJob || '',
-                motherName: accountProfile?.mother || '',
-              })
-            }}
-          >
-            Update
-          </Button>
+          {account.role === 'STAFF' && (
+            <Button
+              leftIcon={<IconEdit />}
+              onClick={() => {
+                openUpdateModal()
+                updateForm.loadFormValues({
+                  ethnic: accountProfile?.ethnic || '',
+                  fatherJob: accountProfile?.fatherJob || '',
+                  fatherName: accountProfile?.father || '',
+                  guardianJob: accountProfile?.guardianJob || '',
+                  guardianName: accountProfile?.guardian || '',
+                  homeTown: accountProfile?.homeTown || '',
+                  motherJob: accountProfile?.motherJob || '',
+                  motherName: accountProfile?.mother || '',
+                })
+              }}
+            >
+              Update
+            </Button>
+          )}
         </HorizontalStack>
         <Title>Student Information</Title>
       </HorizontalStack>
@@ -126,7 +143,19 @@ export function StudentProfile() {
       <Divider />
       <VerticalStack>
         <HorizontalStack position={'apart'}>
-          <Title>Record</Title>
+          <HorizontalStack>
+            <Title>Record</Title>
+            {((account.role === 'STUDENT' &&
+              accountProfile?.id === account.id) ||
+              account.role === 'TEACHER') && (
+              <IconButton
+                label={'Upload legacy record'}
+                onClick={openUpdateTableModal}
+              >
+                <IconUpload />
+              </IconButton>
+            )}
+          </HorizontalStack>
           <Tabs
             variant={'pills'}
             radius={'md'}
@@ -220,6 +249,88 @@ export function StudentProfile() {
                 >
                   Confirm
                 </Button>
+              </HorizontalStack>
+            </VerticalStack>
+          </form>
+        </VerticalStack>
+      </Modal>
+      <Modal
+        opened={updateTableModalState}
+        onClose={closeUpdateTableModal}
+        title={
+          <Text
+            size={'lg'}
+            weight={'bold'}
+          >
+            Upload Image of Record table
+          </Text>
+        }
+      >
+        <VerticalStack>
+          <form onSubmit={tableForm.submitImageForm}>
+            <HorizontalStack grow={true}>
+              <FileInput
+                accept={'image/png,image/jpeg'}
+                radius={'md'}
+                size={'md'}
+                placeholder={'Choose image'}
+                onChange={tableForm.onImageChange}
+              />
+              <Button
+                type={'submit'}
+                loading={tableForm.state.imageScanning}
+              >
+                {!tableForm.state.imageScanning && <IconScan />}
+              </Button>
+            </HorizontalStack>
+          </form>
+          <Divider />
+          <form onSubmit={tableForm.submitTableForm}>
+            <VerticalStack>
+              {tableForm.tableForm.values.requests.map((item, index) => (
+                <HorizontalStack key={index}>
+                  <SelectInput
+                    data={subjects}
+                    {...tableForm.inputPropsOf(`requests.${index}.subjectId`)}
+                  />
+                  <NumberInput
+                    max={10}
+                    min={0}
+                    step={0.25}
+                    precision={2}
+                    {...tableForm.inputPropsOf(
+                      `requests.${index}.firstHalfScore`
+                    )}
+                  />
+                  <NumberInput
+                    max={10}
+                    min={0}
+                    step={0.25}
+                    precision={2}
+                    {...tableForm.inputPropsOf(
+                      `requests.${index}.secondHalfScore`
+                    )}
+                  />
+                  <NumberInput
+                    max={10}
+                    min={0}
+                    step={0.25}
+                    precision={2}
+                    {...tableForm.inputPropsOf(`requests.${index}.finalScore`)}
+                  />
+                  <IconButton
+                    label={'Remove'}
+                    color={'red'}
+                    onClick={() =>
+                      tableForm.tableForm.removeListItem('requests', index)
+                    }
+                  >
+                    <IconTrash />
+                  </IconButton>
+                </HorizontalStack>
+              ))}
+              <HorizontalStack>
+                <Button type={'submit'}>Submit</Button>
               </HorizontalStack>
             </VerticalStack>
           </form>

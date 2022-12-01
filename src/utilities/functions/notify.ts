@@ -5,13 +5,23 @@ interface NotifyProps {
 }
 
 export function notifyInformation({ message }: NotifyProps) {
-  showNotification({ title: 'Information', color: 'blue', message })
+  showNotification({
+    title: 'Information',
+    color: 'blue',
+    autoClose: 2000,
+    message,
+  })
 }
 
 export function notifyWarning({ message }: NotifyProps) {
-  showNotification({ title: 'Warning', color: 'orange', message })
+  showNotification({
+    title: 'Warning',
+    color: 'orange',
+    autoClose: 5000,
+    message,
+  })
 }
 
 export function notifyError({ message }: NotifyProps) {
-  showNotification({ title: 'Error', color: 'red', message })
+  showNotification({ title: 'Error', color: 'red', autoClose: 5000, message })
 }

@@ -34,10 +34,12 @@ export const ENDPOINT = {
   },
   UPDATE: {
     STUDENT_PENDING_RECORD_APPROVAL_STATE: '/record/pending/verify',
-    ACCOUNT_PASSWORD: 'account/list/password',
+    ACCOUNT_PASSWORD: '/account/list/password',
     ACCOUNT_PROFILE: '/account/{id}/profile',
+    SELF_PROFILE: '/account/self/profile',
     STUDENT_INFORMATION: '/account/{id}/student',
     CLASSROOM_INFORMATION: '/classroom/{id}',
+    STUDENT_RECORD_TABLE: '/record/request/list',
   },
   DELETE: {
     CLASSROOM_STUDENT: '/classroom/{id}/student',

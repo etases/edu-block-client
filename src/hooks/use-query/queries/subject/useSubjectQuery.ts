@@ -2,7 +2,7 @@ import { ENDPOINT } from '@constants'
 import { SubjectApiInterface } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 
 interface DataInterface extends Array<SubjectApiInterface> {}
 
@@ -24,7 +24,9 @@ export function useSubjectQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'Subject list synced' })
+    },
     onSettled(data, error) {},
   })
 

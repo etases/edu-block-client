@@ -21,16 +21,19 @@ const navItems = [
     to: '/app/account-list',
     label: 'Account',
     icon: <IconUsers />,
+    role: ['ADMIN', 'STAFF'],
   },
   {
     to: '/app/classroom-list',
     label: 'Classroom',
     icon: <IconSection />,
+    role: ['STAFF'],
   },
   {
     to: '/app/record-list',
     label: 'Pending verification',
     icon: <IconClock />,
+    role: ['TEACHER'],
   },
 ]
 
@@ -38,7 +41,7 @@ export function Navbar(props: NavBarProps) {
   const { logoutFn: logout, gray } = props
 
   const {
-    account: { avatar, firstName, lastName, role, email, id },
+    account: { avatar, firstName, lastName, role: accountRole, email, id },
   } = useAccountStore()
 
   const location = useLocation()
@@ -57,26 +60,30 @@ export function Navbar(props: NavBarProps) {
           // py={'md'}
           spacing={0}
         >
-          {navItems.map(({ label, to, icon }, index) => (
-            <NavLink
-              // styles={(theme) => ({
-              //   root: {
-              //     ':hover': {
-              //       filter: 'brightness(0.95)',
-              //     },
-              //   },
-              // })}
-              key={`navItem__${index}`}
-              component={Link}
-              to={to}
-              label={label}
-              // sx={{
-              //   cursor: 'pointer',
-              // }}
-              icon={icon}
-              active={location.pathname.startsWith(to)}
-            />
-          ))}
+          {navItems
+            .filter(
+              ({ role = [] }) => role.includes(accountRole) || role.length === 0
+            )
+            .map(({ label, to, icon }, index) => (
+              <NavLink
+                // styles={(theme) => ({
+                //   root: {
+                //     ':hover': {
+                //       filter: 'brightness(0.95)',
+                //     },
+                //   },
+                // })}
+                key={`navItem__${index}`}
+                component={Link}
+                to={to}
+                label={label}
+                // sx={{
+                //   cursor: 'pointer',
+                // }}
+                icon={icon}
+                active={location.pathname.startsWith(to)}
+              />
+            ))}
         </VerticalStack>
       </Section>
       <Divider />
@@ -88,7 +95,7 @@ export function Navbar(props: NavBarProps) {
         onClick={() =>
           navigate(
             `/app/account/${id}${
-              role.toUpperCase() === 'STUDENT' ? '/record' : ''
+              accountRole?.toUpperCase() === 'STUDENT' ? '/record' : ''
             }`
           )
         }

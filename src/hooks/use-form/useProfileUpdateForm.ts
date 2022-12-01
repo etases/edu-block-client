@@ -1,5 +1,6 @@
 import { useProfileUpdateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
+import { notifyInformation } from '@utilities/functions'
 import dayjs from 'dayjs'
 
 interface FormInterface {
@@ -45,6 +46,7 @@ export function useProfileUpdateForm() {
       male: parseInt(values.male) === 1 ? true : false,
       birthDate: dayjs(values.birthDate).format('YYYY-MM-DD'),
     })
+    notifyInformation({ message: `Submitted new information for this profile` })
   })
 
   function loadFormValues(profileId: number, values: FormInterface) {

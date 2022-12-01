@@ -1,10 +1,12 @@
 import {
   Badge,
+  Button,
   Card,
   DateInput,
   Grid,
   GridCol,
   HorizontalStack,
+  Modal,
   RadioInput,
   RadioInputGroup,
   TextareaInput,
@@ -12,18 +14,43 @@ import {
   VerticalStack,
 } from '@components'
 import { useAccountProfilePage } from '@hooks/use-page'
-import { Divider, Image, Title } from '@mantine/core'
+import { Divider, Image, Text, Title } from '@mantine/core'
 import { IconUserCircle } from '@tabler/icons'
 import dayjs from 'dayjs'
 import { Outlet } from 'react-router-dom'
 
 export function AccountProfile() {
-  const { accountProfile } = useAccountProfilePage()
+  const {
+    accountProfile,
+    others: { account },
+    modals: { profile: profileModal },
+    forms: { profileForm },
+  } = useAccountProfilePage()
 
   return (
     <VerticalStack>
-      <HorizontalStack>
+      <HorizontalStack position={'apart'}>
         <Title>Account Profile</Title>
+        {(account.role === 'STAFF' || account.role === 'ADMIN') &&
+          account.id === accountProfile?.id && (
+            <Button
+              onClick={() => {
+                profileModal.openProfileUpdateModal()
+                profileForm.loadFormValues(accountProfile.id, {
+                  address: accountProfile.address,
+                  avatar: accountProfile.avatar,
+                  birthDate: dayjs(accountProfile?.dateOfBirth).toDate(),
+                  email: accountProfile.email,
+                  firstName: accountProfile.firstName,
+                  lastName: accountProfile.lastName,
+                  male: accountProfile.isMale ? '1' : '0',
+                  phone: accountProfile.phone,
+                })
+              }}
+            >
+              Update
+            </Button>
+          )}
       </HorizontalStack>
       <Divider />
       <HorizontalStack position={'center'}>
@@ -135,6 +162,107 @@ export function AccountProfile() {
       </HorizontalStack>
       <Divider />
       {accountProfile?.role.toUpperCase() === 'STUDENT' && <Outlet />}
+      <Modal
+        opened={profileModal.profileUpdateModalState}
+        onClose={profileModal.closeProfileUpdateModal}
+        title={
+          <Text
+            size={'lg'}
+            weight={'bold'}
+          >
+            Update profile
+          </Text>
+        }
+      >
+        <VerticalStack>
+          <form onSubmit={profileForm.submitForm}>
+            <VerticalStack>
+              <TextInput
+                label={'Avatar'}
+                {...profileForm.inputPropsOf('avatar')}
+              />
+              <HorizontalStack>
+                <TextInput
+                  withAsterisk={true}
+                  label={'First Name'}
+                  {...profileForm.inputPropsOf('firstName')}
+                />
+                <TextInput
+                  withAsterisk={true}
+                  label={'Last Name'}
+                  {...profileForm.inputPropsOf('lastName')}
+                />
+              </HorizontalStack>
+              <RadioInputGroup
+                label={'Gender'}
+                size={'md'}
+                {...profileForm.inputPropsOf('male')}
+              >
+                <RadioInput
+                  size={'md'}
+                  value={'1'}
+                  label={'Male'}
+                />
+                <RadioInput
+                  size={'md'}
+                  value={'0'}
+                  label={'Female'}
+                />
+              </RadioInputGroup>
+              <DateInput
+                label={'Date of Birth'}
+                variant={'default'}
+                radius={'md'}
+                size={'md'}
+                minDate={dayjs(new Date())
+                  .startOf('year')
+                  .subtract(60, 'year')
+                  .toDate()}
+                maxDate={dayjs(new Date())
+                  .endOf('year')
+                  .subtract(6, 'year')
+                  .toDate()}
+                allowFreeInput={true}
+                inputFormat={'DD/MM/YYYY'}
+                dateParser={(dateString) => {
+                  return dayjs(
+                    dateString,
+                    ['DD', 'MM', 'YYYY'].join(
+                      dateString.includes('/')
+                        ? '/'
+                        : dateString.includes('-')
+                        ? '-'
+                        : dateString.includes(' ')
+                        ? ' '
+                        : ''
+                    )
+                  ).toDate()
+                }}
+                withAsterisk={true}
+                {...profileForm.inputPropsOf('birthDate')}
+              />
+              <TextInput
+                label={'Phone'}
+                withAsterisk={true}
+                icon={'+84'}
+                {...profileForm.inputPropsOf('phone')}
+              />
+              <TextInput
+                label={'Email'}
+                icon={'@'}
+                {...profileForm.inputPropsOf('email')}
+              />
+              <TextareaInput
+                label={'Address'}
+                withAsterisk={true}
+                size={'md'}
+                {...profileForm.inputPropsOf('address')}
+              />
+              <Button type={'submit'}>Submit</Button>
+            </VerticalStack>
+          </form>
+        </VerticalStack>
+      </Modal>
     </VerticalStack>
   )
 }

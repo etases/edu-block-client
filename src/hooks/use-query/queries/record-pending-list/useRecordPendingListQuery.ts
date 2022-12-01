@@ -3,7 +3,7 @@ import { RecordApiInterface } from '@constants/api/schemas'
 import { request, toQueryString } from '@hooks/use-query/core'
 import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 
 export const RECORD_PENDING_LIST_QUERY_KEY = {
@@ -90,7 +90,9 @@ export function useRecordPendingListQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'Request list synced' })
+    },
     onSettled(data, error) {},
   })
 

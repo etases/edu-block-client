@@ -13,4 +13,5 @@ export * from './record'
 export * from './record-list'
 export * from './root'
 export * from './test'
-// export * from ''
+export * from './verified'
+

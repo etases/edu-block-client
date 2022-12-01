@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "cypress:interactive": "cypress open",
+    "cypress:ci": "cypress run"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -35,6 +37,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-to-print": "^2.14.8",
+    "string-similarity": "^4.0.4",
     "vite-plugin-dynamic-import": "^1.2.1",
     "vite-plugin-remove-console": "^1.1.0",
     "vite-tsconfig-paths": "^3.5.0"
@@ -43,6 +46,7 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",
+    "cypress": "^11.1.0",
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
   }

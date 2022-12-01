@@ -7,7 +7,7 @@ import {
 import { request } from '@hooks/use-query/core'
 import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import dayjs from 'dayjs'
 import { useParams } from 'react-router-dom'
 
@@ -85,7 +85,9 @@ export function useAccountInfoQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'Account information synced' })
+    },
     onSettled(data, error) {},
   })
 

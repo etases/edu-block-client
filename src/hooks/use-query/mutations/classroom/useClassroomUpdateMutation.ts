@@ -39,7 +39,8 @@ export function useClassroomUpdateMutation() {
       notifyError({ message: endpoint })
     },
     onSuccess(data, variables, context) {
-      notifyInformation({ message: 'Classroom updated' })
+      // notifyInformation({ message: 'Classroom updated' })
+      notifyInformation({ message: data.message })
       queryClient.invalidateQueries({
         predicate(query) {
           return (query.queryKey.at(0) as string).includes('classroom')

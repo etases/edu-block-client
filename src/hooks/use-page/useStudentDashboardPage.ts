@@ -1,5 +1,6 @@
 import { TableHeaderProps } from '@components/table'
 import { useStudentClassroomListQuery } from '@hooks/use-query'
+import { useNavigate } from 'react-router-dom'
 
 const tableHeaders: TableHeaderProps<
   | 'classroomId'
@@ -8,6 +9,7 @@ const tableHeaders: TableHeaderProps<
   | 'teacherAvatar'
   | 'teacherEmail'
   | 'teacherName'
+  | 'actions'
 >[] = [
   {
     identifier: 'classroomId',
@@ -33,6 +35,10 @@ const tableHeaders: TableHeaderProps<
     identifier: 'teacherEmail',
     label: 'Teacher email',
   },
+  {
+    identifier: 'actions',
+    label: 'Actions',
+  },
 ]
 
 export function useStudentDashboardPage() {
@@ -40,7 +46,13 @@ export function useStudentDashboardPage() {
     query: { data: classroomList },
   } = useStudentClassroomListQuery()
 
+  const navigate = useNavigate()
+
   return {
-    table: { tableData: classroomList || [], tableHeaders },
+    table: {
+      tableData: classroomList || [],
+      tableHeaders,
+    },
+    others: { navigate },
   }
 }

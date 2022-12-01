@@ -6,5 +6,5 @@ import {
 export function NotificationProvider(props: ProviderProps) {
   const { children } = props
 
-  return <Provider>{children}</Provider>
+  return <Provider limit={2}>{children}</Provider>
 }

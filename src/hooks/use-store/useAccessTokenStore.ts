@@ -1,3 +1,4 @@
+import { notifyInformation } from '@utilities/functions'
 import { useAtom } from 'jotai'
 import { atomWithStorage, RESET } from 'jotai/utils'
 
@@ -8,5 +9,12 @@ export function useAccessTokenStore() {
 
   const resetAccessToken = () => setAccessToken(RESET)
 
-  return { accessToken, setAccessToken, resetAccessToken }
+  return {
+    accessToken,
+    setAccessToken: (token: string) => {
+      setAccessToken(token)
+      notifyInformation({ message: 'AccessToken updated' })
+    },
+    resetAccessToken,
+  }
 }

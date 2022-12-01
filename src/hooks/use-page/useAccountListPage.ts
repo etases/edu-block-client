@@ -1,6 +1,9 @@
 import { TableHeaderProps } from '@components/table'
-import { useAccountListCreateForm } from '@hooks/use-form/useAccountListCreateForm'
-import { useProfileUpdateForm } from '@hooks/use-form/useProfileUpdateForm'
+import {
+  useAccountListCreateForm,
+  useAccountListPasswordUpdateForm,
+  useProfileUpdateForm,
+} from '@hooks/use-form'
 import { useAccountListQuery } from '@hooks/use-query'
 import { useAccountStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
@@ -128,6 +131,13 @@ export function useAccountListPage() {
   const [createModalState, { open: openCreateModal, close: closeCreateModal }] =
     useDisclosure(false)
 
+  const passwordForm = useAccountListPasswordUpdateForm()
+
+  const [
+    passwordUpdateModalState,
+    { close: closePasswordUpdateModal, open: openPasswordUpdateModal },
+  ] = useDisclosure(false)
+
   const navigate = useNavigate()
 
   return {
@@ -151,6 +161,11 @@ export function useAccountListPage() {
         openCreateModal,
         closeCreateModal,
       },
+      passwordModal: {
+        passwordUpdateModalState,
+        closePasswordUpdateModal,
+        openPasswordUpdateModal,
+      },
       ...state,
     },
     others: {
@@ -158,7 +173,7 @@ export function useAccountListPage() {
       roleColor,
       navigate,
     },
-    form: { profileForm, createForm },
+    form: { profileForm, createForm, passwordForm },
     account,
   }
 }

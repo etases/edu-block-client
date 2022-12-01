@@ -1,5 +1,6 @@
 import { useStudentProfileUpdateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
+import { notifyInformation } from '@utilities/functions'
 
 interface FormInterface {
   ethnic: string
@@ -31,7 +32,10 @@ export function useStudentProfileUpdateForm() {
     mutation: { mutate: updateProfile },
   } = useStudentProfileUpdateMutation()
 
-  const submitForm = form.onSubmit((values) => updateProfile(values))
+  const submitForm = form.onSubmit((values) => {
+    updateProfile(values)
+    notifyInformation({ message: `Submitted new information for this student` })
+  })
 
   function loadFormValues(values: FormInterface) {
     form.setValues(values)

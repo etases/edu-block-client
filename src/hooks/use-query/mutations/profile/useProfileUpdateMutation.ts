@@ -1,8 +1,10 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 interface BodyInterface {
   firstName: string
@@ -16,17 +18,24 @@ interface BodyInterface {
 }
 
 export function useProfileUpdateMutation() {
-  const [selectedProfileId, setSelectedProfileId] = useState(0)
+  const { accountId } = useParams()
+  const { account } = useAccountStore()
+
+  const [selectedProfileId, setSelectedProfileId] = useState(accountId || '0')
+
   const queryClient = useQueryClient()
 
   function resetSelectedProfileId() {
-    setSelectedProfileId(0)
+    setSelectedProfileId('0')
   }
 
-  const endpoint = ENDPOINT.UPDATE.ACCOUNT_PROFILE.replace(
-    '{id}',
-    selectedProfileId.toString()
-  )
+  const endpoint =
+    (account.role === 'STAFF' || account.role === 'ADMIN') && !accountId
+      ? ENDPOINT.UPDATE.ACCOUNT_PROFILE.replace(
+          '{id}',
+          selectedProfileId.toString()
+        )
+      : ENDPOINT.UPDATE.SELF_PROFILE
 
   const mutation = useMutation({
     mutationKey: [],
@@ -42,7 +51,7 @@ export function useProfileUpdateMutation() {
       notifyError({ message: endpoint })
     },
     onSuccess(data, variables, context) {
-      notifyInformation({ message: endpoint })
+      notifyInformation({ message: data.message })
       queryClient.invalidateQueries({
         predicate(query) {
           return (query.queryKey[0] as string).includes('account')

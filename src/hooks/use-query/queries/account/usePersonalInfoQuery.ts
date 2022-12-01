@@ -73,11 +73,12 @@ export function usePersonalInfoQuery() {
 
       const { isMale, lastName } = data
 
-      notifyInformation({
-        message: `Welcome ${isMale ? 'Mr.' : 'Ms/Mrs.'} ${lastName
-          .split(' ')
-          .at(-1)}`,
-      })
+      // notifyInformation({
+      //   message: `Welcome ${isMale ? 'Mr.' : 'Ms/Mrs.'} ${lastName
+      //     .split(' ')
+      //     .at(-1)}`,
+      // })
+      notifyInformation({ message: 'Personal information synced' })
     },
   })
 

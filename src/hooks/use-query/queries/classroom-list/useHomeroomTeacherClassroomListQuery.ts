@@ -3,7 +3,7 @@ import { ClassroomApiInterface } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
 import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 
 interface DataInterface extends Array<ClassroomApiInterface> {}
@@ -51,7 +51,9 @@ export function useHomeroomTeacherClassroomListQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'List of classrooms synced' })
+    },
     onSettled(data, error) {},
   })
 

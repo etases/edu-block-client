@@ -7,7 +7,7 @@ import {
 import { request, toQueryString } from '@hooks/use-query/core'
 import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 
@@ -112,6 +112,7 @@ export function useAccountListQuery() {
       } else {
         setTotalPages(data.page.totalPages || 1)
       }
+      notifyInformation({ message: 'List of account synced' })
     },
     onSettled(data, error) {},
   })

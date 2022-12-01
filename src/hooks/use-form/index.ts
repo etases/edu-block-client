@@ -9,4 +9,5 @@ export * from './useLoginForm'
 export * from './useProfileUpdateForm'
 export * from './useRecordUpdateRequestForm'
 export * from './useStudentProfileUpdateForm'
+export * from './useStudentRecordImageForm'
 

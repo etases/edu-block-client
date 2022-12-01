@@ -25,7 +25,7 @@ export function ClassroomDetails() {
       field: { selectedField, setSelectedField },
       search: { searchText, setSearchText },
     },
-    others: { searchSelectOption },
+    others: { searchSelectOption, account },
   } = useClassroomDetailsPage()
 
   return (
@@ -81,22 +81,24 @@ export function ClassroomDetails() {
         </HorizontalStack>
       </HorizontalStack>
       <HorizontalStack position={'right'}>
-        <Button
-          onClick={() => {
-            updateForm.loadFormValues({
-              name: classroomDetails?.classroomName || '',
-              grade: (classroomDetails?.classroomGrade || '0').toString(),
-              homeroomTeacherId: (
-                classroomDetails?.teacherId || '0'
-              ).toString(),
-              year: new Date().getFullYear().toString(),
-            })
-            openUpdateModal()
-          }}
-          leftIcon={<IconRefresh />}
-        >
-          Update details
-        </Button>
+        {account.role === 'STAFF' && (
+          <Button
+            onClick={() => {
+              updateForm.loadFormValues({
+                name: classroomDetails?.classroomName || '',
+                grade: (classroomDetails?.classroomGrade || '0').toString(),
+                homeroomTeacherId: (
+                  classroomDetails?.teacherId || '0'
+                ).toString(),
+                year: new Date().getFullYear().toString(),
+              })
+              openUpdateModal()
+            }}
+            leftIcon={<IconRefresh />}
+          >
+            Update details
+          </Button>
+        )}
       </HorizontalStack>
       <Modal
         opened={updateModalState}

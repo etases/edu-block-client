@@ -10,6 +10,7 @@ import {
   IconWrapper,
   Modal,
   Pagination,
+  PasswordInput,
   RadioInput,
   RadioInputGroup,
   SelectInput,
@@ -51,9 +52,14 @@ export function AccountList() {
       page: { setCurrentPage, currentPage },
       total: { totalPages },
       createModal: { openCreateModal, closeCreateModal, createModalState },
+      passwordModal: {
+        closePasswordUpdateModal,
+        openPasswordUpdateModal,
+        passwordUpdateModalState,
+      },
     },
-    form: { profileForm, createForm },
-    account: { role: accountRole },
+    form: { profileForm, createForm, passwordForm },
+    account: { role: accountRole, id: accountId },
     others: { searchSelectOption, roleColor, navigate },
   } = useAccountListPage()
 
@@ -168,11 +174,20 @@ export function AccountList() {
                   >
                     <IconUser />
                   </IconButton>
-                  {accountRole === 'ADMIN' && (
-                    <IconButton label={'Update Password'}>
-                      <IconPassword />
-                    </IconButton>
-                  )}
+                  {accountRole === 'ADMIN' &&
+                    (accountId === item.id || item.role !== 'ADMIN') && (
+                      <IconButton
+                        label={'Update Password'}
+                        onClick={() => {
+                          openPasswordUpdateModal()
+                          passwordForm.loadFormValues({
+                            username: item.username,
+                          })
+                        }}
+                      >
+                        <IconPassword />
+                      </IconButton>
+                    )}
                 </HorizontalStack>
               ),
             }
@@ -361,6 +376,36 @@ export function AccountList() {
                 {...profileForm.inputPropsOf('address')}
               />
               <Button type={'submit'}>Submit</Button>
+            </VerticalStack>
+          </form>
+        </VerticalStack>
+      </Modal>
+      <Modal
+        opened={passwordUpdateModalState}
+        onClose={closePasswordUpdateModal}
+        title={
+          <Text
+            size={'lg'}
+            weight={'bold'}
+          >
+            Update password
+          </Text>
+        }
+      >
+        <VerticalStack>
+          <form onSubmit={passwordForm.submitForm}>
+            <VerticalStack>
+              <TextInput
+                readOnly={true}
+                {...passwordForm.inputPropsOf('accounts.0.username')}
+              />
+              <PasswordInput
+                defaultVisible={true}
+                {...passwordForm.inputPropsOf('accounts.0.password')}
+              />
+              <HorizontalStack position={'right'}>
+                <Button type={'submit'}>Update</Button>
+              </HorizontalStack>
             </VerticalStack>
           </form>
         </VerticalStack>

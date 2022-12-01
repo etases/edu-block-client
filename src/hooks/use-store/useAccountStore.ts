@@ -1,3 +1,4 @@
+import { notifyInformation } from '@utilities/functions'
 import { useAtom } from 'jotai'
 import { atomWithStorage, RESET } from 'jotai/utils'
 
@@ -23,5 +24,12 @@ export function useAccountStore() {
 
   const resetAccount = () => setAccount(RESET)
 
-  return { account, setAccount, resetAccount }
+  return {
+    account,
+    setAccount: (a: typeof account) => {
+      setAccount(a)
+      notifyInformation({ message: 'Personal information updated' })
+    },
+    resetAccount,
+  }
 }

@@ -1,7 +1,7 @@
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
 import { useMutation } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 
 const RECORD_REQUEST_UPDATE_MUTATION_KEY = {}
 
@@ -32,7 +32,9 @@ export function useRecordUpdateRequestMutation() {
     onError(error, variables, context) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data, variables, context) {},
+    onSuccess(data, variables, context) {
+      notifyInformation({ message: data.message })
+    },
     onSettled(data, error, variables, context) {},
   })
 

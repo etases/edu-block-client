@@ -1,19 +1,32 @@
+import { useProfileUpdateForm } from '@hooks/use-form'
 import { useAccountInfoQuery } from '@hooks/use-query'
 import { useAccountStore } from '@hooks/use-store'
-import { useParams } from 'react-router-dom'
+import { useDisclosure } from '@mantine/hooks'
 
 export function useAccountProfilePage() {
   const {
     query: { data },
   } = useAccountInfoQuery()
 
-  const { accountId } = useParams()
+  const { account } = useAccountStore()
 
-  const {
-    account: { id },
-  } = useAccountStore()
+  const [
+    profileUpdateModalState,
+    { close: closeProfileUpdateModal, open: openProfileUpdateModal },
+  ] = useDisclosure(false)
+
+  const profileForm = useProfileUpdateForm()
 
   return {
     accountProfile: data,
+    modals: {
+      profile: {
+        profileUpdateModalState,
+        closeProfileUpdateModal,
+        openProfileUpdateModal,
+      },
+    },
+    forms: { profileForm },
+    others: { account },
   }
 }

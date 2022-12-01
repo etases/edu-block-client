@@ -1,5 +1,6 @@
 import { useAccountListCreateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
+import { notifyInformation } from '@utilities/functions'
 
 interface AccountInterface {
   firstName: string
@@ -46,7 +47,12 @@ export function useAccountListCreateForm() {
     form.removeListItem('accounts', index)
   }
 
-  const submitForm = form.onSubmit((values) => createAccount(values))
+  const submitForm = form.onSubmit((values) => {
+    createAccount(values)
+    notifyInformation({
+      message: 'Submitted list of new accounts',
+    })
+  })
 
   return {
     inputPropsOf: form.getInputProps,

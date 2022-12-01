@@ -4,9 +4,10 @@ import {
   ProfileApiInterface,
 } from '@constants/api/schemas'
 import { request, toQueryString } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useDebouncedValue } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import dayjs from 'dayjs'
 import { useState } from 'react'
 
@@ -25,6 +26,8 @@ export function useAccountListByRoleQuery(
   props: UseAccountListByRoleQueryProps
 ) {
   const { role, limit } = props
+
+  const { account } = useAccountStore()
 
   const [selectedRole, setSelectedRole] = useState(role.toLowerCase())
   const [currentPage, setCurrentPage] = useState(0)
@@ -52,6 +55,7 @@ export function useAccountListByRoleQuery(
     })
 
   const query = useQuery({
+    enabled: ['ADMIN', 'STAFF'].some((item) => item === account.role),
     queryKey: [endpoint],
     keepPreviousData: true,
     queryFn: async function () {
@@ -89,7 +93,9 @@ export function useAccountListByRoleQuery(
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: `List of ${role.toLowerCase()}s synced` })
+    },
     onSettled(data, error) {},
   })
 

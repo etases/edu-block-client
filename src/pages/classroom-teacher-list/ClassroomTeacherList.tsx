@@ -30,41 +30,51 @@ export function ClassroomTeacherList() {
         search: { searchText, setSearchText },
       },
     },
-    others: { subjectList, teacherList, searchSelectOption, removeTeacher },
+    others: {
+      subjectList,
+      teacherList,
+      searchSelectOption,
+      removeTeacher,
+      account,
+    },
   } = useClassroomTeachersPage()
   return (
     <VerticalStack>
-      <HorizontalStack position={'right'}>
-        <Button
-          onClick={openAddTeacherModal}
-          leftIcon={<IconUserPlus />}
-        >
-          Add teachers
-        </Button>
-      </HorizontalStack>
-      <Divider />
+      {account.role === 'STAFF' && (
+        <HorizontalStack position={'right'}>
+          <Button
+            onClick={openAddTeacherModal}
+            leftIcon={<IconUserPlus />}
+          >
+            Add teachers
+          </Button>
+          <Divider />
+        </HorizontalStack>
+      )}
       <Table
         tableHeader={tableHeaders}
         tableData={tableData.map((item) => ({
           ...item,
           actions: (
             <HorizontalStack>
-              <IconButton
-                label={'Remove from classroom'}
-                color={'red'}
-                onClick={() =>
-                  removeTeacher({
-                    teachers: [
-                      {
-                        subjectId: item.subjectId,
-                        teacherId: item.teacherId,
-                      },
-                    ],
-                  })
-                }
-              >
-                <IconTrash />
-              </IconButton>
+              {account.role === 'STAFF' && (
+                <IconButton
+                  label={'Remove from classroom'}
+                  color={'red'}
+                  onClick={() =>
+                    removeTeacher({
+                      teachers: [
+                        {
+                          subjectId: item.subjectId,
+                          teacherId: item.teacherId,
+                        },
+                      ],
+                    })
+                  }
+                >
+                  <IconTrash />
+                </IconButton>
+              )}
             </HorizontalStack>
           ),
         }))}

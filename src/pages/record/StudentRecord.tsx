@@ -98,14 +98,26 @@ export function StudentRecord() {
                 />
                 <NumberInput
                   label={'First half'}
+                  max={10}
+                  min={0}
+                  step={0.25}
+                  precision={2}
                   {...requestForm.inputPropsOf('firstHalfScore')}
                 />
                 <NumberInput
                   label={'Second half'}
+                  max={10}
+                  min={0}
+                  precision={2}
+                  step={0.25}
                   {...requestForm.inputPropsOf('secondHalfScore')}
                 />
                 <NumberInput
                   label={'Final'}
+                  max={10}
+                  min={0}
+                  precision={2}
+                  step={0.25}
                   {...requestForm.inputPropsOf('finalScore')}
                 />
               </HorizontalStack>

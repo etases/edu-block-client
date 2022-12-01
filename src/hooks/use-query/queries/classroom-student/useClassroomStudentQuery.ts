@@ -5,8 +5,9 @@ import {
   StudentApiInterface,
 } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError } from '@utilities/functions'
+import { notifyError, notifyInformation } from '@utilities/functions'
 import { useParams } from 'react-router-dom'
 
 interface DataInterface
@@ -18,6 +19,7 @@ interface DataInterface
 
 export function useClassroomStudentQuery() {
   const { classroomId } = useParams()
+  const { account } = useAccountStore()
 
   const endpoint = ENDPOINT.READ.CLASSROOM_STUDENT.replace(
     '{id}',
@@ -25,7 +27,7 @@ export function useClassroomStudentQuery() {
   )
 
   const query = useQuery({
-    enabled: !!classroomId,
+    enabled: !!classroomId && account.role !== 'STUDENT',
     queryKey: [endpoint],
     queryFn: async function () {
       return request({
@@ -51,7 +53,9 @@ export function useClassroomStudentQuery() {
     onError(err) {
       notifyError({ message: endpoint })
     },
-    onSuccess(data) {},
+    onSuccess(data) {
+      notifyInformation({ message: 'List of students synced' })
+    },
     onSettled(data, error) {},
   })
 
