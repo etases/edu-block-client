@@ -12,6 +12,9 @@ RUN yarn && yarn build
 
 FROM caddy:alpine
 
+EXPOSE 80
+
 COPY --from=build /project/dist /srv
 
 COPY Caddyfile /etc/caddy/Caddyfile
+

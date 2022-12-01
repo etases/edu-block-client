@@ -51,7 +51,7 @@ export function useProfileUpdateForm() {
 
   function loadFormValues(profileId: number, values: FormInterface) {
     form.setValues(values)
-    setSelectedProfileId(profileId)
+    setSelectedProfileId(profileId.toString())
   }
 
   return { submitForm, loadFormValues, inputPropsOf: form.getInputProps, form }
