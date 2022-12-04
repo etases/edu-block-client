@@ -1,12 +1,12 @@
-import { IconButton } from '@components'
+import { HorizontalStack, IconButton } from '@components'
 import { useRootPage } from '@hooks/use-page'
-import { Affix, ScrollArea } from '@mantine/core'
+import { Affix, ScrollArea, SegmentedControl } from '@mantine/core'
 import { IconLoader } from '@tabler/icons'
 import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
 
 export function Root() {
-  const { spacing, navigate, loading } = useRootPage()
+  const { spacing, navigate, loading, i18n } = useRootPage()
 
   return (
     <ScrollArea sx={{ width: '100%', height: '100%' }}>
@@ -16,21 +16,40 @@ export function Root() {
         visible={!!isFetching}
         overlayBlur={1}
       /> */}
-        {!!loading && (
-          <Affix position={{ bottom: spacing.md, right: spacing.md }}>
-            {/* <Popover>
+        <Affix position={{ bottom: spacing.md, right: spacing.md }}>
+          {/* <Popover>
           <PopoverTarget> */}
-            <IconButton
-              label={'loading'}
-              color={'blue'}
-              variant={'transparent'}
-              size={'md'}
-              loading={!!loading}
-            >
-              {!!loading && <IconLoader />}
-            </IconButton>
-          </Affix>
-        )}
+          <HorizontalStack>
+            {!!loading ? (
+              <IconButton
+                label={'loading'}
+                color={'blue'}
+                variant={'transparent'}
+                size={'md'}
+                loading={!!loading}
+              >
+                {!!loading && <IconLoader />}
+              </IconButton>
+            ) : (
+              <SegmentedControl
+                size={'md'}
+                radius={'md'}
+                data={[
+                  {
+                    label: 'EN',
+                    value: 'en',
+                  },
+                  {
+                    label: 'VI',
+                    value: 'vi',
+                  },
+                ]}
+                value={i18n.language}
+                onChange={i18n.changeLanguage}
+              />
+            )}
+          </HorizontalStack>
+        </Affix>
       </Fragment>
     </ScrollArea>
   )

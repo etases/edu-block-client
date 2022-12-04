@@ -1,58 +1,41 @@
-import { Center } from '@mantine/core'
+import { Grid, GridCol, TextInput, VerticalStack } from '@components'
+import { useTranslation } from '@hooks/use-translation'
+import { Center, Divider, Text, Title } from '@mantine/core'
+import { Fragment } from 'react'
 
-// const tableHeader: TableHeaderProps[] = [
-//   {
-//     identifier: 'id',
-//     label: 'Id',
-//   },
-//   {
-//     identifier: 'role',
-//     label: 'Role',
-//   },
-//   {
-//     identifier: 'name',
-//     label: 'Name',
-//     align: 'left',
-//   },
-//   {
-//     identifier: 'gender',
-//     label: 'Gender',
-//   },
-//   {
-//     identifier: 'dob',
-//     label: 'Date of Birth',
-//   },
-//   {
-//     identifier: 'actions',
-//     label: 'Actions',
-//   },
-// ]
+const translation = {
+  hi: null,
+  'hel.lo': { emoji: '🙂' },
+}
 
 export function Test() {
-  // const { data } = useAccountListQuery()
+  const { translatedObject = {} } = useTranslation(translation)
   return (
-    <Center
-      sx={{
-        width: '100%',
-        height: '100%',
-      }}
-    >
-      {/* <ScrollArea style={{ width: '100%', height: '100%' }}>
-        <Table
-          tableHeader={tableHeader}
-          tableData={
-            data?.map((row) =>
-              tableHeader.reduce(
-                (cols, { identifier }) => ({
-                  ...cols,
-                  [identifier]: row[identifier as keyof typeof row] || '',
-                }),
-                {}
-              )
-            ) || []
-          }
-        />
-      </ScrollArea> */}
+    <Center>
+      <VerticalStack>
+        <Title>CHECK SINGLE VALUE</Title>
+        <Text>{translatedObject['hel.lo']}</Text>
+        <Divider />
+        <Title>CHECK ALL VALUES</Title>
+        <Grid>
+          {Object.entries(translatedObject).map(
+            ([translationKey, translatedValue]) => (
+              <Fragment key={translationKey}>
+                <GridCol span={5}>
+                  <Text>{translationKey}</Text>
+                </GridCol>
+                <GridCol span={7}>
+                  <TextInput
+                    readOnly={true}
+                    value={translatedValue || ''}
+                    onChange={() => {}}
+                  />
+                </GridCol>
+              </Fragment>
+            )
+          )}
+        </Grid>
+      </VerticalStack>
     </Center>
   )
 }
