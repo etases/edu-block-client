@@ -25,7 +25,7 @@ export function ClassroomDetails() {
       field: { selectedField, setSelectedField },
       search: { searchText, setSearchText },
     },
-    others: { searchSelectOption, account },
+    others: { searchSelectOption, account, generateClassroomReport },
   } = useClassroomDetailsPage()
 
   return (
@@ -81,6 +81,15 @@ export function ClassroomDetails() {
         </HorizontalStack>
       </HorizontalStack>
       <HorizontalStack position={'right'}>
+        {account.role !== 'STUDENT' && (
+          <Button
+            onClick={() =>
+              generateClassroomReport(classroomDetails?.classroomName)
+            }
+          >
+            Get classroom report
+          </Button>
+        )}
         {account.role === 'STAFF' && (
           <Button
             onClick={() => {

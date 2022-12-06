@@ -45,6 +45,7 @@
     "string-similarity": "^4.0.4",
     "vite-plugin-dynamic-import": "^1.2.1",
     "vite-plugin-remove-console": "^1.1.0",
+    "vite-plugin-svgr": "^2.2.2",
     "vite-tsconfig-paths": "^3.5.0",
     "xlsx": "^0.18.5"
   },

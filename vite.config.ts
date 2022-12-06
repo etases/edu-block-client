@@ -4,11 +4,13 @@ import jotaiReactRefresh from 'jotai/babel/plugin-react-refresh'
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import dynamicImport from 'vite-plugin-dynamic-import'
 // import removeConsole from 'vite-plugin-remove-console'
+import svgr from 'vite-plugin-svgr'
 import tsConfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    svgr(),
     react({
       babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] },
     }),

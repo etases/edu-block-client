@@ -4,7 +4,7 @@ import {
   ProfileApiInterface,
   SubjectApiInterface,
 } from '@constants/api/schemas'
-import { request } from '@hooks/use-query/core'
+import { request, toQueryString } from '@hooks/use-query/core'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useParams } from 'react-router-dom'
@@ -21,10 +21,9 @@ interface DataInterface
 export function useClassroomTeacherQuery() {
   const { classroomId } = useParams()
 
-  const endpoint = ENDPOINT.READ.CLASSROOM_TEACHER.replace(
-    '{id}',
-    classroomId || ''
-  )
+  const endpoint =
+    ENDPOINT.READ.CLASSROOM_TEACHER.replace('{id}', classroomId || '') +
+    toQueryString({ pageSize: 50 })
 
   const query = useQuery({
     enabled: !!classroomId,

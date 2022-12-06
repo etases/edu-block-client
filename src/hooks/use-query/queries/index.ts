@@ -6,5 +6,7 @@ export * from './classroom-student'
 export * from './classroom-teacher'
 export * from './record'
 export * from './record-pending-list'
+export * from './report'
 export * from './subject'
 export * from './useHelloQuery'
+

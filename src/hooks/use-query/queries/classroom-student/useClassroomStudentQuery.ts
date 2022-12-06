@@ -4,7 +4,7 @@ import {
   ProfileApiInterface,
   StudentApiInterface,
 } from '@constants/api/schemas'
-import { request } from '@hooks/use-query/core'
+import { request, toQueryString } from '@hooks/use-query/core'
 import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
@@ -21,10 +21,9 @@ export function useClassroomStudentQuery() {
   const { classroomId } = useParams()
   const { account } = useAccountStore()
 
-  const endpoint = ENDPOINT.READ.CLASSROOM_STUDENT.replace(
-    '{id}',
-    classroomId || ''
-  )
+  const endpoint =
+    ENDPOINT.READ.CLASSROOM_STUDENT.replace('{id}', classroomId || '') +
+    toQueryString({ pageSize: 50 })
 
   const query = useQuery({
     enabled: !!classroomId && account.role !== 'STUDENT',

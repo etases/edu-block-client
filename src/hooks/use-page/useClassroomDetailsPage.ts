@@ -1,5 +1,9 @@
 import { useClassroomUpdateForm } from '@hooks/use-form'
-import { useAccountListByRoleQuery, useClassroomQuery } from '@hooks/use-query'
+import {
+  useAccountListByRoleQuery,
+  useClassroomQuery,
+  useReportQuery,
+} from '@hooks/use-query'
 import { useAccountStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
@@ -60,6 +64,10 @@ export function useClassroomDetailsPage() {
 
   const { account } = useAccountStore()
 
+  const {
+    utils: { generateClassroomReport },
+  } = useReportQuery()
+
   return {
     classroomDetails,
     teacherList: teacherList || [],
@@ -77,6 +85,7 @@ export function useClassroomDetailsPage() {
     others: {
       account,
       searchSelectOption,
+      generateClassroomReport,
     },
   }
 }

@@ -34,6 +34,9 @@ export const ENDPOINT = {
     CLASSROOM_TEACHER: '/classroom/{id}/teacher',
     SUBJECT_LIST: '/subject/list',
     VERIFIED_KEY_LIST: '/updater/list',
+    CLASSIFICATION_LIST: '/classification/list',
+    CLASSROOM_RECORD_LIST: '/record/list/classroom/{classroomId}',
+    GRADE_RECORD_LIST: '/record/list/grade/{grade}/{year}',
   },
   UPDATE: {
     ACCOUNT_PASSWORD: '/account/list/password',
