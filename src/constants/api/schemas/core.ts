@@ -61,6 +61,8 @@ export interface RecordApiInterface {
     account: AccountApiInterface
     profile: ProfileApiInterface
   }
+  student: { student: StudentApiInterface; profile: ProfileApiInterface }
+  classroom: ClassroomApiInterface
 }
 
 export interface EntryApiInterface {

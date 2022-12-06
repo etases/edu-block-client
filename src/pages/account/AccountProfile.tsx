@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Badge,
   Button,
   Card,
@@ -7,6 +8,7 @@ import {
   GridCol,
   HorizontalStack,
   Modal,
+  PasswordInput,
   RadioInput,
   RadioInputGroup,
   TextareaInput,
@@ -17,40 +19,46 @@ import { useAccountProfilePage } from '@hooks/use-page'
 import { Divider, Image, Text, Title } from '@mantine/core'
 import { IconUserCircle } from '@tabler/icons'
 import dayjs from 'dayjs'
+import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
 
 export function AccountProfile() {
   const {
     accountProfile,
     others: { account },
-    modals: { profile: profileModal },
-    forms: { profileForm },
+    modals: { profile: profileModal, password: passwordModal },
+    forms: { profileForm, passwordForm },
   } = useAccountProfilePage()
 
   return (
     <VerticalStack>
       <HorizontalStack position={'apart'}>
         <Title>Account Profile</Title>
-        {(account.role === 'STAFF' || account.role === 'ADMIN') &&
-          account.id === accountProfile?.id && (
-            <Button
-              onClick={() => {
-                profileModal.openProfileUpdateModal()
-                profileForm.loadFormValues(accountProfile.id, {
-                  address: accountProfile.address,
-                  avatar: accountProfile.avatar,
-                  birthDate: dayjs(accountProfile?.dateOfBirth).toDate(),
-                  email: accountProfile.email,
-                  firstName: accountProfile.firstName,
-                  lastName: accountProfile.lastName,
-                  male: accountProfile.isMale ? '1' : '0',
-                  phone: accountProfile.phone,
-                })
-              }}
-            >
-              Update
-            </Button>
-          )}
+        <HorizontalStack>
+          <Button onClick={passwordModal.openPasswordUpdateModal}>
+            Change password
+          </Button>
+          {(account.role === 'STAFF' || account.role === 'ADMIN') &&
+            account.id === accountProfile?.id && (
+              <Button
+                onClick={() => {
+                  profileModal.openProfileUpdateModal()
+                  profileForm.loadFormValues(accountProfile.id, {
+                    address: accountProfile.address,
+                    avatar: accountProfile.avatar,
+                    birthDate: dayjs(accountProfile?.dateOfBirth).toDate(),
+                    email: accountProfile.email,
+                    firstName: accountProfile.firstName,
+                    lastName: accountProfile.lastName,
+                    male: accountProfile.isMale ? '1' : '0',
+                    phone: accountProfile.phone,
+                  })
+                }}
+              >
+                Update Profile
+              </Button>
+            )}
+        </HorizontalStack>
       </HorizontalStack>
       <Divider />
       <HorizontalStack position={'center'}>
@@ -160,8 +168,49 @@ export function AccountProfile() {
           </Grid>
         </VerticalStack>
       </HorizontalStack>
-      <Divider />
-      {accountProfile?.role.toUpperCase() === 'STUDENT' && <Outlet />}
+      {/* <Divider /> */}
+      {accountProfile?.role.toUpperCase() === 'STUDENT' && (
+        <Fragment>
+          <Divider />
+          <Outlet />
+        </Fragment>
+      )}
+      <Modal
+        opened={passwordModal.passwordUpdateModalState}
+        onClose={passwordModal.closePasswordUpdateModal}
+        title={
+          <Text
+            size={'lg'}
+            weight={'bold'}
+          >
+            Change password
+          </Text>
+        }
+      >
+        <VerticalStack>
+          <form onSubmit={passwordForm.submitForm}>
+            <VerticalStack>
+              <PasswordInput
+                label={'Old password'}
+                {...passwordForm.inputPropsOf('oldPassword')}
+              />
+              <PasswordInput
+                defaultVisible={true}
+                label={'New password'}
+                {...passwordForm.inputPropsOf('newPassword')}
+              />
+              <PasswordInput
+                defaultVisible={true}
+                label={'Confirm new password'}
+                {...passwordForm.inputPropsOf('confirmNewPassword')}
+              />
+              <HorizontalStack position={'right'}>
+                <Button type={'submit'}>Submit</Button>
+              </HorizontalStack>
+            </VerticalStack>
+          </form>
+        </VerticalStack>
+      </Modal>
       <Modal
         opened={profileModal.profileUpdateModalState}
         onClose={profileModal.closeProfileUpdateModal}
@@ -177,10 +226,20 @@ export function AccountProfile() {
         <VerticalStack>
           <form onSubmit={profileForm.submitForm}>
             <VerticalStack>
-              <TextInput
-                label={'Avatar'}
-                {...profileForm.inputPropsOf('avatar')}
-              />
+              <Grid align={'end'}>
+                <GridCol span={2}>
+                  <Avatar
+                    src={profileForm.form.values.avatar}
+                    size={'md'}
+                  />
+                </GridCol>
+                <GridCol span={10}>
+                  <TextInput
+                    label={'Avatar'}
+                    {...profileForm.inputPropsOf('avatar')}
+                  />
+                </GridCol>
+              </Grid>
               <HorizontalStack>
                 <TextInput
                   withAsterisk={true}

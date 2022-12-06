@@ -14,4 +14,5 @@ export * from './record-list'
 export * from './root'
 export * from './test'
 export * from './verified'
+export * from './verified-key-list'
 

@@ -63,6 +63,11 @@ export function useRecordPendingListQuery() {
               id: teacherId,
             },
           },
+          student: {
+            student: { id: studentId },
+            profile: { firstName: studentFirstName, lastName: studentLastName },
+          },
+          classroom: { id: classroomId },
         }) => ({
           finalScore,
           firstHalfScore,
@@ -84,6 +89,9 @@ export function useRecordPendingListQuery() {
           teacherLastName,
           teacherName: `${teacherFirstName} ${teacherLastName}`,
           teacherId,
+          studentId,
+          studentName: `${studentFirstName} ${studentLastName}`,
+          classroomId,
         })
       )
     },

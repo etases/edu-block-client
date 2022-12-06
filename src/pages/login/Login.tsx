@@ -19,6 +19,7 @@ export function Login() {
       sx={{
         height: '100%',
       }}
+      p={'md'}
     >
       <Title>{PAGE_TITLE}</Title>
       <form onSubmit={submitForm}>

@@ -18,7 +18,7 @@ export function useLoginPage() {
   } = useAccountStore()
   const { setTitle } = useTitleStore()
 
-  if (accessToken.length !== 0) navigate(`/app/dashboard`)
+  if (accessToken.length !== 0) navigate(`/app`)
 
   useEffect(() => {
     setTitle(PAGE_TITLE)

@@ -1,5 +1,6 @@
 export * from './useAccountListCreateForm'
 export * from './useAccountListPasswordUpdateForm'
+export * from './useAccountUpdatePasswordForm'
 export * from './useClassroomAddStudentForm'
 export * from './useClassroomAddTeacherForm'
 export * from './useClassroomCreateForm'

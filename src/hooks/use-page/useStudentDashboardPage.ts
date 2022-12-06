@@ -1,5 +1,6 @@
 import { TableHeaderProps } from '@components/table'
 import { useStudentClassroomListQuery } from '@hooks/use-query'
+import { useAccountStore } from '@hooks/use-store'
 import { useNavigate } from 'react-router-dom'
 
 const tableHeaders: TableHeaderProps<
@@ -48,11 +49,13 @@ export function useStudentDashboardPage() {
 
   const navigate = useNavigate()
 
+  const { account } = useAccountStore()
+
   return {
     table: {
       tableData: classroomList || [],
       tableHeaders,
     },
-    others: { navigate },
+    others: { navigate, account },
   }
 }

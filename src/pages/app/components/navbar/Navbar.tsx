@@ -1,7 +1,13 @@
 import { Avatar, Button, HorizontalStack, VerticalStack } from '@components'
 import { useAccountStore } from '@hooks/use-store'
 import { Divider, Navbar as MNavbar, NavLink, Text } from '@mantine/core'
-import { IconClock, IconDashboard, IconSection, IconUsers } from '@tabler/icons'
+import {
+  IconClock,
+  IconDashboard,
+  IconKey,
+  IconSection,
+  IconUsers,
+} from '@tabler/icons'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const { Section } = MNavbar
@@ -27,13 +33,19 @@ const navItems = [
     to: '/app/classroom-list',
     label: 'Classroom',
     icon: <IconSection />,
-    role: ['STAFF'],
+    role: ['STAFF', 'ADMIN'],
   },
   {
     to: '/app/record-list',
     label: 'Pending verification',
     icon: <IconClock />,
     role: ['TEACHER'],
+  },
+  {
+    to: '/app/verified-key-list',
+    label: 'Manage verified keys',
+    icon: <IconKey />,
+    role: ['STUDENT'],
   },
 ]
 

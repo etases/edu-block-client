@@ -10,6 +10,7 @@ interface FormInterface {
   secondHalfScore: number
   finalScore: number
   subjectId: number
+  teacherId: number
 }
 
 export function useRecordUpdateRequestForm() {
@@ -23,6 +24,7 @@ export function useRecordUpdateRequestForm() {
       firstHalfScore: 0,
       secondHalfScore: 0,
       subjectId: 0,
+      teacherId: 0,
     },
     validate: {
       // classroomId: (value) => !!value,
@@ -47,6 +49,7 @@ export function useRecordUpdateRequestForm() {
       firstHalfScore: values.firstHalfScore,
       secondHalfScore: values.secondHalfScore,
       finalScore: values.finalScore,
+      teacherId: values.teacherId,
     })
     notifyInformation({
       message: `Submitted update request for this record`,
@@ -58,6 +61,7 @@ export function useRecordUpdateRequestForm() {
     firstHalfScore: number
     secondHalfScore: number
     finalScore: number
+    teacherId: number
   }) => {
     form.setValues({ ...values })
   }

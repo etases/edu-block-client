@@ -1,4 +1,7 @@
-import { useProfileUpdateForm } from '@hooks/use-form'
+import {
+  useAccountUpdatePasswordForm,
+  useProfileUpdateForm,
+} from '@hooks/use-form'
 import { useAccountInfoQuery } from '@hooks/use-query'
 import { useAccountStore } from '@hooks/use-store'
 import { useDisclosure } from '@mantine/hooks'
@@ -15,7 +18,14 @@ export function useAccountProfilePage() {
     { close: closeProfileUpdateModal, open: openProfileUpdateModal },
   ] = useDisclosure(false)
 
+  const [
+    passwordUpdateModalState,
+    { close: closePasswordUpdateModal, open: openPasswordUpdateModal },
+  ] = useDisclosure(false)
+
   const profileForm = useProfileUpdateForm()
+
+  const passwordForm = useAccountUpdatePasswordForm()
 
   return {
     accountProfile: data,
@@ -25,8 +35,13 @@ export function useAccountProfilePage() {
         closeProfileUpdateModal,
         openProfileUpdateModal,
       },
+      password: {
+        passwordUpdateModalState,
+        closePasswordUpdateModal,
+        openPasswordUpdateModal,
+      },
     },
-    forms: { profileForm },
+    forms: { profileForm, passwordForm },
     others: { account },
   }
 }

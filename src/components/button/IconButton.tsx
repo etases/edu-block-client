@@ -5,15 +5,17 @@ import { ButtonHTMLAttributes, ReactNode } from 'react'
 interface IconButtonProps extends ActionIconProps {
   label: ReactNode
   color?: MantineColor
+  forwardedRef?: any
 }
 
 export function IconButton(
   props: ButtonHTMLAttributes<HTMLButtonElement> & IconButtonProps
 ) {
-  const { label, color, ...otherProps } = props
+  const { label, color, forwardedRef, ...otherProps } = props
   return (
     <Tooltip label={label}>
       <ActionIcon
+        ref={forwardedRef}
         size={'md'}
         radius={'md'}
         color={color}

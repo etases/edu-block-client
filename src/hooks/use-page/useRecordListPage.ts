@@ -3,6 +3,7 @@ import {
   useRecordPendingListQuery,
   useRecordPendingVerifyMutation,
 } from '@hooks/use-query'
+import { useNavigate } from 'react-router-dom'
 
 const tableHeaders: TableHeaderProps<
   | 'finalScore'
@@ -25,11 +26,17 @@ const tableHeaders: TableHeaderProps<
   | 'teacherLastName'
   | 'teacherName'
   | 'teacherId'
+  | 'studentName'
+  | 'classroomId'
   | 'actions'
 >[] = [
   {
     identifier: 'requestId',
-    label: 'Record Id',
+    label: 'Request Id',
+  },
+  {
+    identifier: 'studentName',
+    label: 'Student',
   },
   {
     identifier: 'requesterName',
@@ -70,6 +77,8 @@ export function useRecordListPage() {
     mutation: { mutate: verifyRecord },
   } = useRecordPendingVerifyMutation()
 
+  const navigate = useNavigate()
+
   function acceptRequest(requestId: number) {
     verifyRecord({ accepted: true, id: requestId })
   }
@@ -84,9 +93,9 @@ export function useRecordListPage() {
       tableHeaders,
     },
     actions: {
-      verifyRecord,
       acceptRequest,
       rejectRequest,
     },
+    others: { navigate },
   }
 }

@@ -1,5 +1,5 @@
 import { HorizontalStack, VerticalStack } from '@components'
-import { Divider, Tabs, Text, Title, useMantineTheme } from '@mantine/core'
+import { Divider, Tabs, Title, useMantineTheme } from '@mantine/core'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 const { List: TabList, Tab: TabItem } = Tabs
@@ -40,7 +40,7 @@ export function AccountRoot() {
         </HorizontalStack>
       </VerticalStack>
       <Divider />
-      <Tabs
+      {/* <Tabs
         radius={'md'}
         defaultValue={tabItems[0].value}
         onTabChange={(value) => navigate(value || tabItems[0].value)}
@@ -69,7 +69,7 @@ export function AccountRoot() {
             )
           })}
         </TabList>
-      </Tabs>
+      </Tabs> */}
       <Outlet />
     </VerticalStack>
   )

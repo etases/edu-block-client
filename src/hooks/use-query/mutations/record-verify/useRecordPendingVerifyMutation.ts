@@ -15,12 +15,7 @@ export function useRecordPendingVerifyMutation() {
   const endpoint = ENDPOINT.UPDATE.STUDENT_PENDING_RECORD_APPROVAL_STATE
 
   const mutation = useMutation({
-    mutationKey: [
-      endpoint,
-      {
-        ...RECORD_VERIFY_MUTATION_KEY,
-      } as typeof RECORD_VERIFY_MUTATION_KEY,
-    ],
+    mutationKey: [],
     mutationFn: async function (variables: BodyInterface) {
       return await request({
         endpoint,
@@ -36,7 +31,7 @@ export function useRecordPendingVerifyMutation() {
       notifyInformation({ message: data.message })
       queryClient.invalidateQueries({
         predicate(query) {
-          return (query.queryKey.at(0) as string).includes('record')
+          return ((query.queryKey.at(0) as string) || '').includes('record')
         },
       })
     },

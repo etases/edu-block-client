@@ -1,6 +1,7 @@
 import { TableHeaderProps } from '@components/table'
 import { useRecordUpdateRequestForm } from '@hooks/use-form'
 import { useStudentRecordQuery } from '@hooks/use-query'
+import { useAccountStore } from '@hooks/use-store'
 import { useDisclosure } from '@mantine/hooks'
 import { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print'
@@ -66,6 +67,8 @@ export function useStudentRecordPage() {
     query: { data },
   } = useStudentRecordQuery()
 
+  const { account } = useAccountStore()
+
   const requestForm = useRecordUpdateRequestForm()
 
   const [
@@ -94,7 +97,7 @@ export function useStudentRecordPage() {
   })
 
   return {
-    table: { tableData: data || [], tableHeaders },
+    table: { tableData: data?.entries || [], tableHeaders },
     form: { requestForm },
     state: {
       requestModal: {
@@ -103,6 +106,6 @@ export function useStudentRecordPage() {
         openRequestModal,
       },
     },
-    others: { handlePrint, printRef },
+    others: { handlePrint, printRef, teacher: data?.teacher, account },
   }
 }

@@ -1,5 +1,6 @@
 import { HorizontalStack, VerticalStack } from '@components'
 import { Box, Table as MTable, Text } from '@mantine/core'
+import { generateGradientValue } from '@utilities/functions'
 import { ReactNode } from 'react'
 
 const ALIGN = {
@@ -21,20 +22,26 @@ interface TableProps<TIdentifier extends string | number> {
   tableData: {
     [key in TIdentifier]: ReactNode | string | number | boolean | null
   }[]
+  heat?: boolean
 }
 
 export function Table<TIdentifier extends string | number>(
   props: TableProps<TIdentifier>
 ) {
-  const { tableHeader, tableData } = props
+  const { tableHeader, tableData, heat } = props
 
   return (
     <MTable
-      fontSize={'md'}
-      verticalSpacing={'md'}
+      fontSize={'sm'}
+      // verticalSpacing={'md'}
       // horizontalSpacing={'md'}
       striped={true}
       highlightOnHover={true}
+      // withBorder={true}
+      // withColumnBorders={true}
+      sx={{
+        minWidth: 720,
+      }}
     >
       <thead>
         <tr>
@@ -50,7 +57,12 @@ export function Table<TIdentifier extends string | number>(
               >
                 <HorizontalStack>
                   <Box>
-                    <Text transform={'capitalize'}>{label}</Text>
+                    <Text
+                      transform={'capitalize'}
+                      weight={'bold'}
+                    >
+                      {label}
+                    </Text>
                   </Box>
                   {rest.icon && <Box>{rest.icon}</Box>}
                 </HorizontalStack>
@@ -61,8 +73,28 @@ export function Table<TIdentifier extends string | number>(
         </tr>
       </thead>
       <tbody>
-        {tableData.map((row, index) => (
-          <tr key={`tbody__${index}`}>
+        {tableData?.map((row, index, all) => (
+          <tr
+            key={`tbody__${index}`}
+            style={{
+              backgroundColor: heat
+                ? `rgb(${generateGradientValue(
+                    {
+                      red: 0,
+                      green: 255,
+                      blue: 127,
+                    },
+                    {
+                      red: 255,
+                      green: 99,
+                      blue: 71,
+                    },
+                    all.length,
+                    index
+                  ).join(',')})`
+                : '',
+            }}
+          >
             {tableHeader.map(({ identifier, ...rest }) => (
               <td
                 key={`trow__${identifier.toString()}__${index}`}

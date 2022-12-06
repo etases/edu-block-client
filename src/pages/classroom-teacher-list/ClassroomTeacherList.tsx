@@ -55,6 +55,9 @@ export function ClassroomTeacherList() {
         tableHeader={tableHeaders}
         tableData={tableData.map((item) => ({
           ...item,
+          teacherAvatar: (
+            <Avatar src={item.teacherAvatar}>{item.teacherAvatar}</Avatar>
+          ),
           actions: (
             <HorizontalStack>
               {account.role === 'STAFF' && (

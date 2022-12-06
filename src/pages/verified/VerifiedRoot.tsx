@@ -19,7 +19,11 @@ export function VerifiedRoot() {
         </GridCol>
         <GridCol span={2}>
           <Button
-            onClick={() => navigate(id)}
+            onClick={() =>
+              navigate(id, {
+                replace: false,
+              })
+            }
             fullWidth={true}
           >
             Check

@@ -35,6 +35,7 @@
     "i18next-http-backend": "^2.0.2",
     "jotai": "^1.8.2",
     "lodash": "^4.17.21",
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-datasheet-grid": "^4.6.0",
     "react-dom": "^18.2.0",
@@ -44,13 +45,15 @@
     "string-similarity": "^4.0.4",
     "vite-plugin-dynamic-import": "^1.2.1",
     "vite-plugin-remove-console": "^1.1.0",
-    "vite-tsconfig-paths": "^3.5.0"
+    "vite-tsconfig-paths": "^3.5.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",
     "cypress": "^11.1.0",
+    "terser": "^5.16.1",
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
   }

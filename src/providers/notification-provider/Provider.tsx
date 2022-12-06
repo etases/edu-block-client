@@ -6,5 +6,12 @@ import {
 export function NotificationProvider(props: ProviderProps) {
   const { children } = props
 
-  return <Provider limit={2}>{children}</Provider>
+  return (
+    <Provider
+      limit={1}
+      position={'top-right'}
+    >
+      {children}
+    </Provider>
+  )
 }

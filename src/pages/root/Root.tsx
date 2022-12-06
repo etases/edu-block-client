@@ -32,7 +32,7 @@ export function Root() {
               </IconButton>
             ) : (
               <SegmentedControl
-                size={'md'}
+                size={'xs'}
                 radius={'md'}
                 data={[
                   {

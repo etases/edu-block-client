@@ -62,6 +62,7 @@ export function ClassroomStudentList() {
         tableHeader={tableHeaders}
         tableData={tableData.map((item) => ({
           ...item,
+          avatar: <Avatar src={item.avatar}>{item.name}</Avatar>,
           actions: (
             <HorizontalStack>
               <IconButton

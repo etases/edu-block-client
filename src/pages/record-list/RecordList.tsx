@@ -1,13 +1,15 @@
 import { HorizontalStack, IconButton, Table, VerticalStack } from '@components'
 import { useRecordListPage } from '@hooks/use-page'
 import { Title } from '@mantine/core'
-import { IconCheck, IconX } from '@tabler/icons'
+import { IconCheck, IconDetails, IconX } from '@tabler/icons'
 
 export function RecordList() {
   const {
     table: { tableData, tableHeaders },
-    actions: { verifyRecord, acceptRequest, rejectRequest },
+    actions: { acceptRequest, rejectRequest },
+    others: { navigate },
   } = useRecordListPage()
+
   return (
     <VerticalStack>
       <HorizontalStack>
@@ -31,6 +33,17 @@ export function RecordList() {
                 onClick={() => rejectRequest(item.requestId)}
               >
                 <IconX />
+              </IconButton>
+              <IconButton
+                label={'Details'}
+                // color={'red'}
+                onClick={() =>
+                  navigate(
+                    `/app/account/${item.studentId}/record/${item.classroomId}`
+                  )
+                }
+              >
+                <IconDetails />
               </IconButton>
             </HorizontalStack>
           ),

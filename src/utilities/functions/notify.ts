@@ -8,7 +8,7 @@ export function notifyInformation({ message }: NotifyProps) {
   showNotification({
     title: 'Information',
     color: 'blue',
-    autoClose: 2000,
+    autoClose: 1000,
     message,
   })
 }

@@ -6,7 +6,7 @@ export function useLoginForm() {
   const form = useForm({
     initialValues: {
       accountId: '',
-      password: '',
+      password: 'password',
     },
     // validate: {
     //   accountId: (value) => (/.{6,}/.test(value) ? null : 'Invalid Account Id'),

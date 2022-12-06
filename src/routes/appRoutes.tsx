@@ -25,6 +25,7 @@ import {
   TeacherAccountList,
   TeacherDashboard,
   Test,
+  VerifiedKeyList,
   VerifiedPage,
   VerifiedRoot,
 } from '@pages'
@@ -258,9 +259,14 @@ export const routes = ({ role = 'GUEST' }: { role: ROLE }): RouteObject => ({
             },
           ],
         },
+        {
+          path: 'verified-key-list',
+          element: <VerifiedKeyList />,
+        },
         ...authRoutes[role],
       ],
     },
+
     {
       path: 'test',
       element: <Test />,

@@ -50,69 +50,84 @@ export function useStudentRecordQuery() {
     },
     select(data) {
       const { data: recordData } = data
-      return (recordData as DataInterface).entries
-        .map(
-          ({
-            approvalDate,
-            approver: {
-              profile: {
-                id: approverId,
-                avatar: approverAvatar,
-                email: approverEmail,
-                firstName: approverFirstName,
-                lastName: approverLastName,
+      return {
+        teacher: (recordData as DataInterface).classroom.homeroomTeacher,
+        entries: (recordData as DataInterface).entries
+          .map(
+            ({
+              approvalDate,
+              approver: {
+                profile: {
+                  id: approverId,
+                  avatar: approverAvatar,
+                  email: approverEmail,
+                  firstName: approverFirstName,
+                  lastName: approverLastName,
+                },
               },
-            },
-            finalScore,
-            firstHalfScore,
-            secondHalfScore,
-            requestDate,
-            subject: { id: subjectId, identifier: subjectName },
-            requester: {
-              profile: {
-                avatar: requesterAvatar,
-                email: requesterEmail,
-                id: requesterId,
-                firstName: requesterFirstName,
-                lastName: requesterLastName,
+              finalScore,
+              firstHalfScore,
+              secondHalfScore,
+              requestDate,
+              subject: { id: subjectId, identifier: subjectName },
+              requester: {
+                profile: {
+                  avatar: requesterAvatar,
+                  email: requesterEmail,
+                  id: requesterId,
+                  firstName: requesterFirstName,
+                  lastName: requesterLastName,
+                },
               },
-            },
-            teacher: {
-              profile: {
-                avatar: teacherAvatar,
-                email: teacherEmail,
-                firstName: teacherFirstName,
-                lastName: teacherLastName,
-                id: teacherId,
+              teacher: {
+                profile: {
+                  avatar: teacherAvatar,
+                  email: teacherEmail,
+                  firstName: teacherFirstName,
+                  lastName: teacherLastName,
+                  id: teacherId,
+                },
               },
-            },
-          }) => ({
-            approvalDate,
-            approverId,
-            approverAvatar,
-            approverEmail,
-            approverName: `${approverFirstName} ${approverLastName}`,
-            finalScore,
-            firstHalfScore,
-            secondHalfScore,
-            requestDate,
-            subjectId,
-            subjectName,
-            requesterAvatar,
-            requesterEmail,
-            requesterId,
-            requesterName: `${requesterFirstName} ${requesterLastName}`,
-            teacherAvatar,
-            teacherEmail,
-            teacherName: `${teacherFirstName} ${teacherLastName}`,
-            teacherId,
-          })
-        )
-        .sort((a, b) => a.subjectId - b.subjectId)
-        .sort((a, b) => Number(b.approvalDate) - Number(a.approvalDate))
-        .filter((item, index, all) =>
-          index === 0 ? true : all.at(index - 1)?.subjectId !== item.subjectId
-        )
+            }) => ({
+              approvalDate,
+              approverId,
+              approverAvatar,
+              approverEmail,
+              approverName: `${approverFirstName} ${approverLastName}`,
+              finalScore,
+              firstHalfScore,
+              secondHalfScore,
+              requestDate,
+              subjectId,
+              subjectName,
+              requesterAvatar,
+              requesterEmail,
+              requesterId,
+              requesterName: `${requesterFirstName} ${requesterLastName}`,
+              teacherAvatar,
+              teacherEmail,
+              teacherName: `${teacherFirstName} ${teacherLastName}`,
+              teacherId,
+              history: [] as any,
+            })
+          )
+          .sort((a, b) => Number(b.approvalDate) - Number(a.approvalDate))
+          .sort((a, b) => a.subjectId - b.subjectId)
+          // .filter(
+          //   (item, index, all) =>
+          //     all.at(index - 1)?.subjectId !== item.subjectId
+          // ),
+          .reduce((result: any[], current) => {
+            const tmpResult = result as typeof current[]
+            const lastResult = tmpResult.at(-1)
+            if (lastResult?.subjectId === current.subjectId) {
+              lastResult.history.push(current)
+              tmpResult[tmpResult.length - 1] = lastResult
+              return tmpResult
+            }
+            return [...result, current]
+          }, []),
+      }
     },
     onError(err) {
       notifyError({ message: endpoint })

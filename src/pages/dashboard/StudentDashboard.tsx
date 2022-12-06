@@ -1,12 +1,12 @@
 import { HorizontalStack, IconButton, Table, VerticalStack } from '@components'
 import { useStudentDashboardPage } from '@hooks/use-page'
-import { Divider, Title } from '@mantine/core'
-import { IconFileSearch } from '@tabler/icons'
+import { Avatar, Divider, Title } from '@mantine/core'
+import { IconDetails, IconFileSearch } from '@tabler/icons'
 
 export function StudentDashboard() {
   const {
     table: { tableData, tableHeaders },
-    others: { navigate },
+    others: { navigate, account },
   } = useStudentDashboardPage()
 
   return (
@@ -18,6 +18,9 @@ export function StudentDashboard() {
       <Table
         tableData={tableData.map((item) => ({
           ...item,
+          teacherAvatar: (
+            <Avatar src={item.teacherAvatar}>{item.teacherName}</Avatar>
+          ),
           actions: (
             <HorizontalStack>
               <IconButton
@@ -25,6 +28,16 @@ export function StudentDashboard() {
                 onClick={() => navigate(`/app/classroom/${item.classroomId}`)}
               >
                 <IconFileSearch />
+              </IconButton>
+              <IconButton
+                label={'View my record'}
+                onClick={() =>
+                  navigate(
+                    `/app/account/${account.id}/record/${item.classroomId}`
+                  )
+                }
+              >
+                <IconDetails />
               </IconButton>
             </HorizontalStack>
           ),

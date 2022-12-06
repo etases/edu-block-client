@@ -3,7 +3,7 @@ import { request } from '@hooks/use-query/core'
 import { useAccessTokenStore } from '@hooks/use-store'
 import { useMutation } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
-import { redirect } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const LOGIN_MUTATION_KEY = {}
 
@@ -14,17 +14,14 @@ interface BodyInterface {
 
 export function useLoginMutation() {
   const { setAccessToken, resetAccessToken } = useAccessTokenStore()
+  const navigate = useNavigate()
 
   const endpoint = ENDPOINT.MISC.LOGIN
 
   const mutation = useMutation({
-    mutationKey: [
-      endpoint,
-      { ...LOGIN_MUTATION_KEY } as typeof LOGIN_MUTATION_KEY,
-    ],
+    mutationKey: [],
     mutationFn: async function (variables: BodyInterface) {
       const { username, password } = variables
-
       return await request({
         method: 'POST',
         endpoint,
@@ -56,7 +53,7 @@ export function useLoginMutation() {
         message: data.message || 'Something went wrong!',
       })
 
-      redirect('/app/dashboard')
+      navigate('/app')
     },
     onSettled(data, error, variables, context) {},
   })

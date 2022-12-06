@@ -6,6 +6,7 @@ import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 interface DataInterface extends Array<ClassroomApiInterface> {}
 
@@ -13,6 +14,7 @@ export function useStudentClassroomListQuery() {
   const [currentPage, setCurrentPage] = useState(0)
   const [searchText, setSearchText] = useDebouncedState('', 500)
   const { account } = useAccountStore()
+  const { accountId } = useParams()
 
   function resetCurrentPage() {
     setCurrentPage(0)
@@ -23,10 +25,16 @@ export function useStudentClassroomListQuery() {
     resetCurrentPage()
   }
 
-  const endpoint = ENDPOINT.READ.STUDENT_CLASSROOM_LIST
+  const endpoint =
+    account.role !== 'STUDENT' && !!accountId
+      ? ENDPOINT.READ.SPECIFIC_STUDENT_CLASSROOM_LIST.replace(
+          '{studentId}',
+          accountId
+        )
+      : ENDPOINT.READ.STUDENT_CLASSROOM_LIST
 
   const query = useQuery({
-    enabled: account.role === 'STUDENT',
+    // enabled: account.role === 'STUDENT',
     queryKey: [endpoint],
     queryFn: async function () {
       return request({
