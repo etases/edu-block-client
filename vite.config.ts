@@ -10,12 +10,12 @@ import tsConfigPaths from 'vite-tsconfig-paths'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    svgr(),
     react({
       babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] },
     }),
     tsConfigPaths(),
     dynamicImport(),
+    svgr(),
     splitVendorChunkPlugin(),
     // removeConsole(),
   ],
@@ -26,28 +26,28 @@ export default defineConfig({
   },
   build: {
     manifest: true,
-    minify: 'terser',
-    terserOptions: {
-      parse: {
-        bare_returns: true,
-        html5_comments: false,
-        shebang: false,
-      },
-      compress: {
-        arguments: true,
-        booleans_as_integers: true,
-        drop_console: true,
-        passes: 3,
-      },
-      mangle: {
-        properties: true,
-        keep_fnames: false,
-        keep_classnames: false,
-      },
-      format: {
-        indent_level: 2,
-        shebang: false,
-      },
-    },
+    minify: 'esbuild',
+    // terserOptions: {
+    //   parse: {
+    //     bare_returns: true,
+    //     html5_comments: false,
+    //     shebang: false,
+    //   },
+    //   compress: {
+    //     arguments: true,
+    //     booleans_as_integers: true,
+    //     drop_console: true,
+    //     passes: 3,
+    //   },
+    //   mangle: {
+    //     properties: true,
+    //     keep_fnames: false,
+    //     keep_classnames: false,
+    //   },
+    //   format: {
+    //     indent_level: 2,
+    //     shebang: false,
+    //   },
+    // },
   },
 })
