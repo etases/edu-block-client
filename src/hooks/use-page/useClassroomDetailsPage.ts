@@ -65,7 +65,7 @@ export function useClassroomDetailsPage() {
   const { account } = useAccountStore()
 
   const {
-    utils: { generateClassroomReport },
+    utils: { generateSubjectReport, generateSemesterReport },
   } = useReportQuery()
 
   return {
@@ -85,7 +85,8 @@ export function useClassroomDetailsPage() {
     others: {
       account,
       searchSelectOption,
-      generateClassroomReport,
+      generateSubjectReport,
+      generateSemesterReport,
     },
   }
 }

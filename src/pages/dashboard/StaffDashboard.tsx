@@ -8,20 +8,16 @@ import {
   VerticalStack,
 } from '@components'
 import { ENDPOINT } from '@constants'
-import { request, useReportQuery } from '@hooks/use-query'
+import { request, semesterNameList, useReportQuery } from '@hooks/use-query'
 import { Card, Divider, Flex, Text, Title } from '@mantine/core'
 import { IconDownload, IconDownloadOff } from '@tabler/icons'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import { dayjs } from '@utilities/functions'
+import Plot from 'react-plotly.js'
 
 export function StaffDashboard() {
   const {
-    query: {
-      classificationQuery,
-      classroomListQuery,
-      classroomRecordQuery,
-      gradeRecordQuery,
-    },
+    query: { gradeRecordQuery, classificationQuery },
     state,
     utils,
   } = useReportQuery()
@@ -137,7 +133,7 @@ export function StaffDashboard() {
           onChange={(value) => state.grade.setGrade(Number(value))}
         />
         <Button
-          onClick={utils.generateGradeReport}
+          onClick={() => utils.generateGradeReport('file')}
           leftIcon={
             gradeRecordQuery.data?.length > 0 ? (
               <IconDownload />
@@ -151,7 +147,7 @@ export function StaffDashboard() {
         </Button>
         <Button
           disabled={gradeRecordQuery.data?.length === 0}
-          onClick={utils.generateClassificationReport}
+          onClick={() => utils.generateClassificationReport('file')}
           leftIcon={
             gradeRecordQuery.data?.length > 0 ? (
               <IconDownload />
@@ -213,6 +209,40 @@ export function StaffDashboard() {
           </HorizontalStack>
         </Card>
       </HorizontalStack>
+
+      <VerticalStack>
+        {classificationQuery?.data && (
+          <>
+            <Plot
+              data={semesterNameList.map((semesterName) => ({
+                r: utils
+                  .generateClassificationReport('table')
+                  ?.map((classification: any) => classification[semesterName]),
+                theta: [
+                  ...(classificationQuery?.data as any),
+                  (classificationQuery?.data as any)?.at(0),
+                ],
+                name: semesterName,
+                type: 'scatterpolar',
+              }))}
+              layout={{}}
+            />
+            <Plot
+              data={semesterNameList.map((semesterName) => ({
+                x: utils
+                  .generateClassificationReport('table')
+                  ?.map(({ classification }: any) => classification),
+                y: utils
+                  .generateClassificationReport('table')
+                  ?.map((classification: any) => classification[semesterName]),
+                name: semesterName,
+                type: 'bar',
+              }))}
+              layout={{}}
+            />
+          </>
+        )}
+      </VerticalStack>
     </VerticalStack>
   )
 }

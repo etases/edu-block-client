@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   AutocompleteInput,
   Avatar,
@@ -9,9 +10,17 @@ import {
   VerticalStack,
 } from '@components'
 import { useClassroomDetailsPage } from '@hooks/use-page'
-import { Text } from '@mantine/core'
+import { semesterNameList } from '@hooks/use-query'
+import { Divider, Tabs, Text } from '@mantine/core'
 import { IconCheck, IconRefresh } from '@tabler/icons'
 import { forwardRef } from 'react'
+import Plot from 'react-plotly.js'
+
+const semesterTr = {
+  firstHalf: 'First half',
+  secondHalf: 'Second half',
+  final: 'Final',
+}
 
 export function ClassroomDetails() {
   const {
@@ -25,7 +34,12 @@ export function ClassroomDetails() {
       field: { selectedField, setSelectedField },
       search: { searchText, setSearchText },
     },
-    others: { searchSelectOption, account, generateClassroomReport },
+    others: {
+      searchSelectOption,
+      account,
+      generateSubjectReport,
+      generateSemesterReport,
+    },
   } = useClassroomDetailsPage()
 
   return (
@@ -47,18 +61,6 @@ export function ClassroomDetails() {
         align={'start'}
         grow={true}
       >
-        {/* <Card p={'md'}>
-          <HorizontalStack position={'center'}>
-            <Image
-              withPlaceholder={true}
-              src={classroomDetails?.teacherAvatar}
-              width={150}
-              height={150}
-              radius={'md'}
-              placeholder={<IconUserCircle size={'auto'} />}
-            />
-          </HorizontalStack>
-        </Card> */}
         <HorizontalStack
           // position={'apart'}
           grow={true}
@@ -80,15 +82,25 @@ export function ClassroomDetails() {
           />
         </HorizontalStack>
       </HorizontalStack>
+      <Divider />
       <HorizontalStack position={'right'}>
         {account.role !== 'STUDENT' && (
-          <Button
-            onClick={() =>
-              generateClassroomReport(classroomDetails?.classroomName)
-            }
-          >
-            Get classroom report
-          </Button>
+          <>
+            <Button
+              onClick={() =>
+                generateSemesterReport(classroomDetails?.classroomName, 'file')
+              }
+            >
+              Get semester report
+            </Button>
+            <Button
+              onClick={() =>
+                generateSubjectReport(classroomDetails?.classroomName, 'file')
+              }
+            >
+              Get subject report
+            </Button>
+          </>
         )}
         {account.role === 'STAFF' && (
           <Button
@@ -109,6 +121,78 @@ export function ClassroomDetails() {
           </Button>
         )}
       </HorizontalStack>
+      <Divider />
+      <VerticalStack>
+        {account.role !== 'STUDENT' && (
+          <Tabs
+            defaultValue={semesterNameList.at(0)}
+            variant={'outline'}
+            radius={'md'}
+          >
+            <Tabs.List position={'right'}>
+              {semesterNameList.map((semesterName) => (
+                <Tabs.Tab
+                  value={semesterName}
+                  key={'tabItem__' + semesterName}
+                >
+                  {semesterTr[semesterName]}
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+
+            {Object.entries(
+              generateSemesterReport(
+                classroomDetails?.classroomName,
+                'table'
+              ) || {}
+            ).map(([semesterName, semesterData]: [string, any]) => {
+              const subjectColumns = Object.keys(
+                semesterData.at(0) || {}
+              ).slice(1)
+              const studentCount = semesterData.length
+
+              return (
+                <Tabs.Panel
+                  value={semesterName}
+                  key={'tabPanel__' + semesterName}
+                >
+                  <HorizontalStack position={'center'}>
+                    <Plot
+                      data={[
+                        {
+                          x: subjectColumns,
+                          y: semesterData.map(
+                            ({ studentName }: any) => studentName
+                          ),
+                          z: semesterData.map(
+                            ({ studentName, ...subjects }: any) =>
+                              Object.keys(subjects).reduce(
+                                (result, subjectName) => [
+                                  ...result,
+                                  subjects[subjectName],
+                                ],
+                                []
+                              )
+                          ),
+                          type: 'heatmap',
+                          colorscale: [
+                            [0, '#FF6347'],
+                            [1, '#00FF7F'],
+                          ],
+                        },
+                      ]}
+                      layout={{
+                        title: semesterTr[semesterName],
+                        height: 35 * studentCount,
+                      }}
+                    />
+                  </HorizontalStack>
+                </Tabs.Panel>
+              )
+            })}
+          </Tabs>
+        )}
+      </VerticalStack>
       <Modal
         opened={updateModalState}
         onClose={closeUpdateModal}

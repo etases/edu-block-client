@@ -2,11 +2,13 @@
 import { ENDPOINT } from '@constants'
 import { request, toQueryString } from '@hooks/use-query/core'
 import { useQuery } from '@tanstack/react-query'
-import { notifyError, notifyInformation } from '@utilities/functions'
+import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as xlsx from 'xlsx'
 import { useClassroomListQuery } from '../classroom-list'
+
+export const semesterNameList = ['firstHalf', 'secondHalf', 'final']
 
 export function useReportQuery() {
   const { classroomId } = useParams()
@@ -17,6 +19,7 @@ export function useReportQuery() {
 
   const queryEndpoint = {
     classification: ENDPOINT.READ.CLASSIFICATION_LIST,
+    subject: ENDPOINT.READ.SUBJECT_LIST,
     classroom: ENDPOINT.READ.CLASSROOM_RECORD_LIST.replace(
       '{classroomId}',
       classroomId
@@ -49,6 +52,22 @@ export function useReportQuery() {
       // console.log(data)
     },
   })
+
+  const subjectQuery = useQuery({
+    queryKey: [],
+    queryFn: async function () {
+      return await request({
+        endpoint: queryEndpoint.subject,
+      })
+    },
+    select({ data }) {
+      return data.map((item) => item.identifier).sort()
+    },
+    onSuccess(data) {
+      // console.log(data)
+    },
+  })
+
   const classroomRecordQuery = useQuery({
     enabled: !!classroomId,
     queryKey: [queryEndpoint.classroom],
@@ -63,29 +82,7 @@ export function useReportQuery() {
       })
     },
     select({ data }) {
-      return data.map(
-        ({
-          classification,
-          entries,
-          classroom: { homeroomTeacher, ...classroom },
-          student: { account: student, profile },
-        }) => ({
-          student: { ...profile, ...student },
-          classroom,
-          classification: {
-            firstHalf: classification.firstHalfClassify.identifier,
-            secondHalf: classification.secondHalfClassify.identifier,
-            final: classification.finalClassify.identifier,
-          },
-          entries: entries
-            .sort((a, b) => Number(b.approvalDate) - Number(a.approvalDate))
-            .sort((a, b) => Number(a.subjectId) - Number(b.subjectId))
-            .filter(
-              (item, index, all) =>
-                all.at(index - 1)?.subjectId !== item.subjectId
-            ),
-        })
-      )
+      return transformApiModel(data)
     },
     onError(err) {
       notifyError({
@@ -111,29 +108,7 @@ export function useReportQuery() {
       })
     },
     select({ data }) {
-      return data.map(
-        ({
-          classification,
-          entries,
-          classroom: { homeroomTeacher, ...classroom },
-          student: { account: student, profile },
-        }) => ({
-          student: { ...profile, ...student },
-          classroom,
-          classification: {
-            firstHalf: classification.firstHalfClassify.identifier,
-            secondHalf: classification.secondHalfClassify.identifier,
-            final: classification.finalClassify.identifier,
-          },
-          entries: entries
-            .sort((a, b) => Number(b.approvalDate) - Number(a.approvalDate))
-            .sort((a, b) => Number(a.subjectId) - Number(b.subjectId))
-            .filter(
-              (item, index, all) =>
-                all.at(index - 1)?.subjectId !== item.subjectId
-            ),
-        })
-      )
+      return transformApiModel(data)
     },
     onError(err) {
       notifyError({ message: queryEndpoint.grade })
@@ -171,108 +146,206 @@ export function useReportQuery() {
       search,
     },
     utils: {
-      generateGradeReport: () =>
+      generateGradeReport: (returnType) =>
         gradeReport({
           year,
           grade,
+          semesterNameList: semesterNameList,
           data: gradeRecordQuery.data,
+          returnType,
         }),
-      generateClassificationReport: () =>
+      generateClassificationReport: (returnType) =>
         classificationReport({
-          classifications: classificationQuery.data,
+          classificationNameList: classificationQuery.data,
+          semesterNameList: semesterNameList,
           data: gradeRecordQuery.data,
           grade,
           year,
+          returnType,
         }),
-      generateClassroomReport: (classroomName) =>
-        classroomReport({
+      generateSubjectReport: (classroomName, returnType) =>
+        subjectReport({
           classroomName,
           data: classroomRecordQuery.data,
+          subjectNameList: subjectQuery.data,
+          returnType,
         }),
-      generateSubjectReport: (subjectName) =>
-        subjectReport({
-          subjectName,
+      generateSemesterReport: (classroomName, returnType) =>
+        semesterReport({
+          data: classroomRecordQuery.data,
+          semesterNameList: semesterNameList,
+          classroomName,
+          returnType,
         }),
     },
   }
 }
 
-function subjectReport({ data, subjectName, classroomName }) {
-  if (!data) return
+function transformApiModel(data) {
+  return data.map(
+    ({
+      classroom: { homeroomTeacher, ...classroom },
+      classification: {
+        firstHalfClassify: { identifier: firstHalf },
+        secondHalfClassify: { identifier: secondHalf },
+        finalClassify: { identifier: final },
+      },
+      student: { profile },
+      entries,
+    }) => ({
+      classroom,
+      classification: {
+        firstHalf: firstHalf,
+        secondHalf: secondHalf,
+        final: final,
+      },
+      student: profile,
+      ...entries
+        .map(
+          ({
+            subjectId,
+            subject: { identifier: subjectName },
+            firstHalfScore,
+            secondHalfScore,
+            finalScore,
+            approvalDate,
+          }) => ({
+            subjectId,
+            subjectName,
+            firstHalf: firstHalfScore,
+            secondHalf: secondHalfScore,
+            final: finalScore,
+            approvalDate,
+          })
+        )
+        .sort((a, b) => Number(b.approvalDate) - Number(a.approvalDate))
+        .sort((a, b) => a.subjectId - b.subjectId)
+        .filter(
+          (item, index, all) => all.at(index - 1).subjectId !== item.subjectId
+        )
+        .reduce(
+          (result, { subjectName, subjectId, approvalDate, ...record }) => ({
+            ...result,
+            [subjectName]: Object.entries(record).reduce(
+              (result, [name, value]) => ({
+                ...result,
+                [name]: Number(value).toFixed(2),
+              }),
+              {}
+            ),
+          }),
+          {}
+        ),
+    })
+  )
+}
+
+function subjectReport({ data, subjectNameList, classroomName, returnType }) {
+  if (!data || !subjectNameList) return
+
+  const formattedData = subjectNameList.reduce(
+    (result, subjectName) => ({
+      ...result,
+      [subjectName]: data.map(
+        ({ classroom, classification, student, ...subject }) => ({
+          studentName: [student.firstName, student.lastName].join(' '),
+          ...subject[subjectName],
+        })
+      ),
+    }),
+    {}
+  )
+
+  if (typeof returnType === 'undefined' || returnType !== 'file') {
+    return formattedData
+  }
 
   const subjectWb = xlsx.utils.book_new()
 
-  const jsonData = {}
-
-  const subjectWs = xlsx.utils.json_to_sheet(jsonData)
-
-  xlsx.utils.book_append_sheet(subjectWb, subjectWs)
+  Object.entries(formattedData).forEach(([subjectName, subjectData]) => {
+    xlsx.utils.book_append_sheet(
+      subjectWb,
+      xlsx.utils.json_to_sheet(subjectData),
+      subjectName
+    )
+  })
 
   xlsx.writeFileXLSX(
     subjectWb,
-    ['subjectReport', subjectName].join('_') + '.xlsx'
+    ['subjectReport', classroomName, dayjs().toISOString()].join('_') + '.xlsx'
   )
 }
-function classroomReport({ data, classroomName }) {
+
+function semesterReport({ data, semesterNameList, classroomName, returnType }) {
   if (!data) return
 
-  const classroomWb = xlsx.utils.book_new()
-
-  const jsonData = (data as any[]).map(({ student, entries }) => {
-    return {
-      Student: [student.firstName, student.lastName].join(' '),
-      ...(entries as any[]).reduce(
-        (result, current) => ({
-          ...result,
-          [current.subject.identifier]: [
-            current.firstHalfScore,
-            current.secondHalfScore,
-            current.finalScore,
-          ]
-            .map((score) => Number(score).toFixed(2))
-            .join('|'),
-        }),
-        {}
+  const formattedData = semesterNameList.reduce(
+    (result, semesterName) => ({
+      ...result,
+      [semesterName]: data.map(
+        ({ classroom, classification, student, ...subjects }) => ({
+          studentName: [student.firstName, student.lastName].join(' '),
+          ...Object.entries(subjects).reduce(
+            (result, [subjectName, subjectData]) => ({
+              ...result,
+              [subjectName]: subjectData[semesterName],
+            }),
+            {}
+          ),
+        })
       ),
-    }
+    }),
+    {}
+  )
+
+  if (typeof returnType === 'undefined' || returnType !== 'file')
+    return formattedData
+
+  const semesterWb = xlsx.utils.book_new()
+
+  Object.entries(formattedData).forEach(([semesterName, semesterData]) => {
+    xlsx.utils.book_append_sheet(
+      semesterWb,
+      xlsx.utils.json_to_sheet(semesterData),
+      semesterName
+    )
   })
 
-  console.table(jsonData)
-
-  const classroomWs = xlsx.utils.json_to_sheet(jsonData)
-
-  xlsx.utils.book_append_sheet(classroomWb, classroomWs)
-
   xlsx.writeFileXLSX(
-    classroomWb,
-    ['classroomReport', classroomName].join('_') + '.xlsx'
+    semesterWb,
+    ['semesterReport', classroomName, dayjs().toISOString()].join('_') + '.xlsx'
   )
 }
 
-function classificationReport({ classifications, grade, year, data }) {
-  if (!data || !classifications) return
+function classificationReport({
+  classificationNameList,
+  semesterNameList,
+  grade,
+  year,
+  data,
+  returnType,
+}) {
+  if (!data || !classificationNameList || !grade || !year) return
+
+  const formattedData = classificationNameList.map((classification) => ({
+    classification,
+    ...semesterNameList.reduce(
+      (result, semesterName) => ({
+        ...result,
+        [semesterName]: data.filter(
+          ({ classification: c }) => c[semesterName] === classification
+        ).length,
+      }),
+      {}
+    ),
+  }))
+
+  if (typeof returnType === 'undefined' || returnType !== 'file')
+    return formattedData
 
   const classificationWb = xlsx.utils.book_new()
 
-  const jsonData = (classifications as string[]).map((classification) => {
-    const firstHalfCount = data.filter(
-      ({ classification: c }) => c.firstHalf === classification
-    ).length
-    const secondHalfCount = data.filter(
-      ({ classification: c }) => c.secondHalf === classification
-    ).length
-    const finalCount = data.filter(
-      ({ classification: c }) => c.final === classification
-    ).length
-    return {
-      Type: classification,
-      'First half': firstHalfCount,
-      'Second half': secondHalfCount,
-      Final: finalCount,
-    }
-  })
-
-  const classificationWs = xlsx.utils.json_to_sheet(jsonData)
+  const classificationWs = xlsx.utils.json_to_sheet(formattedData)
 
   xlsx.utils.book_append_sheet(classificationWb, classificationWs)
 
@@ -282,20 +355,27 @@ function classificationReport({ classifications, grade, year, data }) {
   )
 }
 
-function gradeReport({ year, grade, data }) {
-  if (!data) return
+function gradeReport({ year, grade, semesterNameList, data, returnType }) {
+  if (!data || !year || !grade) return
 
-  const jsonData = data.map(({ student, classroom, classification }) => ({
-    Student: [student.firstName, student.lastName].join(' '),
-    Classroom: classroom.name,
-    'First half': classification.firstHalf,
-    'Second half': classification.secondHalf,
-    Final: classification.final,
+  const formattedData = data.map(({ student, classroom, classification }) => ({
+    studentName: [student.firstName, student.lastName].join(' '),
+    classroomName: classroom.name,
+    ...semesterNameList.reduce(
+      (result, semesterName) => ({
+        ...result,
+        [semesterName]: classification[semesterName],
+      }),
+      {}
+    ),
   }))
+
+  if (typeof returnType === 'undefined' || returnType !== 'file')
+    return formattedData
 
   const gradeReportWb = xlsx.utils.book_new()
 
-  const gradeReportWs = xlsx.utils.json_to_sheet(jsonData)
+  const gradeReportWs = xlsx.utils.json_to_sheet(formattedData)
 
   xlsx.utils.book_append_sheet(gradeReportWb, gradeReportWs)
 
