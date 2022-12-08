@@ -1,3 +1,4 @@
+import { API } from '@constants'
 import { useSubjectQuery } from '@hooks/use-query/queries'
 import { useMutation } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
@@ -12,7 +13,7 @@ export function useStudentRecordImageMutation() {
   const mutation = useMutation({
     mutationKey: [],
     mutationFn: async function (formData: FormData) {
-      return await fetch('http://localhost:8000/images', {
+      return await fetch(API.OCR_URL + '/images', {
         method: 'POST',
         body: formData,
       })
