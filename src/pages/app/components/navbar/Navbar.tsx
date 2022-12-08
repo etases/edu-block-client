@@ -42,6 +42,12 @@ const navItems = [
     role: ['TEACHER'],
   },
   {
+    to: '/app/verified-statistic-key-list',
+    label: 'Manage stats key list',
+    icon: <IconKey />,
+    role: ['ADMIN', 'STAFF'],
+  },
+  {
     to: '/app/verified-key-list',
     label: 'Manage verified keys',
     icon: <IconKey />,

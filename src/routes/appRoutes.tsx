@@ -18,6 +18,7 @@ import {
   Root,
   StaffAccountList,
   StaffDashboard,
+  StatisticKeyList,
   StudentAccountList,
   StudentDashboard,
   StudentProfile,
@@ -26,6 +27,8 @@ import {
   TeacherDashboard,
   Test,
   VerifiedKeyList,
+  VerifiedList,
+  VerifiedListRoot,
   VerifiedPage,
   VerifiedRoot,
 } from '@pages'
@@ -99,6 +102,17 @@ export const routes = ({ role = 'GUEST' }: { role: ROLE }): RouteObject => ({
         {
           path: ':accountId',
           element: <VerifiedPage />,
+        },
+      ],
+    },
+
+    {
+      path: 'verified-list',
+      element: <VerifiedListRoot />,
+      children: [
+        {
+          path: ':key',
+          element: <VerifiedList />,
         },
       ],
     },
@@ -262,6 +276,10 @@ export const routes = ({ role = 'GUEST' }: { role: ROLE }): RouteObject => ({
         {
           path: 'verified-key-list',
           element: <VerifiedKeyList />,
+        },
+        {
+          path: 'verified-statistic-key-list',
+          element: <StatisticKeyList />,
         },
         ...authRoutes[role],
       ],

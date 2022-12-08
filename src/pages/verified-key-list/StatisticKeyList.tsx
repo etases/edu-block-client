@@ -2,6 +2,7 @@ import {
   Button,
   HorizontalStack,
   IconButton,
+  SelectInput,
   Table,
   VerticalStack,
 } from '@components'
@@ -15,6 +16,7 @@ import {
   ThemeIcon,
   Title,
 } from '@mantine/core'
+import { useForm } from '@mantine/form'
 import {
   IconClipboard,
   IconClipboardCheck,
@@ -23,6 +25,7 @@ import {
   IconTrash,
 } from '@tabler/icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { QRCodeCanvas } from 'qrcode.react'
 import { forwardRef, useRef } from 'react'
 
@@ -42,72 +45,121 @@ const QRButtonComponent = forwardRef<HTMLDivElement>((props, ref) => (
   // </IconButton>
 ))
 
-export function VerifiedKeyList() {
-  const qrCodeRef = useRef<HTMLDivElement>(null)
+export function StatisticKeyList() {
   const queryClient = useQueryClient()
-  const { data: keyList = [] } = useQuery({
-    queryKey: [ENDPOINT.READ.VERIFIED_KEY_LIST],
+  const qrCodeRef = useRef<HTMLDivElement>(null)
+
+  const statisticKeyListQuery = useQuery({
+    queryKey: [ENDPOINT.READ.STATISTIC_KEY_LIST],
     queryFn: async function () {
       return await request({
-        endpoint: ENDPOINT.READ.VERIFIED_KEY_LIST,
+        endpoint: ENDPOINT.READ.STATISTIC_KEY_LIST,
       })
     },
-    select({ data = [] }: { data: string[] }) {
-      return data.map((item: string, index) => ({
-        key: item,
-        short: item.split('-').at(-1),
-      }))
+    select({ data }) {
+      return data.map(({ id, grade, year }: any) => ({ key: id, grade, year }))
+    },
+    onSuccess(data) {
+      notifyInformation({ message: 'Statistic key list synced' })
+    },
+    onError(err) {
+      notifyError({ message: ENDPOINT.READ.STATISTIC_KEY_LIST })
     },
   })
 
-  const { mutate: createKey } = useMutation({
+  const createStatisticKeyMutation = useMutation({
     mutationKey: [],
-    mutationFn: async function () {
+    mutationFn: async function (variables: { grade: number; year: number }) {
       return await request({
-        endpoint: ENDPOINT.CREATE.VERIFIED_KEY,
+        endpoint: ENDPOINT.CREATE.STATISTIC_KEY,
         method: 'POST',
+        body: { ...variables },
       })
     },
+    onError(error, variables, context) {
+      notifyError({ message: ENDPOINT.CREATE.STATISTIC_KEY })
+    },
     onSuccess(data, variables, context) {
+      notifyInformation({ message: data.message })
       queryClient.invalidateQueries({
         predicate(query) {
-          return (query.queryKey.at(0) as string).includes('updater')
+          return (query.queryKey.at(0) as string).includes('statistic')
         },
       })
     },
   })
-  const { mutate: deleteKey } = useMutation({
+
+  const createStatisticKeyForm = useForm<{ year: number; grade: number }>({
+    initialValues: {
+      grade: 0,
+      year: dayjs().year(),
+    },
+  })
+
+  const removeStatisticKeyMutation = useMutation({
     mutationKey: [],
-    mutationFn: async function (variables: { key: string }) {
+    mutationFn: async function (key: string) {
+      const endpoint = ENDPOINT.DELETE.STATISTIC_KEY.replace('{key}', key)
       return await request({
-        endpoint: ENDPOINT.DELETE.VERIFIED_KEY.replace('{key}', variables.key),
+        endpoint,
         method: 'DELETE',
       })
     },
+    onError(error, variables, context) {
+      notifyError({ message: ENDPOINT.DELETE.STATISTIC_KEY })
+    },
     onSuccess(data, variables, context) {
+      notifyInformation({ message: data.message })
       queryClient.invalidateQueries({
         predicate(query) {
-          return (query.queryKey.at(0) as string).includes('updater')
+          return (query.queryKey.at(0) as string).includes('statistic')
         },
       })
     },
   })
+
   return (
     <VerticalStack>
-      {/* <HorizontalStack>List</HorizontalStack> */}
       <HorizontalStack position={'apart'}>
-        <Title>Verified Access Token</Title>
-        <HorizontalStack>
-          <Button onClick={() => createKey()}>Create new key</Button>
-        </HorizontalStack>
+        <Title>Verified Statistic Access Token</Title>
+      </HorizontalStack>
+      <Divider />
+      <HorizontalStack grow={true}>
+        <SelectInput
+          placeholder={'Grade'}
+          data={Array.from(Array(12), (v, k) => k + 1).map((grade) => ({
+            value: grade,
+            label: ['Grade', grade].join(' '),
+          }))}
+          {...createStatisticKeyForm.getInputProps('grade')}
+        />
+        <SelectInput
+          placeholder={'Year'}
+          data={Array.from(Array(10), (v, k) => k).map((i) => {
+            const year = dayjs()
+              .subtract(9 - i, 'year')
+              .year()
+            return {
+              value: year,
+              label: year.toString(),
+            }
+          })}
+          {...createStatisticKeyForm.getInputProps('year')}
+        />
+        <Button
+          onClick={() =>
+            createStatisticKeyMutation.mutate(createStatisticKeyForm.values)
+          }
+        >
+          Create new Statistic key
+        </Button>
       </HorizontalStack>
       <Divider />
       <Table
-        tableData={keyList.map((item) => ({
+        tableData={statisticKeyListQuery.data?.map((item: any) => ({
           ...item,
           key: (
             <HorizontalStack>
-              {/* <QRCodeCanvas value={item.key} /> */}
               <HoverCard position={'bottom-start'}>
                 <HoverCard.Target>
                   <QRButtonComponent />
@@ -166,8 +218,8 @@ export function VerifiedKeyList() {
             <HorizontalStack>
               <IconButton
                 label={'Remove key'}
+                onClick={() => removeStatisticKeyMutation.mutate(item.key)}
                 color={'red'}
-                onClick={() => deleteKey({ key: item.key })}
               >
                 <IconTrash />
               </IconButton>
@@ -179,6 +231,14 @@ export function VerifiedKeyList() {
             identifier: 'key',
             label: 'Key',
             align: 'left',
+          },
+          {
+            identifier: 'grade',
+            label: 'Grade',
+          },
+          {
+            identifier: 'year',
+            label: 'Year',
           },
           {
             identifier: 'actions',

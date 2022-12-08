@@ -17,6 +17,12 @@ export function SpotlightProvider(props: { children: ReactNode }) {
             window.location.href = '/verified'
           },
         },
+        {
+          title: 'View verified data list',
+          onTrigger(action) {
+            window.location.href = '/verified-list'
+          },
+        },
       ]}
     >
       {children}

@@ -14,6 +14,7 @@ export const ENDPOINT = {
     CLASSROOM_STUDENT: '/classroom/{id}/student',
     CLASSROOM_TEACHER: '/classroom/{id}/teacher',
     VERIFIED_KEY: '/updater',
+    STATISTIC_KEY: '/statistic',
   },
   READ: {
     PERSONAL_ACCOUNT_INFORMATION: '/account',
@@ -37,6 +38,8 @@ export const ENDPOINT = {
     CLASSIFICATION_LIST: '/classification/list',
     CLASSROOM_RECORD_LIST: '/record/list/classroom/{classroomId}',
     GRADE_RECORD_LIST: '/record/list/grade/{grade}/{year}',
+    STATISTIC_KEY_LIST: '/statistic/list',
+    VERIFIED_RECORD_LIST: '/statistic/{key}',
   },
   UPDATE: {
     ACCOUNT_PASSWORD: '/account/list/password',
@@ -53,5 +56,6 @@ export const ENDPOINT = {
     CLASSROOM_STUDENT: '/classroom/{id}/student',
     CLASSROOM_TEACHER: '/classroom/{id}/teacher',
     VERIFIED_KEY: '/updater/{key}',
+    STATISTIC_KEY: '/statistic/{key}',
   },
 }

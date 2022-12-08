@@ -1,10 +1,14 @@
-import { showNotification } from '@mantine/notifications'
+import {
+  cleanNotificationsQueue,
+  showNotification,
+} from '@mantine/notifications'
 
 interface NotifyProps {
   message: string
 }
 
 export function notifyInformation({ message }: NotifyProps) {
+  cleanNotificationsQueue()
   showNotification({
     title: 'Information',
     color: 'blue',
