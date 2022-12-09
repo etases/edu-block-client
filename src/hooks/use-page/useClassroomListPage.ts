@@ -4,6 +4,7 @@ import {
   useAccountListByRoleQuery,
   useClassroomListQuery,
 } from '@hooks/use-query'
+import { useAccountStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useNavigate } from 'react-router-dom'
@@ -170,6 +171,8 @@ export function useClassroomListPage() {
 
   const navigate = useNavigate()
 
+  const { account } = useAccountStore()
+
   return {
     table: { tableHeaders, classroomList: classroomsData || [] },
     form: { createClassroomForm },
@@ -194,6 +197,7 @@ export function useClassroomListPage() {
       searchSelectTeacherOption,
       navigate,
       teacherList: teacherList || [],
+      account,
     },
   }
 }

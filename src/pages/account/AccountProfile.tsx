@@ -35,9 +35,11 @@ export function AccountProfile() {
       <HorizontalStack position={'apart'}>
         <Title>Account Profile</Title>
         <HorizontalStack>
-          <Button onClick={passwordModal.openPasswordUpdateModal}>
-            Change password
-          </Button>
+          {account.id === accountProfile?.id && (
+            <Button onClick={passwordModal.openPasswordUpdateModal}>
+              Change password
+            </Button>
+          )}
           {(account.role === 'STAFF' || account.role === 'ADMIN') &&
             account.id === accountProfile?.id && (
               <Button

@@ -39,9 +39,7 @@ export function useStudentRecordQuery() {
     })
 
   const query = useQuery({
-    enabled:
-      (!!accountId || !!classroomId) &&
-      (account.role === 'TEACHER' || account.role === 'STUDENT'),
+    enabled: !!accountId || !!classroomId,
     queryKey: [endpoint],
     queryFn: async function () {
       return await request({

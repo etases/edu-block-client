@@ -48,6 +48,7 @@ export function ClassroomList() {
       searchSelectTeacherOption,
       navigate,
       teacherList,
+      account,
     },
     form: { createClassroomForm },
     state: {
@@ -91,12 +92,14 @@ export function ClassroomList() {
             >
               Search
             </Button>
-            <Button
-              leftIcon={<IconClipboardPlus />}
-              onClick={openClassroomCreateModal}
-            >
-              Create
-            </Button>
+            {account.role === 'STAFF' && (
+              <Button
+                leftIcon={<IconClipboardPlus />}
+                onClick={openClassroomCreateModal}
+              >
+                Create
+              </Button>
+            )}
           </HorizontalStack>
           <Pagination
             total={totalPages}

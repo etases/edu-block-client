@@ -74,12 +74,14 @@ export function AccountList() {
             >
               Search
             </Button>
-            <Button
-              leftIcon={<IconUserPlus />}
-              onClick={createModalState ? closeCreateModal : openCreateModal}
-            >
-              Create
-            </Button>
+            {accountRole === 'ADMIN' && (
+              <Button
+                leftIcon={<IconUserPlus />}
+                onClick={createModalState ? closeCreateModal : openCreateModal}
+              >
+                Create
+              </Button>
+            )}
           </HorizontalStack>
           <Pagination
             total={totalPages}

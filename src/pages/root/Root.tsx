@@ -9,7 +9,10 @@ export function Root() {
   const { spacing, navigate, loading, i18n } = useRootPage()
 
   return (
-    <ScrollArea sx={{ width: '100%', height: '100%' }}>
+    <ScrollArea
+      sx={{ width: '100%', height: '100%' }}
+      scrollHideDelay={100}
+    >
       <Fragment>
         <Outlet />
         {/* <LoadingOverlay
