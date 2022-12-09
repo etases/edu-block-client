@@ -19,11 +19,6 @@ interface NavBarProps {
 
 const navItems = [
   {
-    to: '/app/dashboard',
-    label: 'Dashboard',
-    icon: <IconDashboard />,
-  },
-  {
     to: '/app/account-list',
     label: 'Account',
     icon: <IconUsers />,
@@ -78,6 +73,23 @@ export function Navbar(props: NavBarProps) {
           // py={'md'}
           spacing={0}
         >
+          <NavLink
+            // styles={(theme) => ({
+            //   root: {
+            //     ':hover': {
+            //       filter: 'brightness(0.95)',
+            //     },
+            //   },
+            // })}
+            component={Link}
+            to={'/app/dashboard/' + accountRole?.toLowerCase()}
+            label={'Dashboard'}
+            // sx={{
+            //   cursor: 'pointer',
+            // }}
+            icon={<IconDashboard />}
+            active={location.pathname.startsWith('/app/dashboard')}
+          />
           {navItems
             .filter(
               ({ role = [] }) => role.includes(accountRole) || role.length === 0

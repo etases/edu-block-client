@@ -3,6 +3,8 @@ import {
   useRecordPendingListQuery,
   useRecordPendingVerifyMutation,
 } from '@hooks/use-query'
+import { useTitleStore } from '@hooks/use-store'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const tableHeaders: TableHeaderProps<
@@ -68,7 +70,15 @@ const tableHeaders: TableHeaderProps<
   },
 ]
 
+const PAGE_TITLE = 'Pending requests'
+
 export function useRecordListPage() {
+  const { setTitle } = useTitleStore()
+
+  useEffect(() => {
+    setTitle(PAGE_TITLE)
+  }, [])
+
   const {
     query: { data: requestList },
   } = useRecordPendingListQuery()

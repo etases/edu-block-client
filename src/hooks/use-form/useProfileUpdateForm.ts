@@ -1,7 +1,6 @@
 import { useProfileUpdateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
-import { notifyInformation } from '@utilities/functions'
-import dayjs from 'dayjs'
+import { dayjs, notifyInformation } from '@utilities/functions'
 
 interface FormInterface {
   firstName: string
@@ -27,8 +26,22 @@ export function useProfileUpdateForm() {
       phone: '',
     },
     validate: {
-      // email: (value) => /.+@.+/.test(value),
-      // phone: (value) => /(\+84|0)[93]\d{8}/.test(value),
+      email: (value) =>
+        /^[a-z].+@.+\.[a-z]{2,}$/.test(value) || value.length === 0
+          ? null
+          : 'Invalid email format',
+      phone: (value) =>
+        /^\d{10}$/.test(value)
+          ? null
+          : 'Only 10 digits phone number are supported',
+      birthDate: (value) =>
+        dayjs(value).isBefore(dayjs().subtract(6, 'year').startOf('year'))
+          ? null
+          : 'Member age must be above 6',
+      address: (value) =>
+        value.length > 0 ? null : 'Address can not be empty',
+      firstName: (value) => (value.length > 1 ? null : 'Invalid name'),
+      lastName: (value) => (value.length > 1 ? null : 'Invalid name'),
     },
     validateInputOnBlur: true,
   })

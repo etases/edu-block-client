@@ -3,10 +3,19 @@ import {
   useProfileUpdateForm,
 } from '@hooks/use-form'
 import { useAccountInfoQuery } from '@hooks/use-query'
-import { useAccountStore } from '@hooks/use-store'
+import { useAccountStore, useTitleStore } from '@hooks/use-store'
 import { useDisclosure } from '@mantine/hooks'
+import { useEffect } from 'react'
+
+const PAGE_TITLE = 'Profile'
 
 export function useAccountProfilePage() {
+  const { setTitle } = useTitleStore()
+
+  useEffect(() => {
+    setTitle(PAGE_TITLE)
+  }, [])
+
   const {
     query: { data },
   } = useAccountInfoQuery()

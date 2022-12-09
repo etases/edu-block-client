@@ -5,9 +5,10 @@ import {
   useClassroomStudentDeleteMutation,
   useClassroomStudentQuery,
 } from '@hooks/use-query'
-import { useAccountStore } from '@hooks/use-store'
+import { useAccountStore, useTitleStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const tableHeaders: TableHeaderProps<
@@ -74,7 +75,15 @@ const searchSelectOption: SelectItem[] = [
   },
 ]
 
+const PAGE_TITLE = 'Classroom students'
+
 export function useClassroomStudentsPage() {
+  const { setTitle } = useTitleStore()
+
+  useEffect(() => {
+    setTitle(PAGE_TITLE)
+  }, [])
+
   const {
     query: { data: classroomStudents },
   } = useClassroomStudentQuery()

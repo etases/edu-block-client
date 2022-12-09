@@ -13,7 +13,7 @@ const tabItems = [
   {
     value: 'students',
     label: 'Students',
-    role: ['STAFF', 'TEACHER'],
+    role: ['STAFF', 'ADMIN', 'TEACHER'],
   },
   {
     value: 'teachers',

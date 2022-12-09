@@ -48,6 +48,7 @@ export function ClassroomList() {
       searchSelectTeacherOption,
       navigate,
       teacherList,
+      account,
     },
     form: { createClassroomForm },
     state: {
@@ -91,12 +92,14 @@ export function ClassroomList() {
             >
               Search
             </Button>
-            <Button
-              leftIcon={<IconClipboardPlus />}
-              onClick={openClassroomCreateModal}
-            >
-              Create
-            </Button>
+            {account.role === 'STAFF' && (
+              <Button
+                leftIcon={<IconClipboardPlus />}
+                onClick={openClassroomCreateModal}
+              >
+                Create
+              </Button>
+            )}
           </HorizontalStack>
           <Pagination
             total={totalPages}
@@ -167,11 +170,13 @@ export function ClassroomList() {
               <HorizontalStack>
                 <TextInput
                   required={true}
+                  withAsterisk={true}
                   placeholder={'Classroom name'}
                   {...createClassroomForm.inputPropsOf('name')}
                 />
                 <AutocompleteInput
                   required={true}
+                  withAsterisk={true}
                   data={Array.from(new Array(12)).map((item, index) =>
                     (index + 1).toString()
                   )}
@@ -180,6 +185,7 @@ export function ClassroomList() {
                 />
                 <AutocompleteInput
                   required={true}
+                  withAsterisk={true}
                   data={Array.from(Array(5)).map((item, index) =>
                     (index + dayjs().get('year')).toString()
                   )}
@@ -193,7 +199,8 @@ export function ClassroomList() {
                   data={searchSelectTeacherOption}
                 />
                 <SelectInput
-                  // required={true}
+                  required={true}
+                  withAsterisk={true}
                   size={'md'}
                   radius={'md'}
                   placeholder={'Teacher'}
@@ -236,6 +243,7 @@ export function ClassroomList() {
                   color={'red'}
                   onClick={createClassroomForm.form.reset}
                   leftIcon={<IconClearAll />}
+                  type={'reset'}
                 >
                   Clear data
                 </Button>

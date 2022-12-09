@@ -1,4 +1,5 @@
 import { Button, Grid, GridCol, TextInput, VerticalStack } from '@components'
+import { Divider } from '@mantine/core'
 import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
@@ -30,6 +31,7 @@ export function VerifiedRoot() {
           </Button>
         </GridCol>
       </Grid>
+      <Divider />
       {/* </HorizontalStack> */}
       <Outlet />
     </VerticalStack>

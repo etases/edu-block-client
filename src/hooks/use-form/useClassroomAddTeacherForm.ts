@@ -5,6 +5,9 @@ import { notifyInformation } from '@utilities/functions'
 interface TeacherInterface {
   teacherId: string
   subjectId: string
+  name: string
+  avatar: string
+  subject: string
 }
 
 interface FormInterface {
@@ -14,12 +17,7 @@ interface FormInterface {
 export function useClassroomAddTeacherForm() {
   const form = useForm<FormInterface>({
     initialValues: {
-      teachers: [
-        {
-          subjectId: '0',
-          teacherId: '0',
-        },
-      ],
+      teachers: [],
     },
   })
 
@@ -29,9 +27,7 @@ export function useClassroomAddTeacherForm() {
 
   const submitForm = form.onSubmit((values) => {
     addTeacher({
-      ...values,
       teachers: values.teachers.map((item) => ({
-        ...item,
         subjectId: parseInt(item.subjectId),
         teacherId: parseInt(item.teacherId),
       })),
@@ -41,16 +37,17 @@ export function useClassroomAddTeacherForm() {
     })
   })
 
-  function addTeacherToList(teacher?: TeacherInterface) {
-    form.insertListItem('teachers', teacher || {})
+  function addTeacherToList(teacher: any) {
+    if (
+      form.values.teachers.findIndex(
+        (tc) => tc.subjectId === teacher.subjectId
+      ) < 0
+    )
+      form.insertListItem('teachers', teacher)
   }
 
-  function removeTeacherFromList(index?: number) {
-    if (form.values.teachers.length === 1) {
-      form.reset()
-      return
-    }
-    form.removeListItem('teachers', index || form.values.teachers.length - 1)
+  function removeTeacherFromList(index: number) {
+    form.removeListItem('teachers', index)
   }
 
   return {

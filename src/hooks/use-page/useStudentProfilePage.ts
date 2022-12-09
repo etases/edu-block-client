@@ -4,11 +4,19 @@ import {
 } from '@hooks/use-form'
 import { useAccountInfoQuery, useSubjectQuery } from '@hooks/use-query'
 import { useStudentClassroomListQuery } from '@hooks/use-query/queries/classroom-list/useStudentClassroomListQuery'
-import { useAccountStore } from '@hooks/use-store'
+import { useAccountStore, useTitleStore } from '@hooks/use-store'
 import { useDisclosure } from '@mantine/hooks'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+const PAGE_TITLE = 'Student profile'
+
 export function useStudentProfilePage() {
+  const { setTitle } = useTitleStore()
+
+  useEffect(() => {
+    setTitle(PAGE_TITLE)
+  }, [])
   const {
     query: { data },
   } = useAccountInfoQuery()

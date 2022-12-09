@@ -45,7 +45,7 @@ export function Table<TIdentifier extends string | number>(
 
   return (
     <ScrollArea
-      sx={{ maxWidth: `calc(100vw - ${spacing.md * 2}px)`, minHeight: '50vh' }}
+      sx={{ maxWidth: `calc(100vw - ${spacing.md * 2}px)`, minHeight: '70vh' }}
     >
       <MTable
         fontSize={'sm'}

@@ -5,9 +5,10 @@ import {
   useProfileUpdateForm,
 } from '@hooks/use-form'
 import { useAccountListQuery } from '@hooks/use-query'
-import { useAccountStore } from '@hooks/use-store'
+import { useAccountStore, useTitleStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const tableHeaders: TableHeaderProps<
@@ -108,7 +109,15 @@ const roleColor = {
   STUDENT: 'violet',
 }
 
+const PAGE_TITLE = 'Account list'
+
 export function useAccountListPage() {
+  const { setTitle } = useTitleStore()
+
+  useEffect(() => {
+    setTitle(PAGE_TITLE)
+  }, [])
+
   const {
     query: { data },
     state,

@@ -3,13 +3,13 @@ import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
 
 interface FormInterface {
-  accounts: string[]
+  accounts: any[]
 }
 
 export function useClassroomAddStudentForm() {
   const form = useForm<FormInterface>({
     initialValues: {
-      accounts: ['0'],
+      accounts: [],
     },
   })
 
@@ -19,24 +19,25 @@ export function useClassroomAddStudentForm() {
 
   const submitForm = form.onSubmit((values) => {
     addStudent({
-      ...values,
-      accounts: values.accounts.map((item) => parseInt(item)),
+      accounts: values.accounts.map((item) => parseInt(item.id)),
     })
+    // console.log(values.accounts.map((item) => parseInt(item.id)))
     notifyInformation({
       message: `Submitted list of new students for this classroom`,
     })
   })
 
-  function addStudentToList(student?: number) {
-    form.insertListItem('account', student || {})
+  function addStudentToList(student: {
+    id: number
+    name: string
+    avatar?: string
+  }) {
+    if (form.values.accounts.indexOf(student) < 0)
+      form.insertListItem('accounts', student)
   }
 
-  function removeStudentFromList(index?: number) {
-    if (form.values.accounts.length === 1) {
-      form.reset()
-      return
-    }
-    form.removeListItem('account', index || form.values.accounts.length - 1)
+  function removeStudentFromList(index: number) {
+    form.removeListItem('accounts', index)
   }
 
   return {

@@ -49,7 +49,7 @@ export async function request<TBody>(props: RequestProps<TBody>) {
     body: {},
     query: {},
     method: 'GET',
-    baseUrl: import.meta.env.VITE_BASE_API_URL,
+    baseUrl: import.meta.env.VITE_RS_API_BASE_URL,
     token: localStorage.getItem('accessToken') || '',
     ...props,
   }

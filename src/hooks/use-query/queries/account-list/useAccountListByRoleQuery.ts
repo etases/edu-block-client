@@ -35,6 +35,7 @@ export function useAccountListByRoleQuery(
   const [selectedField, setSelectedField] = useState('')
   const [searchLimit, setSearchLimit] = useState(limit)
   const [debouncedSearchText] = useDebouncedValue(searchText, 500)
+  const [dataState, setDataState] = useState<any[]>([])
 
   function resetCurrentPage() {
     setCurrentPage(0)
@@ -61,6 +62,9 @@ export function useAccountListByRoleQuery(
     queryFn: async function () {
       return await request({
         endpoint,
+      }).then((response) => {
+        // if (response.data?.length === 0) throw new Error('Error')
+        return response
       })
     },
     select(data) {
@@ -95,12 +99,16 @@ export function useAccountListByRoleQuery(
     },
     onSuccess(data) {
       notifyInformation({ message: `List of ${role.toLowerCase()}s synced` })
+      if (data.length > 0) setDataState(data)
     },
     onSettled(data, error) {},
   })
 
   return {
-    query,
+    query: {
+      ...query,
+      data: dataState,
+    },
     state: {
       role: {
         selectedRole,

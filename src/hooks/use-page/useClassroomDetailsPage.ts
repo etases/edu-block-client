@@ -4,9 +4,10 @@ import {
   useClassroomQuery,
   useReportQuery,
 } from '@hooks/use-query'
-import { useAccountStore } from '@hooks/use-store'
+import { useAccountStore, useTitleStore } from '@hooks/use-store'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { useEffect } from 'react'
 
 const searchSelectCategoryGroup = {
   id: 'Identity',
@@ -47,7 +48,15 @@ const searchSelectOption: SelectItem[] = [
   },
 ]
 
+const PAGE_TITLE = 'Classroom details'
+
 export function useClassroomDetailsPage() {
+  const { setTitle } = useTitleStore()
+
+  useEffect(() => {
+    setTitle(PAGE_TITLE)
+  }, [])
+
   const {
     query: { data: classroomDetails },
   } = useClassroomQuery()

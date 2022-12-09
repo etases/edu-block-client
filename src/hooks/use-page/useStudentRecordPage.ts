@@ -84,11 +84,11 @@ export function useStudentRecordPage() {
     pageStyle() {
       return `
       @media print {
-        table > thead > tr > td:last-child {
+        table > thead > tr > td:nth-last-child(-n+3) {
           display: none
         }
 
-        table > tbody > tr > td:last-child {
+        table > tbody > tr > td:nth-last-child(-n+3) {
           display: none
         }
       }
