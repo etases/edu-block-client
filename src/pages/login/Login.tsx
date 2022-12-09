@@ -83,7 +83,7 @@ export function Login() {
                 {...inputPropsOf('password')}
               />
               <HorizontalStack grow={true}>
-                <Button type={'submit'}>Login</Button>
+                <Button variant="gradient"  size="md" radius="md" type={'submit'}>Login</Button>
               </HorizontalStack>
             </VerticalStack>
           </form >

@@ -88,10 +88,16 @@ const useStyles = createStyles((theme) => ({
 
   control: {
     marginTop: theme.spacing.xl * 1.5,
+    marginRight: theme.spacing.xl,
 
     [theme.fn.smallerThan('sm')]: {
       width: '100%',
     },
+  },
+
+
+  btn: {
+    margin: '4px 12px',
   },
 }));
 
@@ -111,11 +117,20 @@ export function Home() {
           WE ARE <br></br>{'  '}<span className={classes.highlight}>EDUBLOCK</span>
         </Title>
         <Text className={classes.description} size="xl" mt="xl">
-          A Blockchain-Based System for Electronic Academic Records Access and Permissions Management
+          A Blockchain-Based System for Electronic Academic Records <br></br>
+          Access and Permissions Management
         </Text>
-        <Button variant="gradient" size="xl" radius="xl" className={classes.control} onClick={() => navigate('/login')}>
-          Get started
-        </Button>
+        <div >
+          <Button variant="gradient" gradient={{ from: 'blue', to: 'teal' }} size="xl" radius="xl" className={classes.control} onClick={() => navigate('/login')}>
+            Get started
+          </Button>
+          <Button variant="gradient" gradient={{ from: 'cyan', to: 'lime' }} size="md" radius="xl" className={classes.control} onClick={() => { window.location.href = '/verified' }}>
+            Student
+          </Button>
+          <Button variant="gradient" gradient={{ from: 'cyan', to: 'lime' }} size="md" radius="xl" className={classes.control} onClick={() => { window.location.href = '/verified-list' }}>
+            Grade
+          </Button>
+        </div>
       </Container>
     </div>
   );

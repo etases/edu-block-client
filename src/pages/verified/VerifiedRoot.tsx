@@ -18,7 +18,7 @@ export function VerifiedRoot() {
           />
         </GridCol>
         <GridCol span={2}>
-          <Button
+          <Button variant="gradient" size="md" radius="md"
             onClick={() =>
               navigate(id, {
                 replace: false,
