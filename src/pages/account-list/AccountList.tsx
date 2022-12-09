@@ -111,9 +111,10 @@ export function AccountList() {
                 // withAsterisk={true}
                 icon={<IconUserSearch />}
                 // value={searchText}
-                onChange={({ currentTarget: { value } }) =>
+                onChange={({ currentTarget: { value } }) => {
                   setSearchText(value)
-                }
+                  setCurrentPage(1)
+                }}
               />
             </GridCol>
           </Grid>

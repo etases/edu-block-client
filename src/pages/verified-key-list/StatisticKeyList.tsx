@@ -8,6 +8,7 @@ import {
 } from '@components'
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query'
+import { useTitleStore } from '@hooks/use-store'
 import {
   CopyButton,
   Divider,
@@ -27,7 +28,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { QRCodeCanvas } from 'qrcode.react'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 
 const QRButtonComponent = forwardRef<HTMLDivElement>((props, ref) => (
   // <IconButton
@@ -45,7 +46,15 @@ const QRButtonComponent = forwardRef<HTMLDivElement>((props, ref) => (
   // </IconButton>
 ))
 
+const PAGE_TITLE = 'Statistic key list'
+
 export function StatisticKeyList() {
+  const { setTitle } = useTitleStore()
+
+  useEffect(() => {
+    setTitle(PAGE_TITLE)
+  }, [])
+
   const queryClient = useQueryClient()
   const qrCodeRef = useRef<HTMLDivElement>(null)
 

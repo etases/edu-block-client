@@ -18,8 +18,12 @@ export function useClassroomCreateForm() {
       year: new Date().getFullYear().toString(),
     },
     validate: {
-      // name: (value) => value.length > 0,
-      // grade: (value) => value > 0 && value < 13,
+      name: (value) => (value.length > 0 ? null : 'Invalid name'),
+      grade: (value) =>
+        Number(value) > 0 && Number(value) < 13 ? null : 'Invalid grade',
+      year: (value) => (value.length === 4 ? null : 'Invalid year'),
+      homeroomTeacherId: (value) =>
+        value.length > 0 ? null : 'A teacher must be chosen',
     },
     validateInputOnBlur: true,
   })

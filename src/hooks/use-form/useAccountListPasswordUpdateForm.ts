@@ -15,8 +15,11 @@ export function useAccountListPasswordUpdateForm() {
   const form = useForm<FormInterface>({
     validate: {
       accounts: {
-        // username: (value) => /.{3,}/.test(value),
-        // password: (value) => /.{6,}/.test(value),
+        username: (value) => /.{3,}/.test(value) && null,
+        password: (value) =>
+          /.{6,}/.test(value)
+            ? null
+            : 'Password length must be 6 characters or above',
       },
     },
     validateInputOnBlur: true,

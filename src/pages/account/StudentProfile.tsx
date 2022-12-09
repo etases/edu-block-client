@@ -239,6 +239,7 @@ export function StudentProfile() {
                 <Button
                   leftIcon={<IconClearAll />}
                   color={'red'}
+                  type={'reset'}
                 >
                   Reset
                 </Button>
