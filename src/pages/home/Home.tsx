@@ -1,9 +1,9 @@
-import { HorizontalStack, VerticalStack } from '@components'
-import { useHomePage } from '@hooks/use-page'
-import { Button, Center, Title } from '@mantine/core'
-import { createStyles, Container, Text } from '@mantine/core';
+// import { HorizontalStack, VerticalStack } from '@components'
+// import { useHomePage } from '@hooks/use-page'
+// import { Button, Center, Title } from '@mantine/core'
+// import { createStyles, Container, Text } from '@mantine/core';
 
-const PAGE_TITLE = 'Home'
+// const PAGE_TITLE = 'Home'
 
 // export function Home() {
 //   const { navigate } = useHomePage()
@@ -21,122 +21,101 @@ const PAGE_TITLE = 'Home'
 //           <Button onClick={() => navigate('/login')}>Login</Button>
 //         </HorizontalStack>
 //       </VerticalStack>
-//     </Center>
+// //     </Center>
+// const { navigate } = useHomePage()
+// <Button onClick={() => navigate('/login')}>Login</Button>
 //   )
 // }
+import { useHomePage } from '@hooks/use-page'
+import { createStyles, Overlay, Container, Title, Button, Text } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
-  root: {
-    backgroundColor: '#11284b',
+  hero: {
+    position: 'relative',
+    backgroundImage:
+      'url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    backgroundImage:
-      'linear-gradient(250deg, rgba(130, 201, 30, 0) 0%, #062343 70%), url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1080&q=80)',
-    paddingTop: theme.spacing.xl * 3,
-    paddingBottom: theme.spacing.xl * 3,
   },
 
-  inner: {
+  container: {
+    height: 700,
     display: 'flex',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
+    paddingBottom: theme.spacing.xl * 6,
+    zIndex: 1,
+    position: 'relative',
 
-    [theme.fn.smallerThan('md')]: {
-      flexDirection: 'column',
+    [theme.fn.smallerThan('sm')]: {
+      height: 500,
+      paddingBottom: theme.spacing.xl * 3,
     },
   },
-
-  image: {
-    [theme.fn.smallerThan('md')]: {
-      display: 'none',
-    },
+  highlight: {
+    position: 'relative',
+    backgroundColor: theme.fn.variant({ variant: 'filled', color: theme.primaryColor }).background,
+    borderRadius: theme.radius.sm,
+    padding: '4px 12px',
   },
-
-  content: {
-    paddingTop: theme.spacing.xl * 2,
-    paddingBottom: theme.spacing.xl * 2,
-    marginRight: theme.spacing.xl * 3,
-
-    [theme.fn.smallerThan('md')]: {
-      marginRight: 0,
-    },
-  },
-
   title: {
     color: theme.white,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontSize: 80,
     fontWeight: 900,
-    lineHeight: 1.05,
-    maxWidth: 500,
-    fontSize: 48,
+    lineHeight: 1.3,
 
-    [theme.fn.smallerThan('md')]: {
-      maxWidth: '100%',
-      fontSize: 34,
-      lineHeight: 1.15,
+    [theme.fn.smallerThan('sm')]: {
+      fontSize: 40,
+      lineHeight: 1.2,
+    },
+
+    [theme.fn.smallerThan('xs')]: {
+      fontSize: 28,
+      lineHeight: 1.3,
     },
   },
 
   description: {
     color: theme.white,
-    opacity: 0.75,
-    maxWidth: 500,
+    maxWidth: 600,
 
-    [theme.fn.smallerThan('md')]: {
+    [theme.fn.smallerThan('sm')]: {
       maxWidth: '100%',
+      fontSize: theme.fontSizes.sm,
     },
   },
 
   control: {
-    paddingLeft: 50,
-    paddingRight: 50,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
-    fontSize: 22,
+    marginTop: theme.spacing.xl * 1.5,
 
-    [theme.fn.smallerThan('md')]: {
+    [theme.fn.smallerThan('sm')]: {
       width: '100%',
     },
   },
 }));
 
 export function Home() {
-  const { navigate } = useHomePage()
   const { classes } = useStyles();
+  const { navigate } = useHomePage()
+
   return (
-    <div className={classes.root}>
-      <Container size="lg">
-        <div className={classes.inner}>
-          <div className={classes.content}>
-            <Title className={classes.title}>
-              A{' '}
-              <Text
-                component="span"
-                inherit
-                variant="gradient"
-                gradient={{ from: 'pink', to: 'yellow' }}
-              >
-                fully featured
-              </Text>{' '}
-              React components library
-            </Title>
-
-            <Text className={classes.description} mt={30}>
-              Build fully functional accessible web applications with ease – Mantine includes more
-              than 100 customizable components and hooks to cover you in any situation
-            </Text>
-
-            <Button
-              variant="gradient"
-              gradient={{ from: 'pink', to: 'yellow' }}
-              size="xl"
-              className={classes.control}
-              mt={40}
-              onClick={() => navigate('/login')}
-            >
-              Get started
-            </Button>
-            
-          </div>
-        </div>
+    <div className={classes.hero}>
+      <Overlay
+        gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, .65) 40%)"
+        opacity={1}
+        zIndex={0}
+      />
+      <Container className={classes.container}>
+        <Title className={classes.title}>
+          WE ARE <br></br>{'  '}<span className={classes.highlight}>EDUBLOCK</span>
+        </Title>
+        <Text className={classes.description} size="xl" mt="xl">
+          A Blockchain-Based System for Electronic Academic Records Access and Permissions Management
+        </Text>
+        <Button variant="gradient" size="xl" radius="xl" className={classes.control} onClick={() => navigate('/login')}>
+          Get started
+        </Button>
       </Container>
     </div>
   );
