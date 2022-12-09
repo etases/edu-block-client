@@ -6,6 +6,7 @@ import {
   Modal,
   SelectInput,
   Table,
+  TextInput,
   VerticalStack,
 } from '@components'
 import { useClassroomStudentsPage } from '@hooks/use-page'
@@ -17,7 +18,7 @@ import {
   IconUser,
   IconUserPlus,
 } from '@tabler/icons'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
 export function ClassroomStudentList() {
   const {
@@ -45,6 +46,7 @@ export function ClassroomStudentList() {
       },
     },
   } = useClassroomStudentsPage()
+  const [selectedStudent, setSelectedStudent] = useState<string | null>()
   return (
     <VerticalStack>
       {account.role === 'STAFF' && (
@@ -106,43 +108,77 @@ export function ClassroomStudentList() {
             onReset={addForm.form.onReset}
           >
             <VerticalStack>
-              {addForm.form.values.accounts.map((_, index) => (
-                <VerticalStack key={`formItem_student_${index}`}>
+              <HorizontalStack position={'apart'}>
+                <HorizontalStack>
+                  <SelectInput
+                    data={searchSelectOption}
+                    value={selectedField}
+                    onChange={(value) => setSelectedField(value || '')}
+                    // {...addForm.inputPropsOf(`accounts.${index}`)}
+                  />
+                  <SelectInput
+                    data={studentList.map((item) => ({
+                      value: item.id.toString(),
+                      label: item.name,
+                      avatar: item.avatar,
+                      name: item.name,
+                    }))}
+                    filter={(value, item) => true}
+                    itemComponent={forwardRef(
+                      ({ avatar, name, ...others }, ref) => (
+                        <div
+                          ref={ref}
+                          {...others}
+                          // onSelect={() => setSelectedStudent(others.id)}
+                          // onClick={() => setSelectedStudent(others.id)}
+                        >
+                          <VerticalStack>
+                            <HorizontalStack>
+                              <Avatar src={avatar} />
+                              <Text>{name}</Text>
+                            </HorizontalStack>
+                          </VerticalStack>
+                        </div>
+                      )
+                    )}
+                    searchValue={searchText}
+                    onSearchChange={setSearchText}
+                    onChange={(value) => setSelectedStudent(value)}
+                  />
+                </HorizontalStack>
+                <IconButton
+                  label={'Add student'}
+                  color={'green'}
+                  onClick={() =>
+                    addForm.addStudentToList(
+                      studentList.find(
+                        (student) =>
+                          student.id === parseInt(selectedStudent || '')
+                      )
+                    )
+                  }
+                >
+                  <IconUserPlus />
+                </IconButton>
+              </HorizontalStack>
+              <Divider />
+              {addForm.form.values.accounts.map((account, index) => (
+                <VerticalStack
+                  key={`formItem_student__${account.id}__${index}`}
+                >
                   <HorizontalStack>
-                    <SelectInput
-                      data={searchSelectOption}
-                      value={selectedField}
-                      onChange={(value) => setSelectedField(value || '')}
+                    <TextInput
+                      sx={{ display: 'none' }}
+                      defaultValue={account.id}
                     />
-                    <SelectInput
-                      data={studentList.map((item) => ({
-                        value: item.id.toString(),
-                        label: item.name,
-                        avatar: item.avatar,
-                        name: item.name,
-                      }))}
-                      filter={(value, item) => true}
-                      itemComponent={forwardRef(
-                        ({ avatar, name, ...others }, ref) => (
-                          <div
-                            ref={ref}
-                            {...others}
-                          >
-                            <VerticalStack>
-                              <HorizontalStack>
-                                <Avatar src={avatar} />
-                                <Text>{name}</Text>
-                              </HorizontalStack>
-                            </VerticalStack>
-                          </div>
-                        )
-                      )}
-                      searchValue={searchText}
-                      onSearchChange={setSearchText}
-                      {...addForm.inputPropsOf(`accounts.${index}`)}
+                    <Avatar src={account.avatar}>{account.name}</Avatar>
+                    <TextInput
+                      sx={{ flexGrow: 1 }}
+                      defaultValue={account.name}
+                      readOnly={true}
                     />
                     <IconButton
-                      disabled={true}
+                      disabled={false}
                       label={'Remove'}
                       color={'red'}
                       size={'xl'}
@@ -156,6 +192,7 @@ export function ClassroomStudentList() {
                   )}
                 </VerticalStack>
               ))}
+              <Divider />
               <HorizontalStack position={'apart'}>
                 <Button
                   color={'red'}
@@ -165,13 +202,13 @@ export function ClassroomStudentList() {
                   Clear
                 </Button>
                 <HorizontalStack>
-                  <Button
+                  {/* <Button
                     disabled={true}
                     onClick={() => addForm.addStudentToList()}
                     leftIcon={<IconUserPlus />}
                   >
                     Add student
-                  </Button>
+                  </Button> */}
                   <Button
                     type={'submit'}
                     color={'green'}

@@ -60,7 +60,7 @@ export function useStudentRecordImageForm() {
 
   useEffect(() => {
     data?.forEach((item, index) => {
-      console.log(item)
+      // console.log(item)
       if (tableForm.values.requests.at(index)) {
         tableForm.setFieldValue(
           `requests.${index}.subjectId`,

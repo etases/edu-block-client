@@ -6,12 +6,13 @@ import {
   Modal,
   SelectInput,
   Table,
+  TextInput,
   VerticalStack,
 } from '@components'
 import { useClassroomTeachersPage } from '@hooks/use-page'
 import { Divider, Text } from '@mantine/core'
 import { IconCheck, IconClearAll, IconTrash, IconUserPlus } from '@tabler/icons'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
 export function ClassroomTeacherList() {
   const {
@@ -38,6 +39,10 @@ export function ClassroomTeacherList() {
       account,
     },
   } = useClassroomTeachersPage()
+
+  const [selectedTeacher, setSelectedTeacher] = useState<string | null>()
+  const [selectedSubject, setSelectedSubject] = useState<string | null>()
+
   return (
     <VerticalStack>
       {account.role === 'STAFF' && (
@@ -100,58 +105,91 @@ export function ClassroomTeacherList() {
             onReset={addForm.form.onReset}
           >
             <VerticalStack>
-              {addForm.form.values.teachers.map((item, index) => (
-                <VerticalStack key={`formItem_teacher__${index}`}>
-                  <HorizontalStack>
-                    <SelectInput
-                      data={subjectList.map((item) => ({
-                        // ...item,
-                        value: item.id.toString(),
-                        label: item.identifier,
-                      }))}
-                      placeholder={'Select subject'}
-                      {...addForm.inputPropsOf(`teachers.${index}.subjectId`)}
-                    />
-                    <SelectInput
-                      data={searchSelectOption}
-                      placeholder={'Search teacher in'}
-                      value={selectedField}
-                      onChange={(value) => setSelectedField(value || '')}
-                    />
-                    <SelectInput
-                      data={teacherList.map(({ id, name, avatar, email }) => ({
-                        value: id.toString(),
-                        label: name,
-                        name,
-                        avatar,
-                        email,
-                      }))}
-                      filter={(value, item) => true}
-                      itemComponent={forwardRef(
-                        ({ name, avatar, email, ...others }, ref) => (
-                          <div
-                            ref={ref}
-                            {...others}
-                          >
-                            <VerticalStack>
-                              <HorizontalStack>
-                                <Avatar src={avatar} />
-                                <VerticalStack spacing={0}>
-                                  <Text>{name}</Text>
-                                  <Text size={'sm'}>{email}</Text>
-                                </VerticalStack>
-                              </HorizontalStack>
+              <HorizontalStack>
+                <SelectInput
+                  data={subjectList.map((item) => ({
+                    // ...item,
+                    value: item.id.toString(),
+                    label: item.identifier,
+                  }))}
+                  placeholder={'Select subject'}
+                  value={selectedSubject}
+                  onChange={(value) => setSelectedSubject(value)}
+                />
+                <SelectInput
+                  data={searchSelectOption}
+                  placeholder={'Search teacher in'}
+                  value={selectedField}
+                  onChange={(value) => setSelectedField(value || '')}
+                />
+                <SelectInput
+                  data={teacherList.map(({ id, name, avatar, email }) => ({
+                    value: id.toString(),
+                    label: name,
+                    name,
+                    avatar,
+                    email,
+                  }))}
+                  filter={(value, item) => true}
+                  itemComponent={forwardRef(
+                    ({ name, avatar, email, ...others }, ref) => (
+                      <div
+                        ref={ref}
+                        {...others}
+                      >
+                        <VerticalStack>
+                          <HorizontalStack>
+                            <Avatar src={avatar} />
+                            <VerticalStack spacing={0}>
+                              <Text>{name}</Text>
+                              <Text size={'sm'}>{email}</Text>
                             </VerticalStack>
-                          </div>
-                        )
-                      )}
-                      placeholder={'Teacher'}
-                      searchValue={searchText}
-                      onSearchChange={setSearchText}
-                      {...addForm.inputPropsOf(`teachers.${index}.teacherId`)}
+                          </HorizontalStack>
+                        </VerticalStack>
+                      </div>
+                    )
+                  )}
+                  placeholder={'Teacher'}
+                  searchValue={searchText}
+                  onSearchChange={setSearchText}
+                  onChange={(value) => setSelectedTeacher(value)}
+                />
+                <IconButton
+                  label={'Add teacher'}
+                  color={'green'}
+                  onClick={() => {
+                    const teacher = teacherList.find(
+                      (teacher) =>
+                        teacher.id === parseInt(selectedTeacher || '')
+                    )
+                    const subject = subjectList.find(
+                      (subject) =>
+                        subject.id === parseInt(selectedSubject || '')
+                    )
+                    // console.log(teacher, subject)
+                    addForm.addTeacherToList({
+                      ...teacher,
+                      subject: subject?.identifier,
+                      subjectId: parseInt(selectedSubject || ''),
+                      teacherId: teacher.id,
+                    })
+                  }}
+                >
+                  <IconUserPlus />
+                </IconButton>
+              </HorizontalStack>
+              {addForm.form.values.teachers.map((item, index) => (
+                <VerticalStack
+                  key={`formItem_teacher__${item.subjectId}__${item.teacherId}__${index}`}
+                >
+                  <HorizontalStack>
+                    <Avatar src={item.avatar}>{item.name}</Avatar>
+                    <TextInput defaultValue={item.subject} />
+                    <TextInput
+                      defaultValue={item.name}
+                      sx={{ flexGrow: 1 }}
                     />
                     <IconButton
-                      disabled={true}
                       label={'Remove'}
                       color={'red'}
                       size={'xl'}
@@ -174,13 +212,6 @@ export function ClassroomTeacherList() {
                   Clear
                 </Button>
                 <HorizontalStack position={'apart'}>
-                  <Button
-                    disabled={true}
-                    onClick={() => addForm.addTeacherToList()}
-                    leftIcon={<IconUserPlus />}
-                  >
-                    Add teacher
-                  </Button>
                   <Button
                     type={'submit'}
                     color={'green'}

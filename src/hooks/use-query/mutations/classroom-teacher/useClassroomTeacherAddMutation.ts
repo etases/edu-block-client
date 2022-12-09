@@ -37,7 +37,7 @@ export function useClassroomTeacherAddMutation() {
     onMutate(variables) {},
     onError(error, variables, context) {
       notifyError({ message: endpoint })
-      console.log(error)
+      // console.log(error)
     },
     onSuccess(data, variables, context) {
       notifyInformation({ message: data.message })
