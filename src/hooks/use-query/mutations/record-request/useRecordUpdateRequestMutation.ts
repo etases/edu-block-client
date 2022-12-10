@@ -2,7 +2,7 @@ import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
 import { useAccountStore } from '@hooks/use-store'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { notifyError, notifyInformation } from '@utilities/functions'
+import { notifyInformation } from '@utilities/functions'
 
 const RECORD_REQUEST_UPDATE_MUTATION_KEY = {}
 
@@ -23,7 +23,7 @@ export function useRecordUpdateRequestMutation() {
   const endpoint = ENDPOINT.CREATE.RECORD_UPDATE_REQUEST
 
   const mutation = useMutation({
-    mutationKey: [endpoint],
+    mutationKey: [],
     mutationFn: async function ({ teacherId, ...variables }: BodyInterface) {
       return await request({
         endpoint:
@@ -36,7 +36,7 @@ export function useRecordUpdateRequestMutation() {
     },
     onMutate(variables) {},
     onError(error, variables, context) {
-      notifyError({ message: endpoint })
+      // notifyError({ message: endpoint })
     },
     onSuccess(data, variables, context) {
       notifyInformation({ message: data.message })

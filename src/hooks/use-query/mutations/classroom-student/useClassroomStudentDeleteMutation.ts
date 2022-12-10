@@ -23,7 +23,7 @@ export function useClassroomStudentDeleteMutation() {
   )
 
   const mutation = useMutation({
-    mutationKey: [endpoint],
+    mutationKey: [],
     mutationFn: async function (variables: BodyInterface) {
       return await request({
         endpoint,

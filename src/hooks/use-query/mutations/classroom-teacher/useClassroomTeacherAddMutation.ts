@@ -30,7 +30,7 @@ export function useClassroomTeacherAddMutation() {
   )
 
   const mutation = useMutation({
-    mutationKey: [endpoint],
+    mutationKey: [],
     mutationFn: async function (variables: BodyInterface) {
       return await request({ endpoint, method: 'POST', body: { ...variables } })
     },
