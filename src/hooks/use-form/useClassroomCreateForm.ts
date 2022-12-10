@@ -22,8 +22,8 @@ export function useClassroomCreateForm() {
       grade: (value) =>
         Number(value) > 0 && Number(value) < 13 ? null : 'Invalid grade',
       year: (value) => (value.length === 4 ? null : 'Invalid year'),
-      homeroomTeacherId: (value) =>
-        value.length > 0 ? null : 'A teacher must be chosen',
+      // homeroomTeacherId: (value) =>
+      //   value.length > 0 ? null : 'A teacher must be chosen',
     },
     validateInputOnBlur: true,
   })

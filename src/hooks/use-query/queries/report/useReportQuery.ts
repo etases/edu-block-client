@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { ENDPOINT } from '@constants'
 import { request, toQueryString } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
 import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
@@ -11,6 +12,7 @@ import { useClassroomListQuery } from '../classroom-list'
 export const semesterNameList = ['firstHalf', 'secondHalf', 'final']
 
 export function useReportQuery() {
+  const { account } = useAccountStore()
   const { classroomId } = useParams()
   const [grade, setGrade] = useState(0)
   const [year, setYear] = useState(0)
@@ -54,7 +56,7 @@ export function useReportQuery() {
   })
 
   const subjectQuery = useQuery({
-    queryKey: [],
+    queryKey: [queryEndpoint.subject],
     queryFn: async function () {
       return await request({
         endpoint: queryEndpoint.subject,
@@ -69,7 +71,7 @@ export function useReportQuery() {
   })
 
   const classroomRecordQuery = useQuery({
-    enabled: !!classroomId,
+    enabled: !!classroomId && account.role !== 'STUDENT',
     queryKey: [queryEndpoint.classroom],
     queryFn: async function () {
       return await request({
@@ -95,7 +97,7 @@ export function useReportQuery() {
     },
   })
   const gradeRecordQuery = useQuery({
-    enabled: !!grade && !!year,
+    enabled: !!grade && !!year && account.role !== 'STUDENT',
     queryKey: [queryEndpoint.grade],
     queryFn: async function () {
       return await request({

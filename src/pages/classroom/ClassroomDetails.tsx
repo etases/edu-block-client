@@ -42,6 +42,10 @@ export function ClassroomDetails() {
     },
   } = useClassroomDetailsPage()
 
+  const semesterComplexData = Object.entries(
+    generateSemesterReport(classroomDetails?.classroomName, 'table') || {}
+  )
+
   return (
     <VerticalStack>
       <HorizontalStack grow={true}>
@@ -140,56 +144,53 @@ export function ClassroomDetails() {
               ))}
             </Tabs.List>
 
-            {Object.entries(
-              generateSemesterReport(
-                classroomDetails?.classroomName,
-                'table'
-              ) || {}
-            ).map(([semesterName, semesterData]: [string, any]) => {
-              const subjectColumns = Object.keys(
-                semesterData.at(0) || {}
-              ).slice(1)
-              const studentCount = semesterData.length
+            {semesterComplexData.map(
+              ([semesterName, semesterData]: [string, any]) => {
+                const subjectColumns = Object.keys(
+                  semesterData.at(0) || {}
+                ).slice(1)
+                const studentCount = semesterData.length
 
-              return (
-                <Tabs.Panel
-                  value={semesterName}
-                  key={'tabPanel__' + semesterName}
-                >
-                  <HorizontalStack position={'center'}>
-                    <Plot
-                      data={[
-                        {
-                          x: subjectColumns,
-                          y: semesterData.map(
-                            ({ studentName }: any) => studentName
-                          ),
-                          z: semesterData.map(
-                            ({ studentName, ...subjects }: any) =>
-                              Object.keys(subjects).reduce(
-                                (result, subjectName) => [
-                                  ...result,
-                                  subjects[subjectName],
-                                ],
-                                []
-                              )
-                          ),
-                          type: 'heatmap',
-                          colorscale: [
-                            [0, '#FF6347'],
-                            [1, '#00FF7F'],
-                          ],
-                        },
-                      ]}
-                      layout={{
-                        title: semesterTr[semesterName],
-                        height: 35 * studentCount,
-                      }}
-                    />
-                  </HorizontalStack>
-                </Tabs.Panel>
-              )
-            })}
+                return (
+                  <Tabs.Panel
+                    value={semesterName}
+                    key={'tabPanel__' + semesterName}
+                  >
+                    <HorizontalStack position={'center'}>
+                      <Plot
+                        data={[
+                          {
+                            x: subjectColumns,
+                            y: semesterData.map(
+                              ({ studentName }: any) => studentName
+                            ),
+                            z: semesterData.map(
+                              ({ studentName, ...subjects }: any) =>
+                                Object.keys(subjects).reduce(
+                                  (result, subjectName) => [
+                                    ...result,
+                                    subjects[subjectName],
+                                  ],
+                                  []
+                                )
+                            ),
+                            type: 'heatmap',
+                            colorscale: [
+                              [0, '#FF6347'],
+                              [1, '#00FF7F'],
+                            ],
+                          },
+                        ]}
+                        layout={{
+                          title: semesterTr[semesterName],
+                          height: 35 * studentCount,
+                        }}
+                      />
+                    </HorizontalStack>
+                  </Tabs.Panel>
+                )
+              }
+            )}
           </Tabs>
         )}
       </VerticalStack>

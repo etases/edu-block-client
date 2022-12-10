@@ -184,10 +184,14 @@ export function ClassroomTeacherList() {
                 >
                   <HorizontalStack>
                     <Avatar src={item.avatar}>{item.name}</Avatar>
-                    <TextInput defaultValue={item.subject} />
+                    <TextInput
+                      defaultValue={item.subject}
+                      readOnly={true}
+                    />
                     <TextInput
                       defaultValue={item.name}
                       sx={{ flexGrow: 1 }}
+                      readOnly={true}
                     />
                     <IconButton
                       label={'Remove'}

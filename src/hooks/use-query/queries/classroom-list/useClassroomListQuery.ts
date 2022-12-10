@@ -1,6 +1,7 @@
 import { ENDPOINT } from '@constants'
 import { ClassroomApiInterface } from '@constants/api/schemas'
 import { request, toQueryString } from '@hooks/use-query/core'
+import { useAccountStore } from '@hooks/use-store'
 import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
@@ -9,6 +10,7 @@ import { useState } from 'react'
 interface DataInterface extends Array<ClassroomApiInterface> {}
 
 export function useClassroomListQuery() {
+  const { account } = useAccountStore()
   const [currentPage, setCurrentPage] = useState(1)
   const [searchText, setSearchText] = useDebouncedState('', 500)
   const [selectedSearchField, setSelectedSearchField] = useState('')
@@ -32,6 +34,7 @@ export function useClassroomListQuery() {
     })
 
   const query = useQuery({
+    enabled: account.role !== 'STUDENT',
     queryKey: [endpoint],
     queryFn: async function () {
       return await request({

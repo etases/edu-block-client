@@ -89,21 +89,24 @@ export function StudentRecord() {
                           </HoverCard.Dropdown>
                         )}
                       </HoverCard>
-                      <IconButton
-                        label={'Request update'}
-                        onClick={() => {
-                          requestForm.loadFormValues({
-                            subjectId: item.subjectId,
-                            firstHalfScore: item.firstHalfScore,
-                            secondHalfScore: item.secondHalfScore,
-                            finalScore: item.finalScore,
-                            teacherId: item.teacherId,
-                          })
-                          openRequestModal()
-                        }}
-                      >
-                        <IconReload />
-                      </IconButton>
+                      {(account.role === 'STUDENT' ||
+                        account.role === 'TEACHER') && (
+                        <IconButton
+                          label={'Request update'}
+                          onClick={() => {
+                            requestForm.loadFormValues({
+                              subjectId: item.subjectId,
+                              firstHalfScore: item.firstHalfScore,
+                              secondHalfScore: item.secondHalfScore,
+                              finalScore: item.finalScore,
+                              teacherId: item.teacherId,
+                            })
+                            openRequestModal()
+                          }}
+                        >
+                          <IconReload />
+                        </IconButton>
+                      )}
                     </HorizontalStack>
                   ),
                 }))}

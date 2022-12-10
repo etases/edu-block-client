@@ -41,7 +41,9 @@ export function useClassroomAddTeacherForm() {
     if (
       form.values.teachers.findIndex(
         (tc) => tc.subjectId === teacher.subjectId
-      ) < 0
+      ) < 0 &&
+      typeof teacher.subject !== 'undefined' &&
+      ((teacher.subject as string) || '').length > 0
     )
       form.insertListItem('teachers', teacher)
   }
