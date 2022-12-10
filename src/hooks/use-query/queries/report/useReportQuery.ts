@@ -7,7 +7,6 @@ import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as xlsx from 'xlsx'
-import { useClassroomListQuery } from '../classroom-list'
 
 export const semesterNameList = ['firstHalf', 'secondHalf', 'final']
 
@@ -120,17 +119,12 @@ export function useReportQuery() {
       // console.log(data)
     },
   })
-  const {
-    query: classroomListQuery,
-    state: { search },
-  } = useClassroomListQuery()
 
   return {
     query: {
       classificationQuery,
       classroomRecordQuery,
       gradeRecordQuery,
-      classroomListQuery,
     },
     state: {
       grade: {
