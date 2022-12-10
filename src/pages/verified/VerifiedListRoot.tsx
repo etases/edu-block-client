@@ -17,7 +17,7 @@ export function VerifiedListRoot() {
           />
         </GridCol>
         <GridCol span={2}>
-          <Button
+          <Button variant="gradient" size="md" radius="md"
             fullWidth={true}
             onClick={() => navigate(key)}
           >
