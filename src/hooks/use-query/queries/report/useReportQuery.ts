@@ -139,7 +139,6 @@ export function useReportQuery() {
         classification,
         setClassification,
       },
-      search,
     },
     utils: {
       generateGradeReport: (returnType) =>
