@@ -26,8 +26,8 @@
 // <Button onClick={() => navigate('/login')}>Login</Button>
 //   )
 // }
-import { useHomePage } from '@hooks/use-page'
-import { createStyles, Overlay, Container, Title, Button, Text } from '@mantine/core';
+import { useHomePage } from '@hooks/use-page';
+import { Button, Container, createStyles, Overlay, Text, Title } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   hero: {
@@ -103,7 +103,7 @@ const useStyles = createStyles((theme) => ({
 
 export function Home() {
   const { classes } = useStyles();
-  const { navigate } = useHomePage()
+  const { navigate,translatedObject } = useHomePage()
 
   return (
     <div className={classes.hero}>
@@ -117,8 +117,9 @@ export function Home() {
           WE ARE <br></br>{'  '}<span className={classes.highlight}>EDUBLOCK</span>
         </Title>
         <Text className={classes.description} size="xl" mt="xl">
-          A Blockchain-Based System for Electronic Academic Records <br></br>
-          Access and Permissions Management
+          { translatedObject?.["HOME_PAGE.SLOGAN"]}
+          {/* A Blockchain-Based System for Electronic Academic Records <br></br>
+          Access and Permissions Management */}
         </Text>
         <div >
           <Button variant="gradient" gradient={{ from: 'blue', to: 'teal' }} size="xl" radius="xl" className={classes.control} onClick={() => navigate('/login')}>

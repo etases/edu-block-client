@@ -1,4 +1,7 @@
 {
   "hel.lo": "Xin chào {{emoji}}",
-  "hi": "Chào"
+  "hi": "Chào",
+  "HOME_PAGE.SLOGAN": "slogan aaa",
+  "HOME_PAGE.BUTTON.GET_STARTED": "Get started",
+  "ACCOUNT_LIST_PAGE.TABLE.HEADER.FIRST_NAME": "Họ"
 }

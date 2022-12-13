@@ -2,10 +2,11 @@ import { TableHeaderProps } from '@components/table'
 import {
   useAccountListCreateForm,
   useAccountListPasswordUpdateForm,
-  useProfileUpdateForm,
+  useProfileUpdateForm
 } from '@hooks/use-form'
 import { useAccountListQuery } from '@hooks/use-query'
 import { useAccountStore, useTitleStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect } from 'react'
@@ -33,7 +34,7 @@ const tableHeaders: TableHeaderProps<
   },
   {
     identifier: 'firstName',
-    label: 'First Name',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.FIRST_NAME',
     align: 'left',
   },
   {
@@ -114,6 +115,11 @@ const PAGE_TITLE = 'Account list'
 export function useAccountListPage() {
   const { setTitle } = useTitleStore()
 
+  const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
+
   useEffect(() => {
     setTitle(PAGE_TITLE)
   }, [])
@@ -152,7 +158,7 @@ export function useAccountListPage() {
   return {
     table: {
       accountList: data?.accounts || [],
-      tableHeaders,
+      tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})),
     },
     state: {
       profileUpdateModal: {

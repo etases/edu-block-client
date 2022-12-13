@@ -1,4 +1,7 @@
 {
   "hel.lo": "Hello {{emoji}}",
-  "hi": "Hi"
+  "hi": "Hi",
+  "HOME_PAGE.SLOGAN": "slogan abc",
+  "HOME_PAGE.BUTTON.GET_STARTED": "Get started",
+  "ACCOUNT_LIST_PAGE.TABLE.HEADER.FIRST_NAME": "First Name"
 }
