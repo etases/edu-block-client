@@ -158,7 +158,7 @@ export function useAccountListPage() {
   return {
     table: {
       accountList: data?.accounts || [],
-      tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})),
+      tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})) as typeof tableHeaders,
     },
     state: {
       profileUpdateModal: {
