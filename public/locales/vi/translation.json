@@ -1,7 +1,17 @@
 {
+  "ACCOUNT_LIST_PAGE.TABLE.HEADER.FIRST_NAME": "Họ",
+  "HOME_PAGE.TITLE": "CHÚNG TÔI LÀ",
+  "HOME_PAGE.BUTTON.GET_STARTED": "Bắt đầu",
+  "HOME_PAGE.BUTTON.GRADE": "Xem báo cáo năm học",
+  "HOME_PAGE.BUTTON.STUDENT": "Xem thông tin học sinh",
+  "HOME_PAGE.SLOGAN": "Hệ thống dựa trên công nghệ Blockchain",
+  "HOME_PAGE.SLOGAN1": "để quản lý quyền và truy cập hồ sơ học sinh",
   "hel.lo": "Xin chào {{emoji}}",
   "hi": "Chào",
-  "HOME_PAGE.SLOGAN": "slogan aaa",
-  "HOME_PAGE.BUTTON.GET_STARTED": "Get started",
-  "ACCOUNT_LIST_PAGE.TABLE.HEADER.FIRST_NAME": "Họ"
+  "LOGIN.TITLE": "Đăng nhập",
+  "LOGIN.FIELD.USERNAME": "Tên người dùng",
+  "LOGIN.FIELD.USERNAME.DESCRIPTION": "Tên người dùng được quản trị viên cung cấp cho bạn",
+  "LOGIN.FIELD.PASSWORD": "Mật khẩu",
+  "LOGIN.FIELD.PASSWORD.DESCRIPTION": "Mật khẩu được quản trị viên cung cấp cho bạn", 
+  "LOGIN.BUTTON": "Đăng nhập"
 }
