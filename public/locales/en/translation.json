@@ -1,7 +1,17 @@
 {
+  "ACCOUNT_LIST_PAGE.TABLE.HEADER.FIRST_NAME": "First Name",
+  "HOME_PAGE.TITLE": "WE ARE",
+  "HOME_PAGE.BUTTON.GET_STARTED": "Get Started",
+  "HOME_PAGE.BUTTON.GRADE": "Grade",
+  "HOME_PAGE.BUTTON.STUDENT": "Student",
+  "HOME_PAGE.SLOGAN": "A Blockchain-Based System for Electronic Academic Records",
+  "HOME_PAGE.SLOGAN1": "Access and Permissions Management",
   "hel.lo": "Hello {{emoji}}",
   "hi": "Hi",
-  "HOME_PAGE.SLOGAN": "slogan abc",
-  "HOME_PAGE.BUTTON.GET_STARTED": "Get started",
-  "ACCOUNT_LIST_PAGE.TABLE.HEADER.FIRST_NAME": "First Name"
+  "LOGIN.TITLE": "Login",
+  "LOGIN.FIELD.USERNAME": "Username",
+  "LOGIN.FIELD.USERNAME.DESCRIPTION": "Username provided by org admin",
+  "LOGIN.FIELD.PASSWORD": "Password",
+  "LOGIN.FIELD.PASSWORD.DESCRIPTION": "Password provided by org admin", 
+  "LOGIN.BUTTON": "Login"
 }

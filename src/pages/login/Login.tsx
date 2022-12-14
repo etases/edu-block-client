@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
 
 export function Login() {
   const {
-    form: { submitForm, inputPropsOf },
+    form: { submitForm, inputPropsOf }, translatedObject
   } = useLoginPage()
   const { classes } = useStyles();
   return (
@@ -67,23 +67,23 @@ export function Login() {
 
         >
 
-          <Title>{PAGE_TITLE}</Title>
+          <Title>{translatedObject?.["LOGIN.TITLE"]}</Title>
           <form onSubmit={submitForm}>
             <VerticalStack >
               <TextInput
-                label={'Account Id'}
-                description={'Account Id provided by org admin'}
+                label={translatedObject?.["LOGIN.FIELD.USERNAME"]}
+                description={translatedObject?.["LOGIN.FIELD.USERNAME.DESCRIPTION"]}
                 required={true}
                 {...inputPropsOf('accountId')}
               />
               <PasswordInput
-                label={'Password'}
-                description={'Password provided by org admin'}
+                label={translatedObject?.["LOGIN.FIELD.PASSWORD"]}
+                description={translatedObject?.["LOGIN.FIELD.PASSWORD.DESCRIPTION"]}
                 required={true}
                 {...inputPropsOf('password')}
               />
               <HorizontalStack grow={true}>
-                <Button variant="gradient"  size="md" radius="md" type={'submit'}>Login</Button>
+                <Button variant="gradient"  size="md" radius="md" type={'submit'}>{translatedObject?.["LOGIN.BUTTON"]}</Button>
               </HorizontalStack>
             </VerticalStack>
           </form >

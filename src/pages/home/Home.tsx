@@ -114,22 +114,22 @@ export function Home() {
       />
       <Container className={classes.container}>
         <Title className={classes.title}>
-          WE ARE <br></br>{'  '}<span className={classes.highlight}>EDUBLOCK</span>
+          {translatedObject?.["HOME_PAGE.TITLE"]} <br></br>{'  '}<span className={classes.highlight}>EDUBLOCK</span>
         </Title>
         <Text className={classes.description} size="xl" mt="xl">
-          { translatedObject?.["HOME_PAGE.SLOGAN"]}
+          { translatedObject?.["HOME_PAGE.SLOGAN"] } <br/> {translatedObject?.["HOME_PAGE.SLOGAN1"]}
           {/* A Blockchain-Based System for Electronic Academic Records <br></br>
           Access and Permissions Management */}
         </Text>
         <div >
           <Button variant="gradient" gradient={{ from: 'blue', to: 'teal' }} size="xl" radius="xl" className={classes.control} onClick={() => navigate('/login')}>
-            Get started
+            {translatedObject?.["HOME_PAGE.BUTTON.GET_STARTED"]}
           </Button>
           <Button variant="gradient" gradient={{ from: 'cyan', to: 'lime' }} size="md" radius="xl" className={classes.control} onClick={() => { window.location.href = '/verified' }}>
-            Student
+            {translatedObject?.["HOME_PAGE.BUTTON.STUDENT"]}
           </Button>
           <Button variant="gradient" gradient={{ from: 'cyan', to: 'lime' }} size="md" radius="xl" className={classes.control} onClick={() => { window.location.href = '/verified-list' }}>
-            Grade
+            {translatedObject?.["HOME_PAGE.BUTTON.GRADE"]}
           </Button>
         </div>
       </Container>
