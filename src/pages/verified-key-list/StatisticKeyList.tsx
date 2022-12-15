@@ -28,7 +28,8 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { QRCodeCanvas } from 'qrcode.react'
-import { forwardRef, useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useRef, useTransition } from 'react'
+import { useTranslation } from '@hooks/use-translation'
 
 const QRButtonComponent = forwardRef<HTMLDivElement>((props, ref) => (
   // <IconButton
@@ -127,18 +128,32 @@ export function StatisticKeyList() {
     },
   })
 
+  const translation = {
+    'STATISTIC_KEY_LIST.TITLE.VERIFIED_STATISTIC_ACCESS_TOKEN': null,
+    'STATISTIC_KEY_LIST.PLACEHOLDER.GRADE': null,
+    'STATISTIC_KEY_LIST.BUTTON.CREATE_NEW_STATISTIC_KEY': null,
+    'STATISTIC_KEY_LIST.LABEL.SAVE': null,
+    'STATISTIC_KEY_LIST.LABEL.COPY': null,
+    'STATISTIC_KEY_LIST.LABEL.REMOVE_KEY': null,
+    'STATISTIC_KEY_LIST.LABEL.KEY': null,
+    'STATISTIC_KEY_LIST.LABEL.YEAR': null,
+    'ACCOUNT_LIST_PAGE.TABLE.HEADER.ACTIONS': null,
+  }
+  // Verified Statistic Access Token
+  const { translate } = useTranslation(translation)
+
   return (
     <VerticalStack>
-      <HorizontalStack position={'apart'}>
-        <Title>Verified Statistic Access Token</Title>
+      <HorizontalStack position={'apart'}> 
+        <Title>{translate("STATISTIC_KEY_LIST.TITLE.VERIFIED_STATISTIC_ACCESS_TOKEN")}</Title>
       </HorizontalStack>
       <Divider />
       <HorizontalStack grow={true}>
         <SelectInput
-          placeholder={'Grade'}
+          placeholder={translate("STATISTIC_KEY_LIST.PLACEHOLDER.GRADE")}
           data={Array.from(Array(12), (v, k) => k + 1).map((grade) => ({
             value: grade,
-            label: ['Grade', grade].join(' '),
+            label: [translate("STATISTIC_KEY_LIST.PLACEHOLDER.GRADE"), grade].join(' '),
           }))}
           {...createStatisticKeyForm.getInputProps('grade')}
         />
@@ -160,7 +175,7 @@ export function StatisticKeyList() {
             createStatisticKeyMutation.mutate(createStatisticKeyForm.values)
           }
         >
-          Create new Statistic key
+          {translate("STATISTIC_KEY_LIST.BUTTON.CREATE_NEW_STATISTIC_KEY")}
         </Button>
       </HorizontalStack>
       <Divider />
@@ -186,7 +201,7 @@ export function StatisticKeyList() {
                     <Divider />
                     <HorizontalStack>
                       <IconButton
-                        label={'Save'}
+                        label={translate("STATISTIC_KEY_LIST.LABEL.SAVE")}
                         onClick={() => {
                           const refNode = qrCodeRef.current
                           if (!refNode) return
@@ -212,7 +227,7 @@ export function StatisticKeyList() {
                 <CopyButton value={item.key}>
                   {({ copied, copy }) => (
                     <IconButton
-                      label={'Copy'}
+                      label={translate("STATISTIC_KEY_LIST.LABEL.COPY")}
                       onClick={copy}
                     >
                       {copied ? <IconClipboardCheck /> : <IconClipboard />}
@@ -226,7 +241,7 @@ export function StatisticKeyList() {
           actions: (
             <HorizontalStack>
               <IconButton
-                label={'Remove key'}
+                label={translate("STATISTIC_KEY_LIST.LABEL.REMOVE_KEY")}
                 onClick={() => removeStatisticKeyMutation.mutate(item.key)}
                 color={'red'}
               >
@@ -238,20 +253,20 @@ export function StatisticKeyList() {
         tableHeader={[
           {
             identifier: 'key',
-            label: 'Key',
+            label: translate("STATISTIC_KEY_LIST.LABEL.KEY"),
             align: 'left',
           },
           {
             identifier: 'grade',
-            label: 'Grade',
+            label: translate("STATISTIC_KEY_LIST.PLACEHOLDER.GRADE"),
           },
           {
             identifier: 'year',
-            label: 'Year',
+            label: translate("STATISTIC_KEY_LIST.LABEL.YEAR"),
           },
           {
             identifier: 'actions',
-            label: 'Actions',
+            label: translate("ACCOUNT_LIST_PAGE.TABLE.HEADER.ACTIONS"),
           },
         ]}
       />
