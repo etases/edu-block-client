@@ -124,9 +124,7 @@ export function Home() {
       />
       <Container className={classes.container}>
         <Title className={classes.title}>
-          {translatedObject?.['HOME_PAGE.TITLE']} <br></br>
-          {'  '}
-          <span className={classes.highlight}>EDUBLOCK</span>
+          WE ARE <br></br>{'  '}<span className={classes.highlight}>EDUBLOCK</span>
         </Title>
         <Text
           className={classes.description}

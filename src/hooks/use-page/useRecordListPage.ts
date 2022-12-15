@@ -4,6 +4,7 @@ import {
   useRecordPendingVerifyMutation,
 } from '@hooks/use-query'
 import { useTitleStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -34,39 +35,39 @@ const tableHeaders: TableHeaderProps<
 >[] = [
   {
     identifier: 'requestId',
-    label: 'Request Id',
+    label: "TEACHER.RECORD.REQUEST_ID",
   },
   {
     identifier: 'studentName',
-    label: 'Student',
+    label: "TEACHER.RECORD.STUDENT",
   },
   {
     identifier: 'requesterName',
-    label: 'Requester',
+    label: "TEACHER.RECORD.REQUESTER",
   },
   {
     identifier: 'subjectIdentifier',
-    label: 'Subject',
+    label: "TEACHER.RECORD.SUBJECT",
   },
   {
     identifier: 'teacherName',
-    label: 'Teacher',
+    label: "TEACHER.RECORD.TEACHER",
   },
   {
     identifier: 'firstHalfScore',
-    label: 'First half',
+    label: "TEACHER.RECORD.FIRST_HALF" ,
   },
   {
     identifier: 'secondHalfScore',
-    label: 'Second half',
+    label: "TEACHER.RECORD.SECOND_HALF",
   },
   {
     identifier: 'finalScore',
-    label: 'Final',
+    label: "TEACHER.RECORD.FINAL",
   },
   {
     identifier: 'actions',
-    label: 'Actions',
+    label: "TEACHER.RECORD.ACTIONS",
   },
 ]
 
@@ -74,6 +75,11 @@ const PAGE_TITLE = 'Pending requests'
 
 export function useRecordListPage() {
   const { setTitle } = useTitleStore()
+
+  const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
 
   useEffect(() => {
     setTitle(PAGE_TITLE)
@@ -100,7 +106,7 @@ export function useRecordListPage() {
   return {
     table: {
       tableData: requestList || [],
-      tableHeaders,
+      tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})) as typeof tableHeaders,
     },
     actions: {
       acceptRequest,
