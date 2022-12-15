@@ -22,6 +22,8 @@ export function MantineProvider(props: ProviderProps) {
           body: {
             width: '100%',
             height: '100%',
+            maxHeight: '100vh',
+            maxWidth: '100vw',
             overflow: 'auto',
           },
           '#root': {
