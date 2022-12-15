@@ -60,9 +60,11 @@ export function AccountList() {
     },
     form: { profileForm, createForm, passwordForm },
     account: { role: accountRole, id: accountId },
-    others: { searchSelectOption, roleColor, navigate },
+    others: { searchSelectOption, roleColor, navigate, translatedObjectAccountListButtons, translatedObjectPlaceHolder, translatedText, translationsButtons },
   } = useAccountListPage()
 
+  // const { translatedObjectAccountListButtons } = useAccountListPage()
+ 
   return (
     <VerticalStack>
       <VerticalStack>
@@ -72,14 +74,14 @@ export function AccountList() {
               leftIcon={<IconSearch />}
               onClick={searchViewState ? closeSearchView : openSearchView}
             >
-              Search
+              {translatedObjectAccountListButtons?.["ACCOUNT.BUTTON.SEARCH"]}
             </Button>
             {accountRole === 'ADMIN' && (
               <Button
                 leftIcon={<IconUserPlus />}
                 onClick={createModalState ? closeCreateModal : openCreateModal}
               >
-                Create
+                {translatedObjectAccountListButtons?.["ACCOUNT.BUTTON.CREATE"]}
               </Button>
             )}
           </HorizontalStack>
@@ -97,7 +99,7 @@ export function AccountList() {
                 // withAsterisk={true}
                 data={searchSelectOption}
                 icon={<IconCategory />}
-                placeholder={'Search in'}
+                placeholder={translatedObjectPlaceHolder?.["ACCOUNT.BUTTON.SEARCH_IN"]?.toString()}
                 value={selectedCategory}
                 onChange={(value) => {
                   setSelectedCategory(value || '')
@@ -107,7 +109,7 @@ export function AccountList() {
             </GridCol>
             <GridCol span={8}>
               <TextInput
-                placeholder={'Search text'}
+                placeholder={translatedObjectPlaceHolder?.["ACCOUNT.BUTTON.SEARCH_TEXT"]?.toString()}
                 // withAsterisk={true}
                 icon={<IconUserSearch />}
                 // value={searchText}
@@ -147,7 +149,7 @@ export function AccountList() {
                     (currentRole === 'TEACHER' ||
                       currentRole === 'STUDENT') && (
                       <IconButton
-                        label={'Update Account Profile'}
+                        label={translatedText?.["ACCOUNT.TEXT.UPDATE_ACCOUNT_PROFILE"]}
                         onClick={() => {
                           profileForm.loadFormValues(item.id, {
                             firstName: item.firstName,
@@ -180,7 +182,7 @@ export function AccountList() {
                   {accountRole === 'ADMIN' &&
                     (accountId === item.id || item.role !== 'ADMIN') && (
                       <IconButton
-                        label={'Update Password'}
+                        label={translatedText?.["ACCOUNT.TEXT.UPDATE_PASSWORD"]}
                         onClick={() => {
                           openPasswordUpdateModal()
                           passwordForm.loadFormValues({
@@ -206,7 +208,7 @@ export function AccountList() {
             weight={'bold'}
             size={'lg'}
           >
-            Create Account
+            {translatedText?.["ACCOUNT.TEXT.CREATE_ACCOUNT"]}
           </Text>
         }
       >
@@ -221,7 +223,7 @@ export function AccountList() {
                   <GridCol span={4}>
                     <TextInput
                       required={true}
-                      placeholder={'First name'}
+                      placeholder={translatedObjectPlaceHolder?.["ACCOUNT_PROFILE.TEXT_INPUT.FIRST_NAME"]?.toString()}
                       {...createForm.inputPropsOf(
                         `accounts.${index}.firstName`
                       )}
@@ -230,21 +232,21 @@ export function AccountList() {
                   <GridCol span={4}>
                     <TextInput
                       required={true}
-                      placeholder={'Last name'}
+                      placeholder={translatedObjectPlaceHolder?.["ACCOUNT_PROFILE.TEXT_INPUT.LAST_NAME"]?.toString()}
                       {...createForm.inputPropsOf(`accounts.${index}.lastName`)}
                     />
                   </GridCol>
                   <GridCol span={3}>
                     <SelectInput
                       required={true}
-                      placeholder={'Role'}
+                      placeholder={translatedObjectPlaceHolder?.["PROFILE.ROLE"]?.toString()}
                       data={['ADMIN', 'STAFF', 'TEACHER', 'STUDENT']}
                       {...createForm.inputPropsOf(`accounts.${index}.role`)}
                     />
                   </GridCol>
                   <GridCol span={1}>
                     <IconButton
-                      label={'Remove'}
+                      label={translatedText?.["ACCOUNT_LIST.LABEL.REMOVE"]}
                       color={'red'}
                       size={'xl'}
                       onClick={() => createForm.removeAccountFromList(index)}
@@ -260,21 +262,21 @@ export function AccountList() {
                   onClick={createForm.form.reset}
                   leftIcon={<IconClearAll />}
                 >
-                  Clear All
+                  {translatedText?.["ACCOUNT_LIST.LABEL.CLEAR_ALL"]}
                 </Button>
                 <HorizontalStack>
                   <Button
                     leftIcon={<IconUserPlus />}
                     onClick={() => createForm.insertAccountToList()}
                   >
-                    Add Account
+                    {translatedText?.["ACCOUNT_LIST.LABEL.ADD_ACCOUNT"]}
                   </Button>
                   <Button
                     color={'green'}
                     type={'submit'}
                     leftIcon={<IconUserCheck />}
                   >
-                    Create Accounts
+                    {translatedText?.["ACCOUNT_LIST.LABEL.CREATE_ACCOUNTS"]}
                   </Button>
                 </HorizontalStack>
               </HorizontalStack>
@@ -290,7 +292,7 @@ export function AccountList() {
             weight={'bold'}
             size={'lg'}
           >
-            Update Profile
+            {translatedText?.["ACCOUNT_PROFILE.BUTTON.UPDATE_PROFILE"]}
           </Text>
         }
       >
@@ -304,33 +306,33 @@ export function AccountList() {
               <HorizontalStack>
                 <TextInput
                   withAsterisk={true}
-                  label={'First Name'}
+                  label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.FIRST_NAME"]}
                   {...profileForm.inputPropsOf('firstName')}
                 />
                 <TextInput
                   withAsterisk={true}
-                  label={'Last Name'}
+                  label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.LAST_NAME"]}
                   {...profileForm.inputPropsOf('lastName')}
                 />
               </HorizontalStack>
               <RadioInputGroup
-                label={'Gender'}
+                label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.GENDER"]}
                 size={'md'}
                 {...profileForm.inputPropsOf('male')}
               >
                 <RadioInput
                   size={'md'}
                   value={'1'}
-                  label={'Male'}
+                  label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.GENDER_MALE"]}
                 />
                 <RadioInput
                   size={'md'}
                   value={'0'}
-                  label={'Female'}
+                  label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.GENDER_FEMALE"]}
                 />
               </RadioInputGroup>
               <DateInput
-                label={'Date of Birth'}
+                label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.DOB"]}
                 variant={'default'}
                 radius={'md'}
                 size={'md'}
@@ -362,23 +364,23 @@ export function AccountList() {
                 {...profileForm.inputPropsOf('birthDate')}
               />
               <TextInput
-                label={'Phone'}
+                label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.PHONE"]}
                 withAsterisk={true}
                 icon={'+84'}
                 {...profileForm.inputPropsOf('phone')}
               />
               <TextInput
-                label={'Email'}
+                label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.EMAIL"]}
                 icon={'@'}
                 {...profileForm.inputPropsOf('email')}
               />
               <TextareaInput
-                label={'Address'}
+                label={translatedText?.["ACCOUNT_PROFILE.TEXT_INPUT.ADDRESS"]}
                 withAsterisk={true}
                 size={'md'}
                 {...profileForm.inputPropsOf('address')}
               />
-              <Button type={'submit'}>Submit</Button>
+              <Button type={'submit'}>{translationsButtons?.["STUDENT_PROFILE.BUTTON.SUBMIT"]}</Button>
             </VerticalStack>
           </form>
         </VerticalStack>
@@ -391,7 +393,7 @@ export function AccountList() {
             size={'lg'}
             weight={'bold'}
           >
-            Update password
+            {translatedText?.["ACCOUNT.TEXT.UPDATE_PASSWORD"]}
           </Text>
         }
       >
@@ -407,7 +409,9 @@ export function AccountList() {
                 {...passwordForm.inputPropsOf('accounts.0.password')}
               />
               <HorizontalStack position={'right'}>
-                <Button type={'submit'}>Update</Button>
+                <Button type={'submit'}>
+                {translatedObjectAccountListButtons?.["ACCOUNT_PROFILE.BUTTON.UPDATE"]}
+                  </Button>
               </HorizontalStack>
             </VerticalStack>
           </form>

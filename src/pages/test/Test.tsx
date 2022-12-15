@@ -9,12 +9,12 @@ const translation = {
 }
 
 export function Test() {
-  const { translatedObject = {} } = useTranslation(translation)
+  const { translatedObject = {}, translate } = useTranslation(translation)
   return (
     <Center>
       <VerticalStack>
         <Title>CHECK SINGLE VALUE</Title>
-        <Text>{translatedObject['hel.lo']}</Text>
+        <Text>{translate("hel.lo")}</Text>
         <Divider />
         <Title>CHECK ALL VALUES</Title>
         <Grid>

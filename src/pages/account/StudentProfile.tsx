@@ -276,7 +276,7 @@ export function StudentProfile() {
                 accept={'image/png,image/jpeg'}
                 radius={'md'}
                 size={'md'}
-                placeholder={'Upload image'}
+                placeholder={translatedObject?.["STUDENT_PROFILE.TEXT.UPLOAD_IMAGE"]?.toString}
                 onChange={tableForm.onImageChange}
               />
               <Button

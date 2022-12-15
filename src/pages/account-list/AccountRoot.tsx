@@ -1,6 +1,7 @@
 import { HorizontalStack, VerticalStack } from '@components'
 import { Divider, Tabs, Title, useMantineTheme } from '@mantine/core'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { useAccountListPage } from '@hooks/use-page'
 
 const { List: TabList, Tab: TabItem } = Tabs
 
@@ -32,11 +33,13 @@ export function AccountRoot() {
 
   const { colors } = useMantineTheme()
 
+  const { translatedTextRoot } = useAccountListPage()
+
   return (
     <VerticalStack>
       <VerticalStack>
         <HorizontalStack position={'apart'}>
-          <Title>Accounts</Title>
+          <Title>{translatedTextRoot?.["ACCOUNT_LIST_PAGE.TITLE"]}</Title>
         </HorizontalStack>
       </VerticalStack>
       <Divider />
