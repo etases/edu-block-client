@@ -1,6 +1,8 @@
 import { useAccountListCreateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
+
 
 interface AccountInterface {
   firstName: string
@@ -25,9 +27,9 @@ export function useAccountListCreateForm() {
     },
     validate: {
       accounts: {
-        firstName: (value) => (value.length > 1 ? null : 'At least 2 letters'),
-        lastName: (value) => (value.length > 1 ? null : 'At least 2 letters'),
-        role: (value) => (value.length > 0 ? null : 'Must choose a role'),
+        firstName: (value) => (value.length > 1 ? null : translate("ACCOUNT_LIST.CREATE_FORM.FIRST_NAME_VALIDATION")),
+        lastName: (value) => (value.length > 1 ? null : translate("ACCOUNT_LIST.CREATE_FORM.LAST_NAME_VALIDATION")),
+        role: (value) => (value.length > 0 ? null : translate("ACCOUNT_LIST.CREATE_FORM.ROLE_VALIDATION")),
       },
     },
     validateInputOnBlur: true,
@@ -53,6 +55,14 @@ export function useAccountListCreateForm() {
       message: 'Submitted list of new accounts',
     })
   })
+
+  const translation = {
+    'ACCOUNT_LIST.CREATE_FORM.FIRST_NAME_VALIDATION': null,
+    'ACCOUNT_LIST.CREATE_FORM.LAST_NAME_VALIDATION': null,
+    'ACCOUNT_LIST.CREATE_FORM.ROLE_VALIDATION': null
+  }
+  
+  const { translate } = useTranslation(translation)
 
   return {
     inputPropsOf: form.getInputProps,

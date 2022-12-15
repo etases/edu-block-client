@@ -1,6 +1,7 @@
 import { useAccountListPasswordUpdateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
 
 interface AccountInterface {
   username: string
@@ -19,7 +20,7 @@ export function useAccountListPasswordUpdateForm() {
         password: (value) =>
           /.{6,}/.test(value)
             ? null
-            : 'Password length must be 6 characters or above',
+            : translate("ACCOUNT_LIST.UPDATE_FORM.UPDATE_PASSWORD"),
       },
     },
     validateInputOnBlur: true,
@@ -39,6 +40,13 @@ export function useAccountListPasswordUpdateForm() {
       accounts: [{ password: '', ...value }],
     })
   }
+
+  const translation = {
+    'ACCOUNT_LIST.UPDATE_FORM.UPDATE_PASSWORD': null,
+    'ACCOUNT_LIST.UPDATE_FORM.UPDATE_PASSWORD_MSG': null,
+  }
+  
+  const { translate } = useTranslation(translation)
 
   return {
     inputPropsOf: form.getInputProps,

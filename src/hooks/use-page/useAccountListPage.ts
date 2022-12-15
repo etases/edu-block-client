@@ -78,27 +78,27 @@ const searchSelectOption: SelectItem[] = [
   },
   {
     value: 'username',
-    label: 'Username',
+    label: 'ACCOUNT_PROFILE.TEXT.USERNAME',
     group: searchSelectCategoryGroup.id,
   },
   {
     value: 'firstname',
-    label: 'First name',
+    label: 'ACCOUNT_PROFILE.TEXT_INPUT.FIRST_NAME',
     group: searchSelectCategoryGroup.name,
   },
   {
     value: 'lastname',
-    label: 'Last name',
+    label: 'ACCOUNT_PROFILE.TEXT_INPUT.LAST_NAME',
     group: searchSelectCategoryGroup.name,
   },
   {
     value: 'email',
-    label: 'Email',
+    label: 'ACCOUNT_PROFILE.TEXT_INPUT.EMAIL',
     group: searchSelectCategoryGroup.id,
   },
   {
     value: 'phone',
-    label: 'Phone number',
+    label: 'ACCOUNT_PROFILE.TEXT_INPUT.PHONE',
     group: searchSelectCategoryGroup.misc,
   },
 ]
@@ -115,11 +115,63 @@ const PAGE_TITLE = 'Account list'
 const translationsButtons = {
   "ACCOUNT.BUTTON.SEARCH": null,
   "ACCOUNT.BUTTON.CREATE": null,
+  "STUDENT_PROFILE.BUTTON.SUBMIT": null,
+  "ACCOUNT_PROFILE.BUTTON.UPDATE": null
+}
+
+const translationsPlaceHolder = {
+  "ACCOUNT.BUTTON.SEARCH_IN": null,
+  "ACCOUNT.BUTTON.SEARCH_TEXT": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.FIRST_NAME": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.LAST_NAME": null,
+  "PROFILE.ROLE": null
+}
+
+const translationText = {
+  "ACCOUNT.TEXT.UPDATE_ACCOUNT_PROFILE": null,
+  "ACCOUNT.TEXT.UPDATE_PASSWORD": null,
+  "ACCOUNT.TEXT.CREATE_ACCOUNT": null,
+  "ACCOUNT_LIST.LABEL.REMOVE": null,
+  "ACCOUNT_LIST.LABEL.CLEAR_ALL": null,
+  "ACCOUNT_LIST.LABEL.ADD_ACCOUNT": null,
+  "ACCOUNT_LIST.LABEL.CREATE_ACCOUNTS": null,
+  "ACCOUNT_LIST.SELECT_INPUT.ADMIN": null,
+  "ACCOUNT_LIST.SELECT_INPUT.STAFF": null,
+  "ACCOUNT_LIST.SELECT_INPUT.TEACHER": null,
+  "ACCOUNT_LIST.SELECT_INPUT.STUDENT": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.FIRST_NAME": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.LAST_NAME": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.GENDER": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.GENDER_MALE": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.GENDER_FEMALE": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.DOB": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.PHONE": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.EMAIL": null,
+  "ACCOUNT_PROFILE.TEXT_INPUT.ADDRESS": null,
+  "ACCOUNT_PROFILE.BUTTON.UPDATE_PROFILE": null,
+  "ACCOUNT_PROFILE.BUTTON.UPDATE": null
+} 
+
+const translationTextRoot = {
+  "ACCOUNT_LIST_PAGE.TITLE": null
 }
 
 export function useAccountListPage() {
   const { setTitle } = useTitleStore()
-  const {translatedObjectAccountListButtons } = useTranslation(translationsButtons)
+
+  const { translatedObject: translatedSearchItems } = useTranslation(searchSelectOption.reduce((result, {label=""}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
+
+  const { translatedObject: translatedObjectPlaceHolder } = useTranslation(translationsPlaceHolder)
+  
+  const { translatedObject: translatedTextRoot } = useTranslation(translationTextRoot)
+
+  const { translatedObject: translatedText } = useTranslation(translationText)
+
+  const { translatedObject: translatedObjectAccountListButtons } = useTranslation(translationsButtons)
+  
   const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
     ...result,
     [label]: null
@@ -159,7 +211,6 @@ export function useAccountListPage() {
   ] = useDisclosure(false)
 
   const navigate = useNavigate()
-
   return {
     table: {
       accountList: data?.accounts || [],
@@ -189,12 +240,16 @@ export function useAccountListPage() {
       ...state,
     },
     others: {
-      searchSelectOption,
       roleColor,
       navigate,
+      translatedObjectAccountListButtons,
+      translatedObjectPlaceHolder,
+      translatedText,
+      translationsButtons,
+      searchSelectOption: searchSelectOption.map(({label="",...item}) => ({...item,label: translatedSearchItems?.[label]})) as typeof searchSelectOption
     },
     form: { profileForm, createForm, passwordForm },
     account,
-    translatedObjectAccountListButtons
+    translatedTextRoot,
   }
 }
