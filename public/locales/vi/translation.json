@@ -140,6 +140,16 @@
   "ACCOUNT.UPDATE_FORM.NEW_PASSWORD": "Phải cung cấp mật khẩu mới",
   "ACCOUNT.UPDATE_FORM.CONFIRM_PASSWORD": "Không trùng khớp với mật khẩu mới",
   "ACCOUNT.UPDATE_FORM.NEW_PASSWORD_SUBMITTED": "Đã gửi mật khẩu",
+
+  "CLASSROOM.ADD_STUDENT_FORM.MESSAGE": "Đã gửi đi danh sách các học sinh của lớp học này",
+
+  "CLASSROOM.ADD_TEACHER_FORM.MESSAGE": "Đã gửi đi danh sách các giáo viên của lớp học này",
+
+  "CLASSROOM.CREATE_FORM.INVALID_NAME": "Tên không phù hợp",
+  "CLASSROOM.CREATE_FORM.INVALID_GRADE": "Lớp không phù hợp",
+  "CLASSROOM.CREATE_FORM.INVALID_YEAR": "Năm không phù hợp",
+  "CLASSROOM.CREATE_FORM.INVALID_YEAR": "Phải chọn giáo viên",
+  "CLASSROOM.CREATE_FORM.SUBMITTED_MESSAGE": "Đã gửi đi thông tin của lớp mới",
   
   "NAVBAR.DASHBOARD": "Trang chủ",
   "NAVBAR.ACCOUNT": "Tài khoản",
