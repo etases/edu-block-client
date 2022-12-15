@@ -5,6 +5,7 @@ import { useAccountStore } from '@hooks/use-store'
 import { useDisclosure } from '@mantine/hooks'
 import { useRef } from 'react'
 import { useReactToPrint } from 'react-to-print'
+import { useTranslation } from '@hooks/use-translation'
 
 const tableHeaders: TableHeaderProps<
   | 'approvalDate'
@@ -30,35 +31,35 @@ const tableHeaders: TableHeaderProps<
 >[] = [
   {
     identifier: 'subjectName',
-    label: 'Subject',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.SUBJECT',
   },
   {
     identifier: 'firstHalfScore',
-    label: 'First half',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.FIRST_HALF',
   },
   {
     identifier: 'secondHalfScore',
-    label: 'Second half',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.SECOND_HALF',
   },
   {
     identifier: 'finalScore',
-    label: 'Final',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.FINAL',
   },
   {
     identifier: 'teacherName',
-    label: 'Teacher',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.TEACHER',
   },
   {
     identifier: 'approvalDate',
-    label: 'Approval date',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.APPROVAL_DATE',
   },
   {
     identifier: 'approverName',
-    label: 'Approved by',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.APPROVED_BY',
   },
   {
     identifier: 'actions',
-    label: 'Action',
+    label: 'STUDENT_PROFILE.TABLE_HEADERS.ACTION',
   },
 ]
 
@@ -66,6 +67,11 @@ export function useStudentRecordPage() {
   const {
     query: { data },
   } = useStudentRecordQuery()
+
+  const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
 
   const { account } = useAccountStore()
 
@@ -97,7 +103,7 @@ export function useStudentRecordPage() {
   })
 
   return {
-    table: { tableData: data?.entries || [], tableHeaders },
+    table: { tableData: data?.entries || [], tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})) as typeof tableHeaders, },
     form: { requestForm },
     state: {
       requestModal: {
