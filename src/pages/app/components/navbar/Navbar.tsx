@@ -1,5 +1,6 @@
 import { Avatar, Button, HorizontalStack, VerticalStack } from '@components'
 import { useAccountStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider, Navbar as MNavbar, NavLink, Text } from '@mantine/core'
 import {
   IconClock,
@@ -8,9 +9,20 @@ import {
   IconSection,
   IconUsers,
 } from '@tabler/icons'
+import { result } from 'lodash'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const { Section } = MNavbar
+
+const translate = {
+  "NAVBAR.DASHBOARD": null,
+  "NAVBAR.ACCOUNT": null,
+  "NAVBAR.CLASSROOM": null,
+  "NAVBAR.PENDING": null,
+  "NAVBAR.STAT": null,
+  "NAVBAR.STUDENT_KEY": null
+}
+
 
 interface NavBarProps {
   logoutFn: () => void
@@ -20,31 +32,31 @@ interface NavBarProps {
 const navItems = [
   {
     to: '/app/account-list',
-    label: 'Account',
+    label: "NAVBAR.ACCOUNT",
     icon: <IconUsers />,
     role: ['ADMIN', 'STAFF'],
   },
   {
     to: '/app/classroom-list',
-    label: 'Classroom',
+    label: "NAVBAR.CLASSROOM",
     icon: <IconSection />,
     role: ['STAFF', 'ADMIN'],
   },
   {
     to: '/app/record-list',
-    label: 'Pending verification',
+    label: "NAVBAR.PENDING",
     icon: <IconClock />,
     role: ['TEACHER'],
   },
   {
     to: '/app/verified-statistic-key-list',
-    label: 'Manage stats key list',
+    label: "NAVBAR.STAT",
     icon: <IconKey />,
     role: ['ADMIN', 'STAFF'],
   },
   {
     to: '/app/verified-key-list',
-    label: 'Manage verified keys',
+    label: "NAVBAR.STUDENT_KEY",
     icon: <IconKey />,
     role: ['STUDENT'],
   },
@@ -52,7 +64,11 @@ const navItems = [
 
 export function Navbar(props: NavBarProps) {
   const { logoutFn: logout, gray } = props
-
+  const {translatedObject} = useTranslation(navItems.reduce((result, {label}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
+  const translateData = useTranslation(translate);
   const {
     account: { avatar, firstName, lastName, role: accountRole, email, id },
   } = useAccountStore()
@@ -83,7 +99,7 @@ export function Navbar(props: NavBarProps) {
             // })}
             component={Link}
             to={'/app/dashboard/' + accountRole?.toLowerCase()}
-            label={'Dashboard'}
+            label={translateData.translatedObject?.["NAVBAR.DASHBOARD"]}
             // sx={{
             //   cursor: 'pointer',
             // }}
@@ -106,7 +122,7 @@ export function Navbar(props: NavBarProps) {
                 key={`navItem__${index}`}
                 component={Link}
                 to={to}
-                label={label}
+                label={translatedObject?.[label]}
                 // sx={{
                 //   cursor: 'pointer',
                 // }}

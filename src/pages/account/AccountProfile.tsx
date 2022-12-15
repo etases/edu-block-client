@@ -16,13 +16,35 @@ import {
   VerticalStack,
 } from '@components'
 import { useAccountProfilePage } from '@hooks/use-page'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider, Image, Text, Title } from '@mantine/core'
 import { IconUserCircle } from '@tabler/icons'
 import dayjs from 'dayjs'
 import { Fragment } from 'react'
 import { Outlet } from 'react-router-dom'
 
+const translate = {
+  "PROFILE.TITLE": null,
+  "PROFILE.PASSWORD_CHANGE": null,
+  "PROFILE.PASSWORD_CHANGE.OLD": null,
+  "PROFILE.PASSWORD_CHANGE.NEW": null,
+  "PROFILE.PASSWORD_CHANGE.CONFIRM": null,
+  "PROFILE.PASSWORD_CHANGE.SUBMIT": null,
+  "PROFILE.UPDATE": null,
+  "PROFILE.ROLE": null,
+  "PROFILE.FIRST_NAME": null,
+  "PROFILE.LAST_NAME": null,
+  "PROFILE.DOB": null,
+  "PROFILE.GENDER": null,
+  "PROFILE.GENDER.MALE": null,
+  "PROFILE.GENDER.FEMALE": null,
+  "PROFILE.PHONE": null,
+  "PROFILE.ADDRESS": null,
+  "LOGIN.FIELD.USERNAME": null
+}
+
 export function AccountProfile() {
+  const {translatedObject} = useTranslation(translate)
   const {
     accountProfile,
     others: { account },
@@ -33,11 +55,11 @@ export function AccountProfile() {
   return (
     <VerticalStack>
       <HorizontalStack position={'apart'}>
-        <Title>Account Profile</Title>
+        <Title>{translatedObject?.["PROFILE.TITLE"]}</Title>
         <HorizontalStack>
           {account.id === accountProfile?.id && (
             <Button onClick={passwordModal.openPasswordUpdateModal}>
-              Change password
+              {translatedObject?.["PROFILE.PASSWORD_CHANGE"]}
             </Button>
           )}
           {(account.role === 'STAFF' || account.role === 'ADMIN') &&
@@ -57,7 +79,7 @@ export function AccountProfile() {
                   })
                 }}
               >
-                Update Profile
+                {translatedObject?.["PROFILE.UPDATE"]}
               </Button>
             )}
         </HorizontalStack>
@@ -92,13 +114,13 @@ export function AccountProfile() {
                     color={'orange'}
                     sx={{ alignSelf: 'stretch' }}
                   >
-                    Username: {accountProfile?.userName}
+                    {translatedObject?.["LOGIN.FIELD.USERNAME"]}: {accountProfile?.userName}
                   </Badge>
                   <Badge
                     color={'grape'}
                     sx={{ alignSelf: 'stretch' }}
                   >
-                    Role: {accountProfile?.role}
+                    {translatedObject?.["PROFILE.ROLE"]}: {accountProfile?.role}
                   </Badge>
                 </VerticalStack>
               </Card>
@@ -108,20 +130,20 @@ export function AccountProfile() {
                 <GridCol span={4}>
                   <TextInput
                     defaultValue={accountProfile?.firstName}
-                    label={'First name'}
+                    label={translatedObject?.["PROFILE.FIRST_NAME"]}
                     readOnly={true}
                   />
                 </GridCol>
                 <GridCol span={4}>
                   <TextInput
                     defaultValue={accountProfile?.lastName}
-                    label={'Last name'}
+                    label={translatedObject?.["PROFILE.LAST_NAME"]}
                     readOnly={true}
                   />
                 </GridCol>
                 <GridCol span={4}>
                   <DateInput
-                    label={'Date of Birth'}
+                    label={translatedObject?.["PROFILE.DOB"]}
                     readOnly={true}
                     value={dayjs(accountProfile?.dateOfBirth).toDate()}
                     clearable={false}
@@ -131,13 +153,13 @@ export function AccountProfile() {
                 <GridCol span={4}>
                   <RadioInputGroup
                     value={accountProfile?.isMale ? 'M' : 'F'}
-                    label={'Gender'}
+                    label={translatedObject?.["PROFILE.GENDER"]}
                   >
                     {[true, false].map((item, index) => (
                       <RadioInput
                         key={`profileGender__${index}`}
                         label={
-                          accountProfile?.isMale === item ? 'Male' : 'Female'
+                          accountProfile?.isMale === item ? translatedObject?.["PROFILE.GENDER.MALE"] : translatedObject?.["PROFILE.GENDER.FEMALE"]
                         }
                         value={accountProfile?.isMale === item ? 'M' : 'F'}
                       />
@@ -148,7 +170,7 @@ export function AccountProfile() {
                   <TextInput
                     readOnly={true}
                     defaultValue={accountProfile?.phone}
-                    label={'Phone'}
+                    label={translatedObject?.["PROFILE.PHONE"]}
                   />
                 </GridCol>
                 <GridCol span={4}>
@@ -162,7 +184,7 @@ export function AccountProfile() {
                   <TextareaInput
                     readOnly={true}
                     defaultValue={accountProfile?.address}
-                    label={'Address'}
+                    label={translatedObject?.["PROFILE.ADDRESS"]}
                   />
                 </GridCol>
               </Grid>
@@ -185,7 +207,7 @@ export function AccountProfile() {
             size={'lg'}
             weight={'bold'}
           >
-            Change password
+            {translatedObject?.["PROFILE.PASSWORD_CHANGE"]}
           </Text>
         }
       >
@@ -193,21 +215,21 @@ export function AccountProfile() {
           <form onSubmit={passwordForm.submitForm}>
             <VerticalStack>
               <PasswordInput
-                label={'Old password'}
+                label={translatedObject?.["PROFILE.PASSWORD_CHANGE.OLD"]}
                 {...passwordForm.inputPropsOf('oldPassword')}
               />
               <PasswordInput
                 defaultVisible={true}
-                label={'New password'}
+                label={translatedObject?.["PROFILE.PASSWORD_CHANGE.NEW"]}
                 {...passwordForm.inputPropsOf('newPassword')}
               />
               <PasswordInput
                 defaultVisible={true}
-                label={'Confirm new password'}
+                label={translatedObject?.["PROFILE.PASSWORD_CHANGE.CONFIRM"]}
                 {...passwordForm.inputPropsOf('confirmNewPassword')}
               />
               <HorizontalStack position={'right'}>
-                <Button type={'submit'}>Submit</Button>
+                <Button type={'submit'}>{translatedObject?.["PROFILE.PASSWORD_CHANGE.SUBMIT"]}</Button>
               </HorizontalStack>
             </VerticalStack>
           </form>
@@ -221,7 +243,7 @@ export function AccountProfile() {
             size={'lg'}
             weight={'bold'}
           >
-            Update profile
+            {translatedObject?.["PROFILE.UPDATE"]}
           </Text>
         }
       >
@@ -245,33 +267,33 @@ export function AccountProfile() {
               <HorizontalStack>
                 <TextInput
                   withAsterisk={true}
-                  label={'First Name'}
+                  label={translatedObject?.["PROFILE.FIRST_NAME"]}
                   {...profileForm.inputPropsOf('firstName')}
                 />
                 <TextInput
                   withAsterisk={true}
-                  label={'Last Name'}
+                  label={translatedObject?.["PROFILE.LAST_NAME"]}
                   {...profileForm.inputPropsOf('lastName')}
                 />
               </HorizontalStack>
               <RadioInputGroup
-                label={'Gender'}
+                label={translatedObject?.["PROFILE.GENDER"]}
                 size={'md'}
                 {...profileForm.inputPropsOf('male')}
               >
                 <RadioInput
                   size={'md'}
                   value={'1'}
-                  label={'Male'}
+                  label={translatedObject?.["PROFILE.GENDER.MALE"]}
                 />
                 <RadioInput
                   size={'md'}
                   value={'0'}
-                  label={'Female'}
+                  label={translatedObject?.["PROFILE.GENDER.FEMALE"]}
                 />
               </RadioInputGroup>
               <DateInput
-                label={'Date of Birth'}
+                label={translatedObject?.["PROFILE.DOB"]}
                 variant={'default'}
                 radius={'md'}
                 size={'md'}
@@ -303,7 +325,7 @@ export function AccountProfile() {
                 {...profileForm.inputPropsOf('birthDate')}
               />
               <TextInput
-                label={'Phone'}
+                label={translatedObject?.["PROFILE.PHONE"]}
                 withAsterisk={true}
                 icon={'+84'}
                 {...profileForm.inputPropsOf('phone')}
@@ -314,12 +336,12 @@ export function AccountProfile() {
                 {...profileForm.inputPropsOf('email')}
               />
               <TextareaInput
-                label={'Address'}
+                label={translatedObject?.["PROFILE.ADDRESS"]}
                 withAsterisk={true}
                 size={'md'}
                 {...profileForm.inputPropsOf('address')}
               />
-              <Button type={'submit'}>Submit</Button>
+              <Button type={'submit'}>{translatedObject?.["PROFILE.PASSWORD_CHANGE.SUBMIT"]}</Button>
             </VerticalStack>
           </form>
         </VerticalStack>

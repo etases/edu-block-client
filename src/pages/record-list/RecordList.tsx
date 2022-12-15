@@ -1,9 +1,18 @@
 import { HorizontalStack, IconButton, Table, VerticalStack } from '@components'
 import { useRecordListPage } from '@hooks/use-page'
+import { useTranslation } from '@hooks/use-translation'
 import { Title } from '@mantine/core'
 import { IconCheck, IconDetails, IconX } from '@tabler/icons'
 
+const translate = {
+  "TEACHER.RECORD.TITLE": null,
+  "TEACHER.RECORD.ACCEPT": null,
+  "TEACHER.RECORD.REJECT": null,
+  "TEACHER.RECORD.DETAIL": null
+}
+
 export function RecordList() {
+  const {translatedObject} = useTranslation(translate);
   const {
     table: { tableData, tableHeaders },
     actions: { acceptRequest, rejectRequest },
@@ -13,7 +22,7 @@ export function RecordList() {
   return (
     <VerticalStack>
       <HorizontalStack>
-        <Title>Records</Title>
+        <Title>{translatedObject?.["TEACHER.RECORD.TITLE"]}</Title>
       </HorizontalStack>
       <Table
         tableData={tableData.map((item) => ({
@@ -21,21 +30,21 @@ export function RecordList() {
           actions: (
             <HorizontalStack>
               <IconButton
-                label={'Accept'}
+                label={translatedObject?.["TEACHER.RECORD.ACCEPT"]}
                 color={'green'}
                 onClick={() => acceptRequest(item.requestId)}
               >
                 <IconCheck />
               </IconButton>
               <IconButton
-                label={'Reject'}
+                label={translatedObject?.["TEACHER.RECORD.REJECT"]}
                 color={'red'}
                 onClick={() => rejectRequest(item.requestId)}
               >
                 <IconX />
               </IconButton>
               <IconButton
-                label={'Details'}
+                label={translatedObject?.["TEACHER.RECORD.DETAIL"]}
                 // color={'red'}
                 onClick={() =>
                   navigate(
