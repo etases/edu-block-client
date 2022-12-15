@@ -150,6 +150,21 @@
   "CLASSROOM.CREATE_FORM.INVALID_YEAR": "Năm không phù hợp",
   "CLASSROOM.CREATE_FORM.INVALID_YEAR": "Phải chọn giáo viên",
   "CLASSROOM.CREATE_FORM.SUBMITTED_MESSAGE": "Đã gửi đi thông tin của lớp mới",
+
+  "LOGIN.FORM.MESSAGE": "Đã gửi thông tin đăng nhập",
+  
+  "RECORD.UPDATE_REQUEST_FORM.MESSAGE": "Đã gửi yêu cầu cập nhật của bảng điểm này",
+
+  "STUDENT.PROFILE_UPDATE_FORM.MESSAGE": "Đã gửi thông tin mới của học sinh này",
+
+  "STUDENT.RECORD_IMAGE_FORM.MESSAGE": "Đã gửi bảng điểm mới",
+
+  "PROFILE.UPDATE_FORM.INVALID_EMAIL": "Định dạng Email không phù hợp",
+  "PROFILE.UPDATE_FORM.INVALID_PHONE": "Chỉ hỗ trợ số điện thoại với 10 số",
+  "PROFILE.UPDATE_FORM.INVALID_DOB": "Phải trên 6 tuổi",
+  "PROFILE.UPDATE_FORM.INVALID_ADDRESS": "Địa chỉ không được để trống",
+  "PROFILE.UPDATE_FORM.INVALID_NAME": "Tên không phù hợp",
+  "PROFILE.UPDATE_FORM.MESSAGE": "Đã gửi thông tin mới của hồ sơ này",
   
   "NAVBAR.DASHBOARD": "Trang chủ",
   "NAVBAR.ACCOUNT": "Tài khoản",

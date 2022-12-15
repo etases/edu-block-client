@@ -1,6 +1,7 @@
 import { useLoginMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
 
 export function useLoginForm() {
   const form = useForm({
@@ -22,8 +23,14 @@ export function useLoginForm() {
       username: accountId,
       password,
     })
-    notifyInformation({ message: `Login credential submitted` })
+    notifyInformation({ message: translate("LOGIN.FORM.MESSAGE") })
   })
+
+  const translation = {
+    'LOGIN.FORM.MESSAGE': null,
+  }
+  
+  const { translate } = useTranslation(translation)
 
   return { submitForm, inputPropsOf: form.getInputProps }
 }

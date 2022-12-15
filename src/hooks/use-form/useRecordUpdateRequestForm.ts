@@ -2,6 +2,7 @@ import { useRecordUpdateRequestMutation } from '@hooks/use-query/mutations'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from '@hooks/use-translation'
 
 interface FormInterface {
   studentId: string
@@ -52,7 +53,7 @@ export function useRecordUpdateRequestForm() {
       teacherId: values.teacherId,
     })
     notifyInformation({
-      message: `Submitted update request for this record`,
+      message: translate("RECORD.UPDATE_REQUEST_FORM.MESSAGE"),
     })
   })
 
@@ -65,6 +66,12 @@ export function useRecordUpdateRequestForm() {
   }) => {
     form.setValues({ ...values })
   }
+
+  const translation = {
+    'RECORD.UPDATE_REQUEST_FORM.MESSAGE': null,
+  }
+  
+  const { translate } = useTranslation(translation)
 
   return { inputPropsOf: form.getInputProps, submitForm, loadFormValues, form }
 }
