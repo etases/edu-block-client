@@ -1,5 +1,6 @@
 import { HorizontalStack, VerticalStack } from '@components'
 import { useAccountStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider, Tabs, Text, Title, useMantineTheme } from '@mantine/core'
 import { Outlet, useNavigate } from 'react-router-dom'
 
@@ -8,20 +9,21 @@ const { List: TabList, Tab: TabItem } = Tabs
 const tabItems = [
   {
     value: 'details',
-    label: 'Details',
+    label: 'CLASS_DETAIL.DETAILS',
   },
   {
     value: 'students',
-    label: 'Students',
+    label: 'CLASS_DETAIL.STUDENTS',
     role: ['STAFF', 'ADMIN', 'TEACHER'],
   },
   {
     value: 'teachers',
-    label: 'Teachers',
+    label: 'CLASS_DETAIL.TEACHERS',
   },
 ]
 
 export function Classroom() {
+  const {translate} = useTranslation();
   const { colors } = useMantineTheme()
   const navigate = useNavigate()
   const { account } = useAccountStore()
@@ -29,7 +31,7 @@ export function Classroom() {
   return (
     <VerticalStack>
       <HorizontalStack>
-        <Title>Classroom</Title>
+        <Title>{translate("CLASS_DETAIL.TITLE")}</Title>
       </HorizontalStack>
       <Divider />
       <Tabs
@@ -61,7 +63,7 @@ export function Classroom() {
                     size={'lg'}
                     weight={'bold'}
                   >
-                    {label}
+                    {translate(label)}
                   </Text>
                 </TabItem>
               )

@@ -9,13 +9,34 @@ import {
 } from '@components'
 import { ENDPOINT } from '@constants'
 import { request, semesterNameList, useReportQuery } from '@hooks/use-query'
+import { useTranslation } from '@hooks/use-translation'
 import { Card, Divider, Flex, Text, Title } from '@mantine/core'
 import { IconDownload, IconDownloadOff } from '@tabler/icons'
 import { useQueries, useQuery } from '@tanstack/react-query'
 import { dayjs } from '@utilities/functions'
 import Plot from 'react-plotly.js'
 
+const translate = {
+  "ADMIN_PAGE.SIDEBAR.DASHBOARD": null,
+  "ADMIN_PAGE.SIDEBAR.ACCOUNT": null,
+  "ADMIN_PAGE.SIDEBAR.CLASSROOM": null,
+  "STAFF_PAGE.DASHBOARD.TITLE": null,
+  "ADMIN_PAGE.DASHBOARD.TEACHER": null,
+  "ADMIN_PAGE.DASHBOARD.STUDENT": null,
+  "ADMIN_PAGE.DASHBOARD.CLASSROOM": null,
+  "ADMIN_PAGE.DASHBOARD.GET_GRADE": null,
+  "ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION": null,
+  "ADMIN_PAGE.DASHBOARD.YEAR": null,
+  "ADMIN_PAGE.DASHBOARD.GRADE": null,
+  "firstHalf": null,
+  "secondHalf": null,
+  "final": null,
+}
+
 export function StaffDashboard() {
+
+  const {translatedObject} = useTranslation(translate);
+
   const {
     query: { gradeRecordQuery, classificationQuery },
     state,
@@ -104,7 +125,7 @@ export function StaffDashboard() {
   return (
     <VerticalStack>
       <HorizontalStack>
-        <Title>Staff Dashboard</Title>
+        <Title>{translatedObject?.["STAFF_PAGE.DASHBOARD.TITLE"]}</Title>
       </HorizontalStack>
       <Divider />
       <HorizontalStack grow={true}>
@@ -119,7 +140,7 @@ export function StaffDashboard() {
               label: year,
             }
           })}
-          placeholder={'Year'}
+          placeholder={translatedObject?.["ADMIN_PAGE.DASHBOARD.YEAR"]?.toString()}
           value={state.year.year.toString()}
           onChange={(value) => state.year.setYear(Number(value))}
         />
@@ -128,7 +149,7 @@ export function StaffDashboard() {
             value: grade.toString(),
             label: ['Grade', grade].join(' '),
           }))}
-          placeholder={'Grade'}
+          placeholder={translatedObject?.["ADMIN_PAGE.DASHBOARD.GRADE"]?.toString()}
           value={state.grade.grade.toString()}
           onChange={(value) => state.grade.setGrade(Number(value))}
         />
@@ -143,7 +164,7 @@ export function StaffDashboard() {
           }
           disabled={gradeRecordQuery.data?.length === 0}
         >
-          Get Grade report
+          {translatedObject?.["ADMIN_PAGE.DASHBOARD.GET_GRADE"]}
         </Button>
         <Button
           disabled={gradeRecordQuery.data?.length === 0}
@@ -156,7 +177,7 @@ export function StaffDashboard() {
             )
           }
         >
-          Get Classification report
+          {translatedObject?.["ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION"]}
         </Button>
       </HorizontalStack>
       <Divider />
@@ -179,8 +200,8 @@ export function StaffDashboard() {
             {[
               { color: 'red', label: 'Admin|' },
               { color: 'orange', label: 'Staff|' },
-              { color: 'blue', label: 'Teacher|' },
-              { color: 'grape', label: 'Student|' },
+              { color: 'blue', label: `${translatedObject?.["ADMIN_PAGE.DASHBOARD.TEACHER"]}|` },
+              { color: 'grape', label: `${translatedObject?.["ADMIN_PAGE.DASHBOARD.STUDENT"]}|` },
             ].map(({ color, label }, index) => (
               <Button
                 key={index}
@@ -203,7 +224,7 @@ export function StaffDashboard() {
           </Card.Section>
           <HorizontalStack position={'center'}>
             <Button>
-              <Text>Classroom|</Text>
+              <Text>{translatedObject?.["ADMIN_PAGE.DASHBOARD.CLASSROOM"]}|</Text>
               <Text>{classroomsCountQuery.data}</Text>
             </Button>
           </HorizontalStack>
@@ -222,7 +243,7 @@ export function StaffDashboard() {
                   ...(classificationQuery?.data as any),
                   (classificationQuery?.data as any)?.at(0),
                 ],
-                name: semesterName,
+                name: translatedObject?.[semesterName]?.toString(),
                 type: 'scatterpolar',
               }))}
               layout={{}}
@@ -235,7 +256,7 @@ export function StaffDashboard() {
                 y: utils
                   .generateClassificationReport('table')
                   ?.map((classification: any) => classification[semesterName]),
-                name: semesterName,
+                name: translatedObject?.[semesterName]?.toString(),
                 type: 'bar',
               }))}
               layout={{}}

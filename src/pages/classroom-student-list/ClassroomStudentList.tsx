@@ -10,6 +10,7 @@ import {
   VerticalStack,
 } from '@components'
 import { useClassroomStudentsPage } from '@hooks/use-page'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider, Text } from '@mantine/core'
 import {
   IconCheck,
@@ -21,6 +22,7 @@ import {
 import { forwardRef, useState } from 'react'
 
 export function ClassroomStudentList() {
+  const {translate} = useTranslation()
   const {
     table: { tableHeaders, tableData },
     form: { addForm },
@@ -55,7 +57,7 @@ export function ClassroomStudentList() {
             leftIcon={<IconUserPlus />}
             onClick={openAddStudentModal}
           >
-            Add students
+            {translate("CLASS.STUDENT.ADD")}
           </Button>
           <Divider />
         </HorizontalStack>
@@ -96,7 +98,7 @@ export function ClassroomStudentList() {
             size={'lg'}
             weight={'bold'}
           >
-            Add students to class
+            {translate("CLASS.STUDENT.ADD")}
           </Text>
         }
         opened={addStudentModalState}
@@ -112,6 +114,7 @@ export function ClassroomStudentList() {
                 <HorizontalStack>
                   <SelectInput
                     data={searchSelectOption}
+                    placeholder={translate("CLASS.STUDENT.ADD.SEARCH").toString()}
                     value={selectedField}
                     onChange={(value) => setSelectedField(value || '')}
                     // {...addForm.inputPropsOf(`accounts.${index}`)}
@@ -142,12 +145,13 @@ export function ClassroomStudentList() {
                       )
                     )}
                     searchValue={searchText}
+                    placeholder={translate("CLASS.STUDENT.ADD.SELECT").toString()}
                     onSearchChange={setSearchText}
                     onChange={(value) => setSelectedStudent(value)}
                   />
                 </HorizontalStack>
                 <IconButton
-                  label={'Add student'}
+                  label={translate("CLASS.STUDENT.ADD")}
                   color={'green'}
                   onClick={() =>
                     addForm.addStudentToList(
@@ -179,7 +183,7 @@ export function ClassroomStudentList() {
                     />
                     <IconButton
                       disabled={false}
-                      label={'Remove'}
+                      label={translate("CLASS.STUDENT.ADD.DELETE")}
                       color={'red'}
                       size={'xl'}
                       onClick={() => addForm.removeStudentFromList(index)}
@@ -199,7 +203,7 @@ export function ClassroomStudentList() {
                   type={'reset'}
                   leftIcon={<IconClearAll />}
                 >
-                  Clear
+                  {translate("CLASSROOM_LIST.CREATE.CLEAR")}
                 </Button>
                 <HorizontalStack>
                   {/* <Button
@@ -214,7 +218,7 @@ export function ClassroomStudentList() {
                     color={'green'}
                     leftIcon={<IconCheck />}
                   >
-                    Confirm
+                    {translate("CLASS.STUDENT.ADD.CONFIRM")}
                   </Button>
                 </HorizontalStack>
               </HorizontalStack>

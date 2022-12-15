@@ -11,18 +11,20 @@ import {
 } from '@components'
 import { useClassroomDetailsPage } from '@hooks/use-page'
 import { semesterNameList } from '@hooks/use-query'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider, Tabs, Text } from '@mantine/core'
 import { IconCheck, IconRefresh } from '@tabler/icons'
 import { forwardRef } from 'react'
 import Plot from 'react-plotly.js'
 
 const semesterTr = {
-  firstHalf: 'First half',
-  secondHalf: 'Second half',
-  final: 'Final',
+  firstHalf: 'firstHalf',
+  secondHalf: 'secondHalf',
+  final: 'final',
 }
 
 export function ClassroomDetails() {
+  const {translate} = useTranslation()
   const {
     classroomDetails,
     teacherList,
@@ -51,12 +53,12 @@ export function ClassroomDetails() {
       <HorizontalStack grow={true}>
         <TextInput
           readOnly={true}
-          label={'Classroom name'}
+          label={translate("CLASS_DETAIL.NAME")}
           defaultValue={classroomDetails?.classroomName}
         />
         <TextInput
           readOnly={true}
-          label={'Grade'}
+          label={translate("CLASS_DETAIL.GRADE")}
           defaultValue={classroomDetails?.classroomGrade}
         />
       </HorizontalStack>
@@ -72,17 +74,17 @@ export function ClassroomDetails() {
           <TextInput
             readOnly={true}
             defaultValue={classroomDetails?.teacherName}
-            label={'Teacher name'}
+            label={translate("CLASS_DETAIL.TEACHER")}
           />
           <TextInput
             readOnly={true}
             defaultValue={classroomDetails?.teacherPhone}
-            label={'Teacher phone'}
+            label={translate("CLASS_DETAIL.PHONE")}
           />
           <TextInput
             readOnly={true}
             defaultValue={classroomDetails?.teacherEmail}
-            label={'Teacher email'}
+            label={translate("CLASS_DETAIL.EMAIL")}
           />
         </HorizontalStack>
       </HorizontalStack>
@@ -95,14 +97,14 @@ export function ClassroomDetails() {
                 generateSemesterReport(classroomDetails?.classroomName, 'file')
               }
             >
-              Get semester report
+              {translate("CLASS_DETAIL.SEMESTER_REPORT")}
             </Button>
             <Button
               onClick={() =>
                 generateSubjectReport(classroomDetails?.classroomName, 'file')
               }
             >
-              Get subject report
+              {translate("CLASS_DETAIL.SUBJECT_REPORT")}
             </Button>
           </>
         )}
@@ -121,7 +123,7 @@ export function ClassroomDetails() {
             }}
             leftIcon={<IconRefresh />}
           >
-            Update details
+            {translate("CLASS_DETAIL.UPDATE")}
           </Button>
         )}
       </HorizontalStack>
@@ -139,7 +141,7 @@ export function ClassroomDetails() {
                   value={semesterName}
                   key={'tabItem__' + semesterName}
                 >
-                  {semesterTr[semesterName]}
+                  {translate(semesterTr[semesterName])}
                 </Tabs.Tab>
               ))}
             </Tabs.List>
@@ -182,7 +184,7 @@ export function ClassroomDetails() {
                           },
                         ]}
                         layout={{
-                          title: semesterTr[semesterName],
+                          title: translate(semesterTr[semesterName]),
                           height: 35 * studentCount,
                         }}
                       />
@@ -202,7 +204,7 @@ export function ClassroomDetails() {
             size={'lg'}
             weight={'bold'}
           >
-            Update classroom details
+            {translate("CLASS_DETAIL.UPDATE")}
           </Text>
         }
       >
@@ -211,12 +213,12 @@ export function ClassroomDetails() {
             <VerticalStack>
               <HorizontalStack grow={true}>
                 <TextInput
-                  placeholder={'Classroom name'}
+                  placeholder={translate("CLASS_DETAIL.NAME")}
                   {...updateForm.inputPropsOf('name')}
                   required={true}
                 />
                 <AutocompleteInput
-                  placeholder={'Grade'}
+                  placeholder={translate("CLASS_DETAIL.GRADE")}
                   data={Array.from(Array(12)).map((item, index) =>
                     (index + 1).toString()
                   )}
@@ -226,7 +228,7 @@ export function ClassroomDetails() {
               </HorizontalStack>
               <HorizontalStack grow={true}>
                 <SelectInput
-                  placeholder={'Search teacher by'}
+                  placeholder={translate("CLASSROOM_LIST.CREATE.SEARCH_TEACHER")}
                   data={searchSelectOption}
                   value={selectedField}
                   onChange={(value) => setSelectedField(value || '')}
@@ -241,7 +243,7 @@ export function ClassroomDetails() {
                     value: id.toString(),
                     label: name,
                   }))}
-                  placeholder={'Teacher'}
+                  placeholder={translate("CLASSROOM_LIST.CREATE.SELECT_TEACHER")}
                   itemComponent={forwardRef(
                     ({ id, name, avatar, ...others }, ref) => (
                       <div
@@ -275,7 +277,7 @@ export function ClassroomDetails() {
                   color={'green'}
                   leftIcon={<IconCheck />}
                 >
-                  Update
+                  {translate("CLASS_DETAIL.UPDATE.CONFIRM")}
                 </Button>
               </HorizontalStack>
             </VerticalStack>

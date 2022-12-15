@@ -5,10 +5,31 @@ import {
   useClassroomListQuery,
 } from '@hooks/use-query'
 import { useAccountStore, useTitleStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+const translate = {
+  "CLASSROOM_LIST.CLASSID": null,
+  "CLASSROOM_LIST.CLASSNAME": null,
+  "CLASSROOM_LIST.GRADE": null,
+  "CLASSROOM_LIST.TEACHER": null,
+  "CLASSROOM_LIST.TEACHER_AVATAR": null,
+  "CLASSROOM_LIST.TEACHER_EMAIL": null,
+  "CLASSROOM_LIST.TEACHER_PHONE": null,
+  "CLASSROOM_LIST.ACTIONS": null,
+  "SEARCH.CLASSROOM.ID": null,
+  "SEARCH.CLASSROOM.NAME": null,
+  "SEARCH.CLASSROOM.GRADE": null,
+  "SEARCH.HOMEROOM.HOMEROOMID": null,
+  "SEARCH.HOMEROOM.USERNAME": null,
+  "SEARCH.HOMEROOM.FIRST": null,
+  "SEARCH.HOMEROOM.LAST": null,
+  "SEARCH.HOMEROOM.EMAIL": null,
+  "SEARCH.HOMEROOM.PHONE": null
+}
 
 const tableHeaders: TableHeaderProps<
   | 'classroomId'
@@ -25,35 +46,35 @@ const tableHeaders: TableHeaderProps<
 >[] = [
   {
     identifier: 'classroomId',
-    label: 'Class Id',
+    label: "CLASSROOM_LIST.CLASSID",
   },
   {
     identifier: 'classroomName',
-    label: 'Class name',
+    label: "CLASSROOM_LIST.CLASSNAME",
   },
   {
     identifier: 'classroomGrade',
-    label: 'Grade',
+    label: "CLASSROOM_LIST.GRADE",
   },
   {
     identifier: 'teacherName',
-    label: 'Teacher name',
+    label: "CLASSROOM_LIST.TEACHER",
   },
   {
     identifier: 'teacherAvatar',
-    label: 'Teacher avatar',
+    label: "CLASSROOM_LIST.TEACHER_AVATAR"
   },
   {
     identifier: 'teacherEmail',
-    label: 'Teacher Email',
+    label: "CLASSROOM_LIST.TEACHER_EMAIL",
   },
   {
     identifier: 'teacherPhone',
-    label: 'Teacher phone',
+    label: "CLASSROOM_LIST.TEACHER_PHONE",
   },
   {
     identifier: 'actions',
-    label: 'Actions',
+    label: "CLASSROOM_LIST.ACTIONS",
   },
 ]
 
@@ -65,12 +86,12 @@ const searchSelectCategoryGroup = {
 const searchSelectOption: SelectItem[] = [
   {
     value: 'id',
-    label: 'Id',
+    label: "Class Id",
     group: searchSelectCategoryGroup.classroom,
   },
   {
     value: 'name',
-    label: 'Name',
+    label: 'Class name',
     group: searchSelectCategoryGroup.classroom,
   },
   {
@@ -152,6 +173,10 @@ const searchSelectTeacherOption: SelectItem[] = [
 const PAGE_TITLE = 'Classroom list'
 
 export function useClassroomListPage() {
+  const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
   const { setTitle } = useTitleStore()
 
   useEffect(() => {
@@ -183,7 +208,7 @@ export function useClassroomListPage() {
   const { account } = useAccountStore()
 
   return {
-    table: { tableHeaders, classroomList: classroomsData || [] },
+    table: { tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})) as typeof tableHeaders, classroomList: classroomsData || [] },
     form: { createClassroomForm },
     state: {
       modal: {

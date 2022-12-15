@@ -10,11 +10,13 @@ import {
   VerticalStack,
 } from '@components'
 import { useClassroomTeachersPage } from '@hooks/use-page'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider, Text } from '@mantine/core'
 import { IconCheck, IconClearAll, IconTrash, IconUserPlus } from '@tabler/icons'
 import { forwardRef, useState } from 'react'
 
 export function ClassroomTeacherList() {
+  const {translate} = useTranslation()
   const {
     form: { addForm },
     table: { tableData, tableHeaders },
@@ -51,7 +53,7 @@ export function ClassroomTeacherList() {
             onClick={openAddTeacherModal}
             leftIcon={<IconUserPlus />}
           >
-            Add teachers
+            {translate("CLASS.TEACHER.ADD")}
           </Button>
           <Divider />
         </HorizontalStack>
@@ -67,7 +69,7 @@ export function ClassroomTeacherList() {
             <HorizontalStack>
               {account.role === 'STAFF' && (
                 <IconButton
-                  label={'Remove from classroom'}
+                  label={translate("CLASS.TEACHER.REMOVE")}
                   color={'red'}
                   onClick={() =>
                     removeTeacher({
@@ -95,7 +97,7 @@ export function ClassroomTeacherList() {
             size={'lg'}
             weight={'bold'}
           >
-            Add teachers to class
+            {translate("CLASS.TEACHER.ADD")}
           </Text>
         }
       >
@@ -110,15 +112,15 @@ export function ClassroomTeacherList() {
                   data={subjectList.map((item) => ({
                     // ...item,
                     value: item.id.toString(),
-                    label: item.identifier,
+                    label: translate(item.identifier).toString(),
                   }))}
-                  placeholder={'Select subject'}
+                  placeholder={translate("CLASS.TEACHER.ADD.SELECT_SUBJECT").toString()}
                   value={selectedSubject}
                   onChange={(value) => setSelectedSubject(value)}
                 />
                 <SelectInput
                   data={searchSelectOption}
-                  placeholder={'Search teacher in'}
+                  placeholder={translate("CLASS.TEACHER.ADD.SEARCH").toString()}
                   value={selectedField}
                   onChange={(value) => setSelectedField(value || '')}
                 />
@@ -149,13 +151,13 @@ export function ClassroomTeacherList() {
                       </div>
                     )
                   )}
-                  placeholder={'Teacher'}
+                  placeholder={translate("CLASS.TEACHER.ADD.SELECT").toString()}
                   searchValue={searchText}
                   onSearchChange={setSearchText}
                   onChange={(value) => setSelectedTeacher(value)}
                 />
                 <IconButton
-                  label={'Add teacher'}
+                  label={translate("CLASS.TEACHER.ADD")}
                   color={'green'}
                   onClick={() => {
                     const teacher = teacherList.find(
@@ -194,7 +196,7 @@ export function ClassroomTeacherList() {
                       readOnly={true}
                     />
                     <IconButton
-                      label={'Remove'}
+                      label={translate("CLASS.TEACHER.ADD.DELETE")}
                       color={'red'}
                       size={'xl'}
                       onClick={() => addForm.removeTeacherFromList(index)}
@@ -213,7 +215,7 @@ export function ClassroomTeacherList() {
                   color={'red'}
                   leftIcon={<IconClearAll />}
                 >
-                  Clear
+                  {translate("CLASSROOM_LIST.CREATE.CLEAR")}
                 </Button>
                 <HorizontalStack position={'apart'}>
                   <Button
@@ -221,7 +223,7 @@ export function ClassroomTeacherList() {
                     color={'green'}
                     leftIcon={<IconCheck />}
                   >
-                    Confirm
+                    {translate("CLASS.TEACHER.ADD.CONFIRM")}
                   </Button>
                 </HorizontalStack>
               </HorizontalStack>

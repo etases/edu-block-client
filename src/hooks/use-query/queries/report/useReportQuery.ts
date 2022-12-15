@@ -2,6 +2,7 @@
 import { ENDPOINT } from '@constants'
 import { request, toQueryString } from '@hooks/use-query/core'
 import { useAccountStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { useQuery } from '@tanstack/react-query'
 import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
@@ -11,6 +12,7 @@ import * as xlsx from 'xlsx'
 export const semesterNameList = ['firstHalf', 'secondHalf', 'final']
 
 export function useReportQuery() {
+  const {translate} = useTranslation()
   const { account } = useAccountStore()
   const { classroomId } = useParams()
   const [grade, setGrade] = useState(0)
@@ -148,6 +150,7 @@ export function useReportQuery() {
           semesterNameList: semesterNameList,
           data: gradeRecordQuery.data,
           returnType,
+          translate
         }),
       generateClassificationReport: (returnType) =>
         classificationReport({
@@ -157,6 +160,7 @@ export function useReportQuery() {
           grade,
           year,
           returnType,
+          translate
         }),
       generateSubjectReport: (classroomName, returnType) =>
         subjectReport({
@@ -164,6 +168,7 @@ export function useReportQuery() {
           data: classroomRecordQuery.data,
           subjectNameList: subjectQuery.data,
           returnType,
+          translate
         }),
       generateSemesterReport: (classroomName, returnType) =>
         semesterReport({
@@ -171,6 +176,7 @@ export function useReportQuery() {
           semesterNameList: semesterNameList,
           classroomName,
           returnType,
+          translate
         }),
     },
   }
@@ -235,13 +241,13 @@ function transformApiModel(data) {
   )
 }
 
-function subjectReport({ data, subjectNameList, classroomName, returnType }) {
+function subjectReport({ data, subjectNameList, classroomName, returnType, translate }) {
   if (!data || !subjectNameList) return
 
-  const formattedData = subjectNameList.reduce(
+  const formattedData = translate(subjectNameList).reduce(
     (result, subjectName) => ({
       ...result,
-      [subjectName]: data.map(
+      [translate(subjectName)]: data.map(
         ({ classroom, classification, student, ...subject }) => ({
           studentName: [student.firstName, student.lastName].join(' '),
           ...subject[subjectName],
@@ -271,19 +277,19 @@ function subjectReport({ data, subjectNameList, classroomName, returnType }) {
   )
 }
 
-function semesterReport({ data, semesterNameList, classroomName, returnType }) {
+function semesterReport({ data, semesterNameList, classroomName, returnType, translate }) {
   if (!data) return
 
   const formattedData = semesterNameList.reduce(
     (result, semesterName) => ({
       ...result,
-      [semesterName]: data.map(
+      [translate(semesterName)]: data.map(
         ({ classroom, classification, student, ...subjects }) => ({
-          studentName: [student.firstName, student.lastName].join(' '),
+          [translate('studentName')]: [student.firstName, student.lastName].join(' '),
           ...Object.entries(subjects).reduce(
             (result, [subjectName, subjectData]) => ({
               ...result,
-              [subjectName]: subjectData[semesterName],
+              [translate(subjectName)]: subjectData[semesterName],
             }),
             {}
           ),
@@ -319,6 +325,7 @@ function classificationReport({
   year,
   data,
   returnType,
+  translate
 }) {
   if (!data || !classificationNameList || !grade || !year) return
 
@@ -327,7 +334,7 @@ function classificationReport({
     ...semesterNameList.reduce(
       (result, semesterName) => ({
         ...result,
-        [semesterName]: data.filter(
+        [translate(semesterName)]: data.filter(
           ({ classification: c }) => c[semesterName] === classification
         ).length,
       }),
@@ -350,16 +357,16 @@ function classificationReport({
   )
 }
 
-function gradeReport({ year, grade, semesterNameList, data, returnType }) {
+function gradeReport({ year, grade, semesterNameList, data, returnType, translate }) {
   if (!data || !year || !grade) return
 
   const formattedData = data.map(({ student, classroom, classification }) => ({
-    studentName: [student.firstName, student.lastName].join(' '),
-    classroomName: classroom.name,
+    [translate('studentName')]: [student.firstName, student.lastName].join(' '),
+    [translate('classroomName')]: classroom.name,
     ...semesterNameList.reduce(
       (result, semesterName) => ({
         ...result,
-        [semesterName]: classification[semesterName],
+        [translate(semesterName)]: classification[semesterName],
       }),
       {}
     ),

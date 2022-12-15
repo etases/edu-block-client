@@ -5,6 +5,7 @@ import {
 } from '@constants/api/schemas'
 import { request, toQueryString } from '@hooks/use-query/core'
 import { useAccountStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useParams } from 'react-router-dom'
@@ -17,6 +18,7 @@ interface DataInterface {
 }
 
 export function useStudentRecordQuery() {
+  const {translate} = useTranslation()
   const { accountId, classroomId } = useParams()
   // const [selectedStudentId, setSelectedStudentId] = useState(accountId || '')
   // const [selectedClassroomId, setSelectedClassroomId] = useState(
@@ -97,7 +99,7 @@ export function useStudentRecordQuery() {
               secondHalfScore: Number(secondHalfScore).toFixed(2),
               requestDate,
               subjectId,
-              subjectName,
+              subjectName:translate(subjectName),
               requesterAvatar,
               requesterEmail,
               requesterId,

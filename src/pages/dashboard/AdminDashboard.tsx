@@ -28,6 +28,9 @@ const translate = {
   "ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION": null,
   "ADMIN_PAGE.DASHBOARD.YEAR": null,
   "ADMIN_PAGE.DASHBOARD.GRADE": null,
+  "firstHalf": null,
+  "secondHalf": null,
+  "final": null,
 }
 
 export function AdminDashboard() {
@@ -240,7 +243,7 @@ export function AdminDashboard() {
                   ...(classificationQuery?.data as any),
                   (classificationQuery?.data as any)?.at(0),
                 ],
-                name: semesterName,
+                name: translatedObject?.[semesterName]?.toString(),
                 type: 'scatterpolar',
               }))}
               layout={{}}
@@ -253,7 +256,7 @@ export function AdminDashboard() {
                 y: utils
                   .generateClassificationReport('table')
                   ?.map((classification: any) => classification[semesterName]),
-                name: semesterName,
+                name: translatedObject?.[semesterName]?.toString(),
                 type: 'bar',
               }))}
               layout={{}}

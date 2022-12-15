@@ -13,6 +13,7 @@ import {
   VerticalStack,
 } from '@components'
 import { useClassroomListPage } from '@hooks/use-page'
+import { useTranslation } from '@hooks/use-translation'
 import {
   Collapse,
   Divider,
@@ -41,6 +42,7 @@ interface TeacherItemProps extends SelectItemProps {
 }
 
 export function ClassroomList() {
+  const {translate} = useTranslation()
   const {
     table: { tableHeaders, classroomList },
     others: {
@@ -79,7 +81,7 @@ export function ClassroomList() {
     <VerticalStack>
       <VerticalStack>
         <HorizontalStack position={'apart'}>
-          <Title>Classrooms</Title>
+          <Title>{translate("CLASSROOM_LIST.TITLE")}</Title>
         </HorizontalStack>
       </VerticalStack>
       <Divider />
@@ -90,14 +92,14 @@ export function ClassroomList() {
               onClick={searchViewState ? closeSearchView : openSearchView}
               leftIcon={<IconSearch />}
             >
-              Search
+              {translate("CLASSROOM_LIST.SEARCH")}
             </Button>
             {account.role === 'STAFF' && (
               <Button
                 leftIcon={<IconClipboardPlus />}
                 onClick={openClassroomCreateModal}
               >
-                Create
+                {translate("CLASSROOM_LIST.CREATE")}
               </Button>
             )}
           </HorizontalStack>
@@ -115,7 +117,7 @@ export function ClassroomList() {
             <GridCol span={4}>
               <SelectInput
                 data={searchSelectOption}
-                placeholder={'Search in'}
+                placeholder={translate("CLASSROOM_LIST.SEARCHIN").toString()}
                 nothingFound={'Nothing found!'}
                 icon={<IconCategory />}
                 onChange={(value) => setSelectedSearchField(value || '')}
@@ -124,7 +126,7 @@ export function ClassroomList() {
             <GridCol span={8}>
               <TextInput
                 icon={<IconListSearch />}
-                placeholder={'Search text'}
+                placeholder={translate("CLASSROOM_LIST.SEARCHTEXT").toString()}
                 onChange={({ currentTarget: { value } }) =>
                   setSearchText(value)
                 }
@@ -141,7 +143,7 @@ export function ClassroomList() {
             actions: (
               <HorizontalStack>
                 <IconButton
-                  label={'Details'}
+                  label={translate("TEACHER.DASHBOARD.ACTIONS.DETAILS")}
                   onClick={() => navigate(`/app/classroom/${item.classroomId}`)}
                 >
                   <IconId />
@@ -160,7 +162,7 @@ export function ClassroomList() {
             weight={'bold'}
             size={'lg'}
           >
-            Create new classroom
+            {translate("CLASSROOM_LIST.CREATE")}
           </Text>
         }
       >
@@ -171,7 +173,7 @@ export function ClassroomList() {
                 <TextInput
                   required={true}
                   withAsterisk={true}
-                  placeholder={'Classroom name'}
+                  placeholder={translate("CLASSROOM_LIST.CLASSNAME")}
                   {...createClassroomForm.inputPropsOf('name')}
                 />
                 <AutocompleteInput
@@ -180,7 +182,7 @@ export function ClassroomList() {
                   data={Array.from(new Array(12)).map((item, index) =>
                     (index + 1).toString()
                   )}
-                  placeholder={'Grade'}
+                  placeholder={translate("CLASSROOM_LIST.GRADE")}
                   {...createClassroomForm.inputPropsOf('grade')}
                 />
                 <AutocompleteInput
@@ -189,13 +191,13 @@ export function ClassroomList() {
                   data={Array.from(Array(5)).map((item, index) =>
                     (index + dayjs().get('year')).toString()
                   )}
-                  placeholder={'Year'}
+                  placeholder={translate("CLASSROOM_LIST.CREATE.YEAR")}
                   {...createClassroomForm.inputPropsOf('year')}
                 />
               </HorizontalStack>
               <HorizontalStack grow={true}>
                 <SelectInput
-                  placeholder={'Search teacher by'}
+                  placeholder={translate("CLASSROOM_LIST.CREATE.SEARCH_TEACHER").toString()}
                   data={searchSelectTeacherOption}
                 />
                 <SelectInput
@@ -203,7 +205,7 @@ export function ClassroomList() {
                   withAsterisk={true}
                   size={'md'}
                   radius={'md'}
-                  placeholder={'Teacher'}
+                  placeholder={translate("CLASSROOM_LIST.CREATE.SELECT_TEACHER").toString()}
                   itemComponent={forwardRef(
                     (
                       { avatar, email, firstName, lastName, ...others },
@@ -245,14 +247,14 @@ export function ClassroomList() {
                   leftIcon={<IconClearAll />}
                   type={'reset'}
                 >
-                  Clear data
+                  {translate("CLASSROOM_LIST.CREATE.CLEAR")}
                 </Button>
                 <Button
                   type={'submit'}
                   color={'green'}
                   leftIcon={<IconFilePlus />}
                 >
-                  Create classroom
+                  {translate("CLASSROOM_LIST.CREATE.CONFIRM")}
                 </Button>
               </HorizontalStack>
             </VerticalStack>

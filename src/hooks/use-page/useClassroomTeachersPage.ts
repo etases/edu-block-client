@@ -7,6 +7,7 @@ import {
   useSubjectQuery,
 } from '@hooks/use-query'
 import { useAccountStore, useTitleStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect } from 'react'
@@ -25,23 +26,23 @@ const tableHeaders: TableHeaderProps<
 >[] = [
   {
     identifier: 'subjectIdentifier',
-    label: 'Subject',
+    label: 'CLASS.TEACHER.SUBJECT',
   },
   {
     identifier: 'teacherName',
-    label: 'Teacher',
+    label: 'CLASS.TEACHER.NAME',
   },
   {
     identifier: 'teacherAvatar',
-    label: 'Teacher avatar',
+    label: 'CLASS.TEACHER.AVATAR',
   },
   {
     identifier: 'teacherEmail',
-    label: 'Teacher email',
+    label: 'CLASS.TEACHER.EMAIL',
   },
   {
     identifier: 'actions',
-    label: 'Actions',
+    label: 'CLASS.TEACHER.ACTION',
   },
 ]
 
@@ -87,6 +88,10 @@ const searchSelectOption: SelectItem[] = [
 const PAGE_TITLE = 'Classroom teachers'
 
 export function useClassroomTeachersPage() {
+  const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
   const { setTitle } = useTitleStore()
 
   useEffect(() => {
@@ -120,7 +125,7 @@ export function useClassroomTeachersPage() {
 
   return {
     table: {
-      tableHeaders,
+      tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})) as typeof tableHeaders,
       tableData: classroomTeachers || [],
     },
     form: { addForm },

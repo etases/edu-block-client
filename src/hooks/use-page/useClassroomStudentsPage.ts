@@ -6,6 +6,7 @@ import {
   useClassroomStudentQuery,
 } from '@hooks/use-query'
 import { useAccountStore, useTitleStore } from '@hooks/use-store'
+import { useTranslation } from '@hooks/use-translation'
 import { SelectItem } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { useEffect } from 'react'
@@ -16,23 +17,23 @@ const tableHeaders: TableHeaderProps<
 >[] = [
   {
     identifier: 'studentId',
-    label: 'ID',
+    label: "CLASS.STUDENT.ID",
   },
   {
     identifier: 'firstName',
-    label: 'First name',
+    label: 'CLASS.STUDENT.FIRSTNAME',
   },
   {
     identifier: 'lastName',
-    label: 'Last name',
+    label: 'CLASS.STUDENT.LASTNAME',
   },
   {
     identifier: 'avatar',
-    label: 'Avatar',
+    label: 'CLASS.STUDENT.AVATAR',
   },
   {
     identifier: 'actions',
-    label: 'Actions',
+    label: 'CLASS.STUDENT.ACTION',
   },
 ]
 
@@ -78,6 +79,10 @@ const searchSelectOption: SelectItem[] = [
 const PAGE_TITLE = 'Classroom students'
 
 export function useClassroomStudentsPage() {
+  const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
+    ...result,
+    [label]: null
+  }), {} as any))
   const { setTitle } = useTitleStore()
 
   useEffect(() => {
@@ -109,7 +114,7 @@ export function useClassroomStudentsPage() {
   const { account } = useAccountStore()
 
   return {
-    table: { tableData: classroomStudents || [], tableHeaders },
+    table: { tableData: classroomStudents || [], tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})) as typeof tableHeaders },
     form: { addForm },
     state: {
       modal: {
