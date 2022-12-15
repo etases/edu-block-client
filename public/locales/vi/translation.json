@@ -122,6 +122,9 @@
   "STATISTIC_KEY_LIST.LABEL.KEY": "Khoá",
   "STATISTIC_KEY_LIST.LABEL.YEAR": "Năm",
 
+  "VERIFIED_KEY_LIST.TITLE.VERIFIED_ACCESS_TOKEN": "Mã thông báo truy cập đã xác minh",
+  "VERIFIED_KEY_LIST.BUTTON.CREATE_NEW_KEY": "Tạo khóa mới",
+  
   "NAVBAR.DASHBOARD": "Trang chủ",
   "NAVBAR.ACCOUNT": "Tài khoản",
   "NAVBAR.CLASSROOM": "Lớp học",
