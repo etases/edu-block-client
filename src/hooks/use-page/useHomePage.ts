@@ -11,7 +11,6 @@ const translations = {
   "HOME_PAGE.BUTTON.GET_STARTED": null,
   "HOME_PAGE.BUTTON.STUDENT": null,
   "HOME_PAGE.BUTTON.GRADE": null,
-  "HOME_PAGE.TITLE": null,
 }
 
 export function useHomePage() {
