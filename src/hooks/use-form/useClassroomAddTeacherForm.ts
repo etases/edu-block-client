@@ -1,6 +1,7 @@
 import { useClassroomTeacherAddMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
 
 interface TeacherInterface {
   teacherId: string
@@ -33,7 +34,7 @@ export function useClassroomAddTeacherForm() {
       })),
     })
     notifyInformation({
-      message: `Submitted list of new teachers for this classroom`,
+      message: translate("CLASSROOM.ADD_TEACHER_FORM.MESSAGE"),
     })
   })
 
@@ -51,6 +52,12 @@ export function useClassroomAddTeacherForm() {
   function removeTeacherFromList(index: number) {
     form.removeListItem('teachers', index)
   }
+
+  const translation = {
+    'CLASSROOM.ADD_TEACHER_FORM.MESSAGE': null,
+  }
+  
+  const { translate } = useTranslation(translation)
 
   return {
     form,

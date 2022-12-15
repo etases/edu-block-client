@@ -1,6 +1,7 @@
 import { useClassroomUpdateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
 
 interface FormInterface {
   name: string
@@ -18,12 +19,12 @@ export function useClassroomUpdateForm() {
       year: new Date().getFullYear().toString(),
     },
     validate: {
-      name: (value) => (value.length > 0 ? null : 'Invalid name'),
+      name: (value) => (value.length > 0 ? null : translate("CLASSROOM.CREATE_FORM.INVALID_NAME")),
       grade: (value) =>
-        Number(value) > 0 && Number(value) < 13 ? null : 'Invalid grade',
+        Number(value) > 0 && Number(value) < 13 ? null : translate("CLASSROOM.CREATE_FORM.INVALID_GRADE"),
       homeroomTeacherId: (value) =>
-        value.length > 0 ? null : 'A teacher must be chosen',
-      year: (value) => (value.length === 4 ? null : 'Invalid year'),
+        value.length > 0 ? null : translate("CLASSROOM.CREATE_FORM.INVALID_TEACHER"),
+      year: (value) => (value.length === 4 ? null : translate("CLASSROOM.CREATE_FORM.INVALID_YEAR")),
     },
     validateInputOnBlur: true,
   })
@@ -48,9 +49,19 @@ export function useClassroomUpdateForm() {
       year: parseInt(values.year),
     })
     notifyInformation({
-      message: `Submitted new information for this classroom`,
+      message: translate("CLASSROOM.CREATE_FORM.SUBMITTED_MESSAGE"),
     })
   })
+
+  const translation = {
+    'CLASSROOM.CREATE_FORM.INVALID_NAME': null,
+    'CLASSROOM.CREATE_FORM.INVALID_GRADE': null,
+    'CLASSROOM.CREATE_FORM.INVALID_TEACHER': null,
+    'CLASSROOM.CREATE_FORM.INVALID_YEAR': null,
+    'CLASSROOM.CREATE_FORM.SUBMITTED_MESSAGE': null,
+  }
+  
+  const { translate } = useTranslation(translation)
 
   return {
     form,

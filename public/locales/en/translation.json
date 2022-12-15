@@ -141,6 +141,10 @@
   "ACCOUNT.UPDATE_FORM.CONFIRM_PASSWORD": "Password not match",
   "ACCOUNT.UPDATE_FORM.NEW_PASSWORD_SUBMITTED": "New password submitted",
 
+  "CLASSROOM.ADD_STUDENT_FORM.MESSAGE": "Submitted list of new students for this classroom",
+
+  "CLASSROOM.ADD_TEACHER_FORM.MESSAGE": "Submitted list of new teachers for this classroom",
+
   "NAVBAR.DASHBOARD": "Dashboard",
   "NAVBAR.ACCOUNT": "Account",
   "NAVBAR.CLASSROOM": "Classroom",

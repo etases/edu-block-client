@@ -1,6 +1,7 @@
 import { useClassroomStudentAddMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
 
 interface FormInterface {
   accounts: any[]
@@ -21,9 +22,8 @@ export function useClassroomAddStudentForm() {
     addStudent({
       accounts: values.accounts.map((item) => parseInt(item.id)),
     })
-    // console.log(values.accounts.map((item) => parseInt(item.id)))
     notifyInformation({
-      message: `Submitted list of new students for this classroom`,
+      message: translate("CLASSROOM.ADD_STUDENT_FORM.MESSAGE"),
     })
   })
 
@@ -39,6 +39,12 @@ export function useClassroomAddStudentForm() {
   function removeStudentFromList(index: number) {
     form.removeListItem('accounts', index)
   }
+
+  const translation = {
+    'CLASSROOM.ADD_STUDENT_FORM.MESSAGE': null,
+  }
+  
+  const { translate } = useTranslation(translation)
 
   return {
     form,
