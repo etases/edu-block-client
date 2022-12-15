@@ -10,7 +10,7 @@ import {
   TextInput,
   VerticalStack,
 } from '@components'
-import { useStudentProfilePage } from '@hooks/use-page'
+import { useAccountProfilePage, useStudentProfilePage } from '@hooks/use-page'
 import { Divider, FileInput, Tabs, Text, Title } from '@mantine/core'
 import {
   IconCheck,
@@ -39,6 +39,8 @@ export function StudentProfile() {
     },
   } = useStudentProfilePage()
 
+  const { translatedObject } = useStudentProfilePage()
+
   return (
     <VerticalStack>
       <HorizontalStack position={'apart'}>
@@ -64,7 +66,7 @@ export function StudentProfile() {
             </Button>
           )}
         </HorizontalStack>
-        <Title>Student Information</Title>
+        <Title>{translatedObject?.["STUDENT_PROFILE.TITLE.STUDENT_INFORMATION"]}</Title>
       </HorizontalStack>
       <Divider />
       <HorizontalStack position={'center'}>
@@ -78,14 +80,14 @@ export function StudentProfile() {
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Ethnic'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.ETHNIC"]}
                 defaultValue={accountProfile?.ethnic}
               />
             </GridCol>
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Hometown'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.HOMETOWN"]}
                 defaultValue={accountProfile?.homeTown}
               />
             </GridCol>
@@ -94,14 +96,14 @@ export function StudentProfile() {
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Father'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.FATHER"]}
                 defaultValue={accountProfile?.father}
               />
             </GridCol>
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Father job'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.FATHER_JOB"]}
                 defaultValue={accountProfile?.fatherJob}
               />
             </GridCol>
@@ -110,14 +112,14 @@ export function StudentProfile() {
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Mother'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.MOTHER"]}
                 defaultValue={accountProfile?.mother}
               />
             </GridCol>
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Mother job'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.MOTHER_JOB"]}
                 defaultValue={accountProfile?.motherJob}
               />
             </GridCol>
@@ -126,14 +128,14 @@ export function StudentProfile() {
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Guardian'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.GUARDIAN"]}
                 defaultValue={accountProfile?.guardian}
               />
             </GridCol>
             <GridCol span={6}>
               <TextInput
                 readOnly={true}
-                label={'Guardian job'}
+                label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.GUARDIAN_JOB"]}
                 defaultValue={accountProfile?.guardianJob}
               />
             </GridCol>
@@ -144,12 +146,12 @@ export function StudentProfile() {
       <VerticalStack>
         <HorizontalStack position={'apart'}>
           <HorizontalStack>
-            <Title>Record</Title>
+            <Title>{translatedObject?.["STUDENT_PROFILE.TITLE.RECORD"]}</Title>
             {((account.role === 'STUDENT' &&
               accountProfile?.id === account.id) ||
               account.role === 'TEACHER') && (
               <IconButton
-                label={'Upload legacy record'}
+              label={translatedObject?.["STUDENT_PROFILE.LABEL.UPLOAD_LEGACY_RECORD"]}
                 onClick={openUpdateTableModal}
               >
                 <IconUpload />
@@ -185,7 +187,7 @@ export function StudentProfile() {
             size={'lg'}
             weight={'bold'}
           >
-            Update student profile
+            {translatedObject?.["STUDENT_PROFILE.TEXT.UPDATE_STUDENT_PROFILE"]}
           </Text>
         }
       >
@@ -194,7 +196,7 @@ export function StudentProfile() {
             <VerticalStack>
               <HorizontalStack>
                 <TextInput
-                  label={'Ethnic'}
+                  label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.ETHNIC"]}
                   {...updateForm.inputPropsOf('ethnic')}
                 />
                 <TextInput
@@ -205,33 +207,33 @@ export function StudentProfile() {
               <Divider />
               <HorizontalStack>
                 <TextInput
-                  label={'Father'}
+                  label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.FATHER"]}
                   {...updateForm.inputPropsOf('fatherName')}
                 />
                 <TextInput
-                  label={'Job'}
+                  label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.FATHER_JOB"]}
                   {...updateForm.inputPropsOf('fatherJob')}
                 />
               </HorizontalStack>
               <Divider />
               <HorizontalStack>
                 <TextInput
-                  label={'Mother'}
+                  label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.MOTHER"]}
                   {...updateForm.inputPropsOf('motherName')}
                 />
                 <TextInput
-                  label={'Job'}
+                  label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.MOTHER_JOB"]}
                   {...updateForm.inputPropsOf('motherJob')}
                 />
               </HorizontalStack>
               <Divider />
               <HorizontalStack>
                 <TextInput
-                  label={'Guardian'}
+                  label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.GUARDIAN"]}
                   {...updateForm.inputPropsOf('guardianName')}
                 />
                 <TextInput
-                  label={'Job'}
+                  label={translatedObject?.["STUDENT_PROFILE.TEXT_INPUT.GUARDIAN_JOB"]}
                   {...updateForm.inputPropsOf('guardianJob')}
                 />
               </HorizontalStack>
@@ -241,14 +243,14 @@ export function StudentProfile() {
                   color={'red'}
                   type={'reset'}
                 >
-                  Reset
+                  {translatedObject?.["STUDENT_PROFILE.BUTTON.RESET"]}
                 </Button>
                 <Button
                   leftIcon={<IconCheck />}
                   color={'green'}
                   type={'submit'}
                 >
-                  Confirm
+                  {translatedObject?.["STUDENT_PROFILE.BUTTON.COMFIRM"]}
                 </Button>
               </HorizontalStack>
             </VerticalStack>
@@ -263,7 +265,7 @@ export function StudentProfile() {
             size={'lg'}
             weight={'bold'}
           >
-            Upload Image of Record table
+            {translatedObject?.["STUDENT_PROFILE.TEXT.UPLOAD_IMAGE"]}
           </Text>
         }
       >
@@ -274,7 +276,7 @@ export function StudentProfile() {
                 accept={'image/png,image/jpeg'}
                 radius={'md'}
                 size={'md'}
-                placeholder={'Choose image'}
+                placeholder={'Upload image'}
                 onChange={tableForm.onImageChange}
               />
               <Button
@@ -331,7 +333,7 @@ export function StudentProfile() {
                 </HorizontalStack>
               ))}
               <HorizontalStack>
-                <Button type={'submit'}>Submit</Button>
+                <Button type={'submit'}>{translatedObject?.["STUDENT_PROFILE.BUTTON.SUBMIT"]}</Button>
               </HorizontalStack>
             </VerticalStack>
           </form>

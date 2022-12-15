@@ -29,7 +29,7 @@ const tableHeaders: TableHeaderProps<
   },
   {
     identifier: 'username',
-    label: 'Username',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.USERNAME',
     align: 'left',
   },
   {
@@ -39,28 +39,28 @@ const tableHeaders: TableHeaderProps<
   },
   {
     identifier: 'lastName',
-    label: 'Last Name',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.LAST_NAME',
     align: 'left',
   },
   {
     identifier: 'avatar',
-    label: 'Avatar',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.AVATAR',
   },
   {
     identifier: 'dob',
-    label: 'Date of Birth',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.DOB',
   },
   {
     identifier: 'isMale',
-    label: 'Gender',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.GENDER',
   },
   {
     identifier: 'role',
-    label: 'Role',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.ROLE',
   },
   {
     identifier: 'actions',
-    label: 'Actions',
+    label: 'ACCOUNT_LIST_PAGE.TABLE.HEADER.ACTIONS',
   },
 ]
 
@@ -112,9 +112,14 @@ const roleColor = {
 
 const PAGE_TITLE = 'Account list'
 
+const translationsButtons = {
+  "ACCOUNT.BUTTON.SEARCH": null,
+  "ACCOUNT.BUTTON.CREATE": null,
+}
+
 export function useAccountListPage() {
   const { setTitle } = useTitleStore()
-
+  const {translatedObjectAccountListButtons } = useTranslation(translationsButtons)
   const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
     ...result,
     [label]: null
@@ -190,5 +195,6 @@ export function useAccountListPage() {
     },
     form: { profileForm, createForm, passwordForm },
     account,
+    translatedObjectAccountListButtons
   }
 }
