@@ -31,7 +31,7 @@ export function useAccountListPasswordUpdateForm() {
   const submitForm = form.onSubmit((values) => {
     updatePassword(values)
     notifyInformation({
-      message: `Submitted new password for ${values.accounts.at(0)?.username}`,
+      message: translate("ACCOUNT_LIST.UPDATE_FORM.UPDATE_PASSWORD_MSG") + `${values.accounts.at(0)?.username}`,
     })
   })
 

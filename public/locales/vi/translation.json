@@ -135,6 +135,11 @@
   "STUDENT_DASHBOARD.TABLE.ACTIONS": "Thao tác",
   "STUDENT_DASHBOARD.TABLE.DETAILS": "Xem chi tiết",
   "STUDENT_DASHBOARD.TABLE.VIEW_MY_RECORD": "Xem điểm",
+
+  "ACCOUNT.UPDATE_FORM.OLD_PASSWORD": "Phải cung cấp mật khẩu cũ",
+  "ACCOUNT.UPDATE_FORM.NEW_PASSWORD": "Phải cung cấp mật khẩu mới",
+  "ACCOUNT.UPDATE_FORM.CONFIRM_PASSWORD": "Không trùng khớp với mật khẩu mới",
+  "ACCOUNT.UPDATE_FORM.NEW_PASSWORD_SUBMITTED": "Đã gửi mật khẩu",
   
   "NAVBAR.DASHBOARD": "Trang chủ",
   "NAVBAR.ACCOUNT": "Tài khoản",
