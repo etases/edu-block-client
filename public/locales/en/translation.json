@@ -136,6 +136,11 @@
   "STUDENT_DASHBOARD.TABLE.DETAILS": "Details",
   "STUDENT_DASHBOARD.TABLE.VIEW_MY_RECORD": "View my record",
 
+  "ACCOUNT.UPDATE_FORM.OLD_PASSWORD": "Old password must be provided",
+  "ACCOUNT.UPDATE_FORM.NEW_PASSWORD": "New password must be provided",
+  "ACCOUNT.UPDATE_FORM.CONFIRM_PASSWORD": "Password not match",
+  "ACCOUNT.UPDATE_FORM.NEW_PASSWORD_SUBMITTED": "New password submitted",
+
   "NAVBAR.DASHBOARD": "Dashboard",
   "NAVBAR.ACCOUNT": "Account",
   "NAVBAR.CLASSROOM": "Classroom",
