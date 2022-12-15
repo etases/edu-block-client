@@ -26,6 +26,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { QRCodeCanvas } from 'qrcode.react'
 import { forwardRef, useEffect, useRef } from 'react'
+import { useTranslation } from '@hooks/use-translation'
 
 const QRButtonComponent = forwardRef<HTMLDivElement>((props, ref) => (
   // <IconButton
@@ -101,13 +102,26 @@ export function VerifiedKeyList() {
       })
     },
   })
+
+  const translation = {
+    'VERIFIED_KEY_LIST.TITLE.VERIFIED_ACCESS_TOKEN': null,
+    'VERIFIED_KEY_LIST.BUTTON.CREATE_NEW_KEY': null,
+    'STATISTIC_KEY_LIST.LABEL.SAVE': null,
+    'STATISTIC_KEY_LIST.LABEL.COPY': null,
+    'STATISTIC_KEY_LIST.LABEL.REMOVE_KEY': null,
+    'STATISTIC_KEY_LIST.LABEL.KEY': null,
+    'STATISTIC_KEY_LIST.TABLE.HEADER.ACTIONS': null,
+  }
+  // Verified Statistic Access Token
+  const { translate } = useTranslation(translation)
+
   return (
     <VerticalStack>
       {/* <HorizontalStack>List</HorizontalStack> */}
       <HorizontalStack position={'apart'}>
-        <Title>Verified Access Token</Title>
+        <Title>{translate("VERIFIED_KEY_LIST.TITLE.VERIFIED_ACCESS_TOKEN")}</Title>
         <HorizontalStack>
-          <Button onClick={() => createKey()}>Create new key</Button>
+          <Button onClick={() => createKey()}>{translate("VERIFIED_KEY_LIST.BUTTON.CREATE_NEW_KEY")}</Button>
         </HorizontalStack>
       </HorizontalStack>
       <Divider />
@@ -134,7 +148,7 @@ export function VerifiedKeyList() {
                     <Divider />
                     <HorizontalStack>
                       <IconButton
-                        label={'Save'}
+                        label={translate("STATISTIC_KEY_LIST.LABEL.SAVE")}
                         onClick={() => {
                           const refNode = qrCodeRef.current
                           if (!refNode) return
@@ -160,7 +174,7 @@ export function VerifiedKeyList() {
                 <CopyButton value={item.key}>
                   {({ copied, copy }) => (
                     <IconButton
-                      label={'Copy'}
+                      label={translate("STATISTIC_KEY_LIST.LABEL.COPY")}
                       onClick={copy}
                     >
                       {copied ? <IconClipboardCheck /> : <IconClipboard />}
@@ -174,7 +188,7 @@ export function VerifiedKeyList() {
           actions: (
             <HorizontalStack>
               <IconButton
-                label={'Remove key'}
+                label={translate("STATISTIC_KEY_LIST.LABEL.REMOVE_KEY")}
                 color={'red'}
                 onClick={() => deleteKey({ key: item.key })}
               >
@@ -186,12 +200,12 @@ export function VerifiedKeyList() {
         tableHeader={[
           {
             identifier: 'key',
-            label: 'Key',
+            label: translate("STATISTIC_KEY_LIST.LABEL.KEY"),
             align: 'left',
           },
           {
             identifier: 'actions',
-            label: 'Actions',
+            label: translate("ACCOUNT_LIST_PAGE.TABLE.HEADER.ACTIONS"),
           },
         ]}
       />
