@@ -8,6 +8,7 @@ import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as xlsx from 'xlsx'
+import { useTranslation } from '@hooks/use-translation'
 
 const translation = {
   'QUERIES.REPORT.USE_REPORT_QUERY_CLASSIFICATION': null,
