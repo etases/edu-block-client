@@ -145,23 +145,6 @@
 
   "CLASSROOM.ADD_TEACHER_FORM.MESSAGE": "Submitted list of new teachers for this classroom",
 
-  "CLASSROOM.CREATE_FORM.INVALID_NAME": "Invalid name",
-  "CLASSROOM.CREATE_FORM.INVALID_GRADE": "Invalid grade",
-  "CLASSROOM.CREATE_FORM.INVALID_YEAR": "Invalid year",
-  "CLASSROOM.CREATE_FORM.INVALID_YEAR": "A teacher must be chosen",
-  "CLASSROOM.CREATE_FORM.SUBMITTED_MESSAGE": "Submitted new classroom information",
-
-  "LOGIN.FORM.MESSAGE": "Login credential submitted",
-
-  "PROFILE.UPDATE_FORM.INVALID_EMAIL": "Invalid email format",
-  "PROFILE.UPDATE_FORM.INVALID_PHONE": "Only 10 digits phone number are supported",
-  "PROFILE.UPDATE_FORM.INVALID_DOB": "Member age must be above 6",
-  "PROFILE.UPDATE_FORM.INVALID_ADDRESS": "Address can not be empty",
-  "PROFILE.UPDATE_FORM.INVALID_NAME": "Invalid name",
-  "PROFILE.UPDATE_FORM.MESSAGE": "Submitted new information for this profile",
-
-  "RECORD.UPDATE_REQUEST_FORM.MESSAGE": "Submitted update request for this record",
-
   "NAVBAR.DASHBOARD": "Dashboard",
   "NAVBAR.ACCOUNT": "Account",
   "NAVBAR.CLASSROOM": "Classroom",

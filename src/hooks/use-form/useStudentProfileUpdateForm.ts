@@ -1,7 +1,6 @@
 import { useStudentProfileUpdateMutation } from '@hooks/use-query'
 import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
-import { useTranslation } from '@hooks/use-translation'
 
 interface FormInterface {
   ethnic: string
@@ -35,18 +34,12 @@ export function useStudentProfileUpdateForm() {
 
   const submitForm = form.onSubmit((values) => {
     updateProfile(values)
-    notifyInformation({ message: translate("STUDENT.PROFILE_UPDATE_FORM.MESSAGE") })
+    notifyInformation({ message: `Submitted new information for this student` })
   })
 
   function loadFormValues(values: FormInterface) {
     form.setValues(values)
   }
-
-  const translation = {
-    'STUDENT.PROFILE_UPDATE_FORM.MESSAGE': null,
-  }
-  
-  const { translate } = useTranslation(translation)
 
   return {
     submitForm,

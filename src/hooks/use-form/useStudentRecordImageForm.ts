@@ -6,7 +6,6 @@ import { useForm } from '@mantine/form'
 import { notifyInformation } from '@utilities/functions'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { useTranslation } from '@hooks/use-translation'
 
 interface FormInterface {
   requests: {
@@ -52,7 +51,7 @@ export function useStudentRecordImageForm() {
         )
       ),
     })
-    notifyInformation({ message: translate("STUDENT.RECORD_IMAGE_FORM.MESSAGE") })
+    notifyInformation({ message: `Submitted new table record` })
   })
 
   async function onImageChange(value: File) {
@@ -100,12 +99,6 @@ export function useStudentRecordImageForm() {
       }
     })
   }, [data])
-
-  const translation = {
-    'STUDENT.RECORD_IMAGE_FORM.MESSAGE': null,
-  }
-  
-  const { translate } = useTranslation(translation)
 
   return {
     submitImageForm,
