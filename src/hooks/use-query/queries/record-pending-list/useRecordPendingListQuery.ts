@@ -5,6 +5,13 @@ import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
+import { useTranslation } from '@hooks/use-translation'
+
+const translation = {
+  'QUERIES.RECORD_PENDING_LIST.USE_RECORD_PENDING_LIST_QUERY_MSG': null,
+}
+
+const { translate } = useTranslation(translation)
 
 export const RECORD_PENDING_LIST_QUERY_KEY = {
   currentPage: 0,
@@ -99,7 +106,7 @@ export function useRecordPendingListQuery() {
       notifyError({ message: endpoint })
     },
     onSuccess(data) {
-      notifyInformation({ message: 'Request list synced' })
+      notifyInformation({ message: translate("QUERIES.RECORD_PENDING_LIST.USE_RECORD_PENDING_LIST_QUERY_MSG") })
     },
     onSettled(data, error) {},
   })
