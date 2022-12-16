@@ -8,15 +8,6 @@ import { dayjs, notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import * as xlsx from 'xlsx'
-import { useTranslation } from '@hooks/use-translation'
-
-const translation = {
-  'QUERIES.REPORT.USE_REPORT_QUERY_CLASSIFICATION': null,
-  'QUERIES.REPORT.USE_REPORT_QUERY_CLASSROOM': null,
-  'QUERIES.REPORT.USE_REPORT_QUERY_GRADE': null,
-}
-
-const { translate } = useTranslation(translation)
 
 export const semesterNameList = ['firstHalf', 'secondHalf', 'final']
 
@@ -59,7 +50,7 @@ export function useReportQuery() {
     },
     onSuccess(data) {
       notifyInformation({
-        message: translate("QUERIES.REPORT.USE_REPORT_QUERY_CLASSIFICATION"),
+        message: 'Classification list synced',
       })
       // console.log(data)
     },
@@ -102,7 +93,7 @@ export function useReportQuery() {
       })
     },
     onSuccess(data) {
-      notifyInformation({ message: translate("QUERIES.REPORT.USE_REPORT_QUERY_CLASSROOM") })
+      notifyInformation({ message: 'Classroom records synced' })
       // console.log(data)
     },
   })
@@ -126,7 +117,7 @@ export function useReportQuery() {
       notifyError({ message: queryEndpoint.grade })
     },
     onSuccess(data) {
-      notifyInformation({ message: translate("QUERIES.REPORT.USE_REPORT_QUERY_GRADE") })
+      notifyInformation({ message: 'Grade records synced' })
       // console.log(data)
     },
   })

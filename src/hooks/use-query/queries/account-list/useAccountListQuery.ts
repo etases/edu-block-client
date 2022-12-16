@@ -10,13 +10,6 @@ import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import dayjs from 'dayjs'
 import { useState } from 'react'
-import { useTranslation } from '@hooks/use-translation'
-
-const translation = {
-  'QUERIES.ACCOUNT_LIST.USE_ACCOUNT_QUERY': null,
-}
-
-const { translate } = useTranslation(translation)
 
 interface DataInterface
   extends Array<{
@@ -119,7 +112,7 @@ export function useAccountListQuery() {
       } else {
         setTotalPages(data.page.totalPages || 1)
       }
-      notifyInformation({ message: translate("QUERIES.ACCOUNT_LIST.USE_ACCOUNT_QUERY") })
+      notifyInformation({ message: 'List of account synced' })
     },
     onSettled(data, error) {},
   })

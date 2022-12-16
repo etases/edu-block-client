@@ -52,15 +52,14 @@ export function useAccountListCreateForm() {
   const submitForm = form.onSubmit((values) => {
     createAccount(values)
     notifyInformation({
-      message: translate("ACCOUNT_LIST.CREATE_FORM.SUBMITTED_MSG"),
+      message: 'Submitted list of new accounts',
     })
   })
 
   const translation = {
     'ACCOUNT_LIST.CREATE_FORM.FIRST_NAME_VALIDATION': null,
     'ACCOUNT_LIST.CREATE_FORM.LAST_NAME_VALIDATION': null,
-    'ACCOUNT_LIST.CREATE_FORM.ROLE_VALIDATION': null,
-    'ACCOUNT_LIST.CREATE_FORM.SUBMITTED_MSG': null
+    'ACCOUNT_LIST.CREATE_FORM.ROLE_VALIDATION': null
   }
   
   const { translate } = useTranslation(translation)

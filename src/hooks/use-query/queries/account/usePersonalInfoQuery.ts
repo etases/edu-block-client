@@ -8,13 +8,6 @@ import { useAccountStore } from '@hooks/use-store'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import dayjs from 'dayjs'
-import { useTranslation } from '@hooks/use-translation'
-
-const translation = {
-  'QUERIES.ACCOUNT.USE_PERSONAL_MSG': null,
-}
-
-const { translate } = useTranslation(translation)
 
 export const PERSONAL_INFO_QUERY_KEY = {}
 
@@ -85,7 +78,7 @@ export function usePersonalInfoQuery() {
       //     .split(' ')
       //     .at(-1)}`,
       // })
-      notifyInformation({ message: translate("QUERIES.ACCOUNT.USE_PERSONAL_MSG") })
+      notifyInformation({ message: 'Personal information synced' })
     },
   })
 
