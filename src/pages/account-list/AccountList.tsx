@@ -168,7 +168,7 @@ export function AccountList() {
                       </IconButton>
                     )}
                   <IconButton
-                    label={'Details'}
+                    label={translatedObjectAccountListButtons?.["STUDENT_DASHBOARD.TABLE.DETAILS"]}
                     onClick={() =>
                       navigate(
                         `/app/account/${item.id}${

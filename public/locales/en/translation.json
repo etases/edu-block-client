@@ -107,6 +107,7 @@
   "ACCOUNT_LIST.CREATE_FORM.FIRST_NAME_VALIDATION": "At least 2 letters",
   "ACCOUNT_LIST.CREATE_FORM.LAST_NAME_VALIDATION": "At least 2 letters",
   "ACCOUNT_LIST.CREATE_FORM.ROLE_VALIDATION": "Must choose a role",
+  "ACCOUNT_LIST.CREATE_FORM.SUBMITTED_MSG": "Submitted list of new accounts",
 
   "ACCOUNT_LIST.SELECT_INPUT.ADMIN": "ADMIN",
   "ACCOUNT_LIST.SELECT_INPUT.STAFF": "STAFF",
@@ -148,7 +149,7 @@
   "CLASSROOM.CREATE_FORM.INVALID_NAME": "Invalid name",
   "CLASSROOM.CREATE_FORM.INVALID_GRADE": "Invalid grade",
   "CLASSROOM.CREATE_FORM.INVALID_YEAR": "Invalid year",
-  "CLASSROOM.CREATE_FORM.INVALID_YEAR": "A teacher must be chosen",
+  "CLASSROOM.CREATE_FORM.INVALID_TEACHER": "A teacher must be chosen",
   "CLASSROOM.CREATE_FORM.SUBMITTED_MESSAGE": "Submitted new classroom information",
 
   "LOGIN.FORM.MESSAGE": "Login credential submitted",
@@ -161,6 +162,30 @@
   "PROFILE.UPDATE_FORM.MESSAGE": "Submitted new information for this profile",
 
   "RECORD.UPDATE_REQUEST_FORM.MESSAGE": "Submitted update request for this record",
+
+  "STUDENT.PROFILE_UPDATE_FORM.MESSAGE": "Submitted new information for this student",
+
+  "STUDENT.RECORD_IMAGE_FORM.MESSAGE": "Submitted new table record",
+
+  "CORE.REQUEST.SOMETHING_WENT_WRONG": "Something went wrong! Please try again or wait a few minutes.",
+
+  "MUTATION.LOGIN.SOMETHING_WENT_WRONG": "Something went wrong!",
+
+  "MUTATION.PROFILE.USE_ACCOUNT_PASSWORD_UPDATED": "Password updated",
+
+  "MUTATION.PROFILE.USE_STUDENT_RECORD_SOMETHING_WENT_WRONG": "Something went wrong! Please retry after a few minutes",
+  "MUTATION.PROFILE.USE_STUDENT_RECORD_IMAGE_SCANNED": "Image scanned",
+
+  "QUERIES.ACCOUNT.USE_ACCOUNT_MSG": "Account information synced",
+  "QUERIES.ACCOUNT.USE_PERSONAL_MSG": "Personal information synced",
+  "QUERIES.ACCOUNT_LIST.USE_ACCOUNT_QUERY": "List of account synced",
+  "QUERIES.CLASSROOM.USE_CLASSROOM_QUERY_MSG": "Classroom information synced",
+  "QUERIES.CLASSROOM_LIST.USE_CLASSROOM_LIST_QUERY_MSG": "List of classrooms synced",
+  "QUERIES.CLASSROOM_STUDENT.USE_CLASSROOM_STUDENT_QUERY_MSG": "List of students synced",
+  "QUERIES.CLASSROOM_TEACHER.USE_CLASSROOM_TEACHER_QUERY_MSG": "List of teachers synced",
+  "QUERIES.RECORD.USE_PERSONAL_RECORD_QUERY_MSG": "Personal record synced",
+  "QUERIES.RECORD.USE_STUDENT_RECORD_QUERY_MSG": "Student record synced",
+  "QUERIES.RECORD_PENDING_LIST.USE_RECORD_PENDING_LIST_QUERY_MSG": "Request list synced",
 
   "NAVBAR.DASHBOARD": "Dashboard",
   "NAVBAR.ACCOUNT": "Account",

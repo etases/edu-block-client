@@ -3,6 +3,13 @@ import { SubjectApiInterface } from '@constants/api/schemas'
 import { request } from '@hooks/use-query/core'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
+
+const translation = {
+  'QUERIES.SUBJECT.USE_SUBJECT_QUERY_MSG': null,
+}
+
+const { translate } = useTranslation(translation)
 
 interface DataInterface extends Array<SubjectApiInterface> {}
 
@@ -25,7 +32,7 @@ export function useSubjectQuery() {
       notifyError({ message: endpoint })
     },
     onSuccess(data) {
-      notifyInformation({ message: 'Subject list synced' })
+      notifyInformation({ message: translate("QUERIES.SUBJECT.USE_SUBJECT_QUERY_MSG") })
     },
     onSettled(data, error) {},
   })

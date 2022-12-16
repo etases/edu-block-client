@@ -2,6 +2,13 @@ import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query/core'
 import { useMutation } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
+import { useTranslation } from '@hooks/use-translation'
+
+const translation = {
+  'MUTATION.PROFILE.USE_STUDENT_RECORD_SOMETHING_WENT_WRONG': null
+}
+
+const { translate } = useTranslation(translation)
 
 interface BodyInterface {
   requests: {
@@ -28,7 +35,7 @@ export function useStudentRecordTableMutation() {
     },
     onError(error, variables, context) {
       notifyError({
-        message: 'Something went wrong! Please retry in a few minutes',
+        message: translate("MUTATION.PROFILE.USE_STUDENT_RECORD_SOMETHING_WENT_WRONG"),
       })
     },
     onSuccess(data, variables, context) {

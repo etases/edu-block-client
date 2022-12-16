@@ -10,6 +10,13 @@ import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import dayjs from 'dayjs'
 import { useParams } from 'react-router-dom'
+import { useTranslation } from '@hooks/use-translation'
+
+const translation = {
+  'QUERIES.ACCOUNT.USE_ACCOUNT_MSG': null,
+}
+
+const { translate } = useTranslation(translation)
 
 const ACCOUNT_INFO_QUERY_KEY = {}
 
@@ -86,7 +93,7 @@ export function useAccountInfoQuery() {
       notifyError({ message: endpoint })
     },
     onSuccess(data) {
-      notifyInformation({ message: 'Account information synced' })
+      notifyInformation({ message: translate("QUERIES.ACCOUNT.USE_ACCOUNT_MSG") })
     },
     onSettled(data, error) {},
   })

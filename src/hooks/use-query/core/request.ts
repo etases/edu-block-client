@@ -1,3 +1,4 @@
+import { useTranslation } from '@hooks/use-translation'
 type NORMAL_DATATYPE = string | number | boolean | null
 
 interface BodyProps<T> {
@@ -7,6 +8,12 @@ interface BodyProps<T> {
 interface QueryProps {
   [key: string]: string | number | boolean
 }
+
+const translation = {
+  'CORE.REQUEST.SOMETHING_WENT_WRONG': null,
+}
+
+const { translate } = useTranslation(translation)
 
 export type REQUEST_METHOD = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
@@ -72,11 +79,11 @@ export async function request<TBody>(props: RequestProps<TBody>) {
   if (!response.ok) {
     const message = await response.json().then((resData) => resData.message)
     throw new Error(
-      message || 'Something went wrong! Please try again or wait a few minutes.'
+      message || translate("CORE.REQUEST.SOMETHING_WENT_WRONG")
     )
   }
 
   const data = await response.json()
-
+  
   return data
 }

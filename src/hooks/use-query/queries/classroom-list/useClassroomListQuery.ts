@@ -6,6 +6,13 @@ import { useDebouncedState } from '@mantine/hooks'
 import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
+import { useTranslation } from '@hooks/use-translation'
+
+const translation = {
+  'QUERIES.CLASSROOM_LIST.USE_CLASSROOM_LIST_QUERY_MSG': null,
+}
+
+const { translate } = useTranslation(translation)
 
 interface DataInterface extends Array<ClassroomApiInterface> {}
 
@@ -77,7 +84,7 @@ export function useClassroomListQuery() {
       notifyError({ message: endpoint })
     },
     onSuccess(data) {
-      notifyInformation({ message: 'List of classrooms synced' })
+      notifyInformation({ message: translate("QUERIES.CLASSROOM_LIST.USE_CLASSROOM_LIST_QUERY_MSG") })
     },
     onSettled(data, error) {},
   })

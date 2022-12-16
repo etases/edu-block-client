@@ -1,6 +1,13 @@
 import { notifyInformation } from '@utilities/functions'
 import { useAtom } from 'jotai'
 import { atomWithStorage, RESET } from 'jotai/utils'
+import { useTranslation } from '@hooks/use-translation'
+
+const translation = {
+  'USE_STORE.USE_ACCESS_TOKEN_STORE.MSG': null,
+}
+
+const { translate } = useTranslation(translation)
 
 const accessTokenAtom = atomWithStorage('accessToken', '')
 
@@ -13,7 +20,7 @@ export function useAccessTokenStore() {
     accessToken,
     setAccessToken: (token: string) => {
       setAccessToken(token)
-      notifyInformation({ message: 'AccessToken updated' })
+      notifyInformation({ message: translate("USE_STORE.USE_ACCESS_TOKEN_STORE.MSG") })
     },
     resetAccessToken,
   }
