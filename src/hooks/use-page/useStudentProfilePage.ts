@@ -73,7 +73,7 @@ export function useStudentProfilePage() {
 
   const { translatedObject } = useTranslation(translations)
 
-  const { translatedObjectPlaceholder }  = useTranslation(translationsPlaceholder)
+  // const { translatedObjectPlaceholder }  = useTranslation(translationsPlaceholder)
 
   return {
     accountProfile: data,
@@ -101,6 +101,6 @@ export function useStudentProfilePage() {
         })) || [],
     },
     translatedObject,
-    translatedObjectPlaceholder
+    // translatedObjectPlaceholder
   }
 }
