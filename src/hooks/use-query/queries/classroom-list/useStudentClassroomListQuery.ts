@@ -7,13 +7,6 @@ import { useQuery } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useTranslation } from '@hooks/use-translation'
-
-const translation = {
-  'QUERIES.CLASSROOM_LIST.USE_CLASSROOM_LIST_QUERY_MSG': null,
-}
-
-const { translate } = useTranslation(translation)
 
 interface DataInterface extends Array<ClassroomApiInterface> {}
 
@@ -84,7 +77,7 @@ export function useStudentClassroomListQuery() {
       notifyError({ message: endpoint })
     },
     onSuccess(data) {
-      notifyInformation({ message: translate("QUERIES.CLASSROOM_LIST.USE_CLASSROOM_LIST_QUERY_MSG") })
+      notifyInformation({ message: 'List of classrooms synced' })
     },
     onSettled(data, error) {},
   })

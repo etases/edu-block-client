@@ -4,7 +4,6 @@ import { useAccessTokenStore } from '@hooks/use-store'
 import { useMutation } from '@tanstack/react-query'
 import { notifyError, notifyInformation } from '@utilities/functions'
 import { useNavigate } from 'react-router-dom'
-import { useTranslation } from '@hooks/use-translation'
 
 export const LOGIN_MUTATION_KEY = {}
 
@@ -12,12 +11,6 @@ interface BodyInterface {
   username: string
   password: string
 }
-
-const translation = {
-  'MUTATION.LOGIN.SOMETHING_WENT_WRONG': null,
-}
-
-const { translate } = useTranslation(translation)
 
 export function useLoginMutation() {
   const { setAccessToken, resetAccessToken } = useAccessTokenStore()
@@ -47,7 +40,7 @@ export function useLoginMutation() {
     onSuccess(data, variables, context) {
       if (data.status !== 0) {
         notifyError({
-          message: data.message || translate("MUTATION.LOGIN.SOMETHING_WENT_WRONG"),
+          message: data.message || 'Something went wrong!',
         })
         return
       }
@@ -57,7 +50,7 @@ export function useLoginMutation() {
       setAccessToken(token)
 
       notifyInformation({
-        message: data.message || translate("MUTATION.LOGIN.SOMETHING_WENT_WRONG"),
+        message: data.message || 'Something went wrong!',
       })
 
       navigate('/app')

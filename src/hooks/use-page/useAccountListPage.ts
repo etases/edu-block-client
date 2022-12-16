@@ -116,8 +116,7 @@ const translationsButtons = {
   "ACCOUNT.BUTTON.SEARCH": null,
   "ACCOUNT.BUTTON.CREATE": null,
   "STUDENT_PROFILE.BUTTON.SUBMIT": null,
-  "ACCOUNT_PROFILE.BUTTON.UPDATE": null,
-  "STUDENT_DASHBOARD.TABLE.DETAILS": null
+  "ACCOUNT_PROFILE.BUTTON.UPDATE": null
 }
 
 const translationsPlaceHolder = {
