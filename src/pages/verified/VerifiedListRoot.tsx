@@ -1,9 +1,11 @@
 import { Button, Grid, GridCol, TextInput, VerticalStack } from '@components'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider } from '@mantine/core'
 import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 export function VerifiedListRoot() {
+  const {translate} = useTranslation()
   const navigate = useNavigate()
   const [key, setKey] = useState('')
   return (
@@ -11,7 +13,7 @@ export function VerifiedListRoot() {
       <Grid>
         <GridCol span={8}>
           <TextInput
-            placeholder={'Verified key'}
+            placeholder={translate("RECORD.VERIFIED.KEY.PLACEHOLDER").toString()}
             value={key}
             onChange={({ target: { value } }) => setKey(value)}
           />
@@ -21,7 +23,7 @@ export function VerifiedListRoot() {
             fullWidth={true}
             onClick={() => navigate(key)}
           >
-            Get Record list
+            {translate("RECORD.VERIFIED.KEY.CHECK")}
           </Button>
         </GridCol>
       </Grid>

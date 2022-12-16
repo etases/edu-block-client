@@ -1,9 +1,11 @@
 import { Button, Grid, GridCol, TextInput, VerticalStack } from '@components'
+import { useTranslation } from '@hooks/use-translation'
 import { Divider } from '@mantine/core'
 import { useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 export function VerifiedRoot() {
+  const { translate } = useTranslation()
   const navigate = useNavigate()
   const [id, setId] = useState('')
   return (
@@ -13,7 +15,7 @@ export function VerifiedRoot() {
       <Grid>
         <GridCol span={8}>
           <TextInput
-            placeholder={'Account Id'}
+            placeholder={translate("VERIFIED.KEY.INPUT").toString()}
             value={id}
             onChange={({ target: { value } }) => setId(value)}
           />
@@ -27,7 +29,7 @@ export function VerifiedRoot() {
             }
             fullWidth={true}
           >
-            Check
+            {translate("VERIFIED.KEY.CHECK")}
           </Button>
         </GridCol>
       </Grid>

@@ -312,5 +312,11 @@
   "STUDENT.SEARCH.CATEGORY.TITLE.NAME": "Name",
   "STUDENT.SEARCH.CATEGORY.TITLE.MISC": "Misc",
 
-  "NAVBAR.LOGOUT": "Logout"
+  "NAVBAR.LOGOUT": "Logout",
+
+  "VERIFIED.KEY.INPUT": "Enter your verification key",
+  "VERIFIED.KEY.CHECK": "Check",
+
+  "RECORD.VERIFIED.KEY.PLACEHOLDER": "Enter your verification key",
+  "RECORD.VERIFIED.KEY.CHECK": "Get Record list"
 }

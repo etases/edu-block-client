@@ -316,5 +316,11 @@
   "STUDENT.SEARCH.CATEGORY.TITLE.NAME": "Tên học sinh",
   "STUDENT.SEARCH.CATEGORY.TITLE.MISC": "Thông tin khác",
 
-  "NAVBAR.LOGOUT": "Đăng xuất"
+  "NAVBAR.LOGOUT": "Đăng xuất",
+
+  "VERIFIED.KEY.INPUT": "Nhập key xác thực đã được cung cấp bởi học sinh",
+  "VERIFIED.KEY.CHECK": "Kiểm tra thông tin học sinh",
+
+  "RECORD.VERIFIED.KEY.PLACEHOLDER": "Nhập key xác thực đã được cung cấp bởi người quản trị",
+  "RECORD.VERIFIED.KEY.CHECK": "Xem bảng điểm"
 }
