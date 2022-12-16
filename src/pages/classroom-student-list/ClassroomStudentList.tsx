@@ -70,7 +70,7 @@ export function ClassroomStudentList() {
           actions: (
             <HorizontalStack>
               <IconButton
-                label={'Details'}
+                label={translate("CLASS.STUDENT.DETAIL")}
                 onClick={() =>
                   navigate(
                     `/app/account/${item.studentId}/record/${classroomId}`
@@ -81,7 +81,7 @@ export function ClassroomStudentList() {
               </IconButton>
               {account.role === 'STAFF' && (
                 <IconButton
-                  label={'Remove from classroom'}
+                  label={translate("CLASS.STUDENT.REMOVE")}
                   color={'red'}
                   onClick={() => deleteStudent({ accounts: [item.studentId] })}
                 >

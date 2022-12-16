@@ -20,7 +20,8 @@ const translate = {
   "NAVBAR.CLASSROOM": null,
   "NAVBAR.PENDING": null,
   "NAVBAR.STAT": null,
-  "NAVBAR.STUDENT_KEY": null
+  "NAVBAR.STUDENT_KEY": null,
+  "NAVBAR.LOGOUT": null
 }
 
 
@@ -161,7 +162,7 @@ export function Navbar(props: NavBarProps) {
       <Divider />
       <Section>
         <VerticalStack p={'md'}>
-          <Button onClick={logout}>Logout</Button>
+          <Button onClick={logout}>{translateData.translatedObject?.["NAVBAR.LOGOUT"]}</Button>
         </VerticalStack>
       </Section>
     </MNavbar>

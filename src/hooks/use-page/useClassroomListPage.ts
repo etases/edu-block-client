@@ -79,93 +79,93 @@ const tableHeaders: TableHeaderProps<
 ]
 
 const searchSelectCategoryGroup = {
-  classroom: 'Classroom',
-  teacher: 'Homeroom Teacher',
+  classroom: 'CLASS.SEARCH.CATEGORY.CLASS',
+  teacher: 'CLASS.SEARCH.CATEGORY.HOMEROOM',
 }
 
 const searchSelectOption: SelectItem[] = [
   {
     value: 'id',
-    label: "Class Id",
+    label: "SEARCH.CLASSROOM.ID",
     group: searchSelectCategoryGroup.classroom,
   },
   {
     value: 'name',
-    label: 'Class name',
+    label: 'SEARCH.CLASSROOM.NAME',
     group: searchSelectCategoryGroup.classroom,
   },
   {
     value: 'grade',
-    label: 'Grade',
+    label: 'SEARCH.CLASSROOM.GRADE',
     group: searchSelectCategoryGroup.classroom,
   },
   {
     value: 'homeroomTeacherId',
-    label: 'Id',
+    label: 'SEARCH.HOMEROOM.HOMEROOMID',
     group: searchSelectCategoryGroup.teacher,
   },
   {
     value: 'homeroomTeacherUserName',
-    label: 'Username',
+    label: 'SEARCH.HOMEROOM.USERNAME',
     group: searchSelectCategoryGroup.teacher,
   },
   {
     value: 'homeroomTeacherFirstName',
-    label: 'First name',
+    label: 'SEARCH.HOMEROOM.FIRST',
     group: searchSelectCategoryGroup.teacher,
   },
   {
     value: 'homeroomTeacherLastName',
-    label: 'Last name',
+    label: 'SEARCH.HOMEROOM.LAST',
     group: searchSelectCategoryGroup.teacher,
   },
   {
     value: 'homeroomTeacherEmail',
-    label: 'Email',
+    label: 'SEARCH.HOMEROOM.EMAIL',
     group: searchSelectCategoryGroup.teacher,
   },
   {
     value: 'homeroomTeacherPhone',
-    label: 'Phone number',
+    label: 'SEARCH.HOMEROOM.PHONE',
     group: searchSelectCategoryGroup.teacher,
   },
 ]
 
 const searchSelectTeacherCategoryGroup = {
-  id: 'Identity',
-  name: 'Name',
-  misc: 'Misc',
+  id: 'ID',
+  name: 'CLASS.TEACHER.ADD.SEARCH.TITLE.NAME',
+  misc: 'CLASS.TEACHER.ADD.SEARCH.TITLE.MISC',
 }
 
 const searchSelectTeacherOption: SelectItem[] = [
   {
     value: 'id',
-    label: 'Id',
+    label: 'CLASS.TEACHER.ADD.SEARCH.ID',
     group: searchSelectTeacherCategoryGroup.id,
   },
   {
     value: 'username',
-    label: 'Username',
+    label: 'CLASS.TEACHER.ADD.SEARCH.USERNAME',
     group: searchSelectTeacherCategoryGroup.id,
   },
   {
     value: 'firstname',
-    label: 'First name',
+    label: 'CLASS.TEACHER.ADD.SEARCH.FIRST',
     group: searchSelectTeacherCategoryGroup.name,
   },
   {
     value: 'lastname',
-    label: 'Last name',
+    label: 'CLASS.TEACHER.ADD.SEARCH.LAST',
     group: searchSelectTeacherCategoryGroup.name,
   },
   {
     value: 'email',
-    label: 'Email',
+    label: 'CLASS.TEACHER.ADD.SEARCH.EMAIL',
     group: searchSelectTeacherCategoryGroup.id,
   },
   {
     value: 'phone',
-    label: 'Phone number',
+    label: 'CLASS.TEACHER.ADD.SEARCH.PHONE',
     group: searchSelectTeacherCategoryGroup.misc,
   },
 ]
@@ -173,6 +173,19 @@ const searchSelectTeacherOption: SelectItem[] = [
 const PAGE_TITLE = 'Classroom list'
 
 export function useClassroomListPage() {
+  const { translatedObject: translatedSearchItems } = useTranslation(searchSelectOption.reduce((result, {label="", group=""}) => ({
+    ...result,
+    [label]: null,
+    [group]: null
+  }), {} as any))
+
+
+  const { translatedObject: translatedSearchSelectTeacherOption } = useTranslation(searchSelectTeacherOption.reduce((result, {label="", group=""}) => ({
+    ...result,
+    [label]: null,
+    [group]: null
+  }), {} as any))
+
   const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
     ...result,
     [label]: null
@@ -227,8 +240,8 @@ export function useClassroomListPage() {
       teacherListState,
     },
     others: {
-      searchSelectOption,
-      searchSelectTeacherOption,
+      searchSelectOption: searchSelectOption.map(({label="", group="", ...item}) => ({...item,label: translatedSearchItems?.[label], group: translatedSearchItems?.[group]})) as typeof searchSelectOption,
+      searchSelectTeacherOption: searchSelectTeacherOption.map(({label="", group="", ...item}) => ({...item,label: translatedSearchSelectTeacherOption?.[label], group: translatedSearchSelectTeacherOption?.[group]})) as typeof searchSelectTeacherOption,
       navigate,
       teacherList: teacherList || [],
       account,

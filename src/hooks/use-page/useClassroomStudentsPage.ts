@@ -38,40 +38,40 @@ const tableHeaders: TableHeaderProps<
 ]
 
 const searchSelectCategoryGroup = {
-  id: 'Identity',
-  name: 'Name',
-  misc: 'Misc',
+  id: 'ID',
+  name: 'STUDENT.SEARCH.CATEGORY.TITLE.NAME',
+  misc: 'STUDENT.SEARCH.CATEGORY.TITLE.MISC',
 }
 
 const searchSelectOption: SelectItem[] = [
   {
     value: 'id',
-    label: 'Id',
+    label: 'CLASS.STUDENT.ID',
     group: searchSelectCategoryGroup.id,
   },
   {
     value: 'username',
-    label: 'Username',
+    label: 'SEARCH.HOMEROOM.USERNAME',
     group: searchSelectCategoryGroup.id,
   },
   {
     value: 'firstname',
-    label: 'First name',
+    label: 'CLASS.STUDENT.FIRSTNAME',
     group: searchSelectCategoryGroup.name,
   },
   {
     value: 'lastname',
-    label: 'Last name',
+    label: 'CLASS.STUDENT.LASTNAME',
     group: searchSelectCategoryGroup.name,
   },
   {
     value: 'email',
-    label: 'Email',
+    label: 'SEARCH.HOMEROOM.EMAIL',
     group: searchSelectCategoryGroup.id,
   },
   {
     value: 'phone',
-    label: 'Phone number',
+    label: 'SEARCH.HOMEROOM.PHONE',
     group: searchSelectCategoryGroup.misc,
   },
 ]
@@ -83,6 +83,13 @@ export function useClassroomStudentsPage() {
     ...result,
     [label]: null
   }), {} as any))
+
+  const { translatedObject: translatedSearchItems } = useTranslation(searchSelectOption.reduce((result, {label="", group=""}) => ({
+    ...result,
+    [label]: null,
+    [group]: null
+  }), {} as any))
+
   const { setTitle } = useTitleStore()
 
   useEffect(() => {
@@ -130,7 +137,7 @@ export function useClassroomStudentsPage() {
       account,
       classroomId,
       deleteStudent,
-      searchSelectOption,
+      searchSelectOption: searchSelectOption.map(({label="", group="", ...item}) => ({...item,label: translatedSearchItems?.[label], group: translatedSearchItems?.[group]})) as typeof searchSelectOption,
       studentList: studentList || [],
       navigate,
     },

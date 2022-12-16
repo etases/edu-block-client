@@ -20,7 +20,7 @@ export function Header(props: HeaderProps) {
           height: '100%',
         }}
         px={'md'}
-        position={'right'}
+        position={'center'}
       >
         <Title
           order={2}

@@ -32,7 +32,7 @@ export function useClassroomAddStudentForm() {
     name: string
     avatar?: string
   }) {
-    if (form.values.accounts.indexOf(student) < 0)
+    if (form.values.accounts.indexOf(student) < 0 && !!student.id  )
       form.insertListItem('accounts', student)
   }
 

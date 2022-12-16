@@ -62,6 +62,7 @@ export function ClassroomTeacherList() {
         tableHeader={tableHeaders}
         tableData={tableData.map((item) => ({
           ...item,
+          subjectIdentifier: translate(item.subjectIdentifier),
           teacherAvatar: (
             <Avatar src={item.teacherAvatar}>{item.teacherAvatar}</Avatar>
           ),
