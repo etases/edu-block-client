@@ -8,25 +8,16 @@ import {
 import { ENDPOINT } from '@constants'
 import { request } from '@hooks/use-query'
 import { useTitleStore } from '@hooks/use-store'
-import {
-  CopyButton,
-  Divider,
-  HoverCard,
-  Text,
-  ThemeIcon,
-  Title,
-} from '@mantine/core'
+import { useTranslation } from '@hooks/use-translation'
+import { CopyButton, Divider, Text, ThemeIcon, Title } from '@mantine/core'
 import {
   IconClipboard,
   IconClipboardCheck,
-  IconFileDownload,
   IconQrcode,
   IconTrash,
 } from '@tabler/icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { QRCodeCanvas } from 'qrcode.react'
 import { forwardRef, useEffect, useRef } from 'react'
-import { useTranslation } from '@hooks/use-translation'
 
 const QRButtonComponent = forwardRef<HTMLDivElement>((props, ref) => (
   // <IconButton
@@ -119,9 +110,13 @@ export function VerifiedKeyList() {
     <VerticalStack>
       {/* <HorizontalStack>List</HorizontalStack> */}
       <HorizontalStack position={'apart'}>
-        <Title>{translate("VERIFIED_KEY_LIST.TITLE.VERIFIED_ACCESS_TOKEN")}</Title>
+        <Title>
+          {translate('VERIFIED_KEY_LIST.TITLE.VERIFIED_ACCESS_TOKEN')}
+        </Title>
         <HorizontalStack>
-          <Button onClick={() => createKey()}>{translate("VERIFIED_KEY_LIST.BUTTON.CREATE_NEW_KEY")}</Button>
+          <Button onClick={() => createKey()}>
+            {translate('VERIFIED_KEY_LIST.BUTTON.CREATE_NEW_KEY')}
+          </Button>
         </HorizontalStack>
       </HorizontalStack>
       <Divider />
@@ -131,7 +126,7 @@ export function VerifiedKeyList() {
           key: (
             <HorizontalStack>
               {/* <QRCodeCanvas value={item.key} /> */}
-              <HoverCard position={'bottom-start'}>
+              {/* <HoverCard position={'bottom-start'}>
                 <HoverCard.Target>
                   <QRButtonComponent />
                 </HoverCard.Target>
@@ -169,12 +164,12 @@ export function VerifiedKeyList() {
                     </HorizontalStack>
                   </VerticalStack>
                 </HoverCard.Dropdown>
-              </HoverCard>
+              </HoverCard> */}
               <HorizontalStack>
                 <CopyButton value={item.key}>
                   {({ copied, copy }) => (
                     <IconButton
-                      label={translate("STATISTIC_KEY_LIST.LABEL.COPY")}
+                      label={translate('STATISTIC_KEY_LIST.LABEL.COPY')}
                       onClick={copy}
                     >
                       {copied ? <IconClipboardCheck /> : <IconClipboard />}
@@ -188,7 +183,7 @@ export function VerifiedKeyList() {
           actions: (
             <HorizontalStack>
               <IconButton
-                label={translate("STATISTIC_KEY_LIST.LABEL.REMOVE_KEY")}
+                label={translate('STATISTIC_KEY_LIST.LABEL.REMOVE_KEY')}
                 color={'red'}
                 onClick={() => deleteKey({ key: item.key })}
               >
@@ -200,12 +195,12 @@ export function VerifiedKeyList() {
         tableHeader={[
           {
             identifier: 'key',
-            label: translate("STATISTIC_KEY_LIST.LABEL.KEY"),
+            label: translate('STATISTIC_KEY_LIST.LABEL.KEY'),
             align: 'left',
           },
           {
             identifier: 'actions',
-            label: translate("ACCOUNT_LIST_PAGE.TABLE.HEADER.ACTIONS"),
+            label: translate('ACCOUNT_LIST_PAGE.TABLE.HEADER.ACTIONS'),
           },
         ]}
       />

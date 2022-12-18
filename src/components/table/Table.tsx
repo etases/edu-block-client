@@ -44,9 +44,7 @@ export function Table<TIdentifier extends string | number>(
   const { spacing } = useMantineTheme()
 
   return (
-    <ScrollArea
-      sx={{ maxWidth: `calc(100vw - ${spacing.md * 2}px)`, minHeight: '70vh' }}
-    >
+    <ScrollArea sx={{ maxWidth: `calc(100vw - ${spacing.md * 2}px)` }}>
       <MTable
         fontSize={'sm'}
         // verticalSpacing={'md'}
