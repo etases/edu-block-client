@@ -125,7 +125,7 @@ export function StaffDashboard() {
   return (
     <VerticalStack>
       <HorizontalStack>
-        <Title>{translatedObject?.["STAFF_PAGE.DASHBOARD.TITLE"]}</Title>
+        <Title>{translatedObject?.['STAFF_PAGE.DASHBOARD.TITLE']}</Title>
       </HorizontalStack>
       <Divider />
       <HorizontalStack grow={true}>
@@ -140,7 +140,9 @@ export function StaffDashboard() {
               label: year,
             }
           })}
-          placeholder={translatedObject?.["ADMIN_PAGE.DASHBOARD.YEAR"]?.toString()}
+          placeholder={translatedObject?.[
+            'ADMIN_PAGE.DASHBOARD.YEAR'
+          ]?.toString()}
           value={state.year.year.toString()}
           onChange={(value) => state.year.setYear(Number(value))}
         />
@@ -149,7 +151,9 @@ export function StaffDashboard() {
             value: grade.toString(),
             label: ['Grade', grade].join(' '),
           }))}
-          placeholder={translatedObject?.["ADMIN_PAGE.DASHBOARD.GRADE"]?.toString()}
+          placeholder={translatedObject?.[
+            'ADMIN_PAGE.DASHBOARD.GRADE'
+          ]?.toString()}
           value={state.grade.grade.toString()}
           onChange={(value) => state.grade.setGrade(Number(value))}
         />
@@ -164,7 +168,7 @@ export function StaffDashboard() {
           }
           disabled={gradeRecordQuery.data?.length === 0}
         >
-          {translatedObject?.["ADMIN_PAGE.DASHBOARD.GET_GRADE"]}
+          {translatedObject?.['ADMIN_PAGE.DASHBOARD.GET_GRADE']}
         </Button>
         <Button
           disabled={gradeRecordQuery.data?.length === 0}
@@ -177,7 +181,7 @@ export function StaffDashboard() {
             )
           }
         >
-          {translatedObject?.["ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION"]}
+          {translatedObject?.['ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION']}
         </Button>
       </HorizontalStack>
       <Divider />
@@ -200,8 +204,14 @@ export function StaffDashboard() {
             {[
               { color: 'red', label: 'Admin|' },
               { color: 'orange', label: 'Staff|' },
-              { color: 'blue', label: `${translatedObject?.["ADMIN_PAGE.DASHBOARD.TEACHER"]}|` },
-              { color: 'grape', label: `${translatedObject?.["ADMIN_PAGE.DASHBOARD.STUDENT"]}|` },
+              {
+                color: 'blue',
+                label: `${translatedObject?.['ADMIN_PAGE.DASHBOARD.TEACHER']}|`,
+              },
+              {
+                color: 'grape',
+                label: `${translatedObject?.['ADMIN_PAGE.DASHBOARD.STUDENT']}|`,
+              },
             ].map(({ color, label }, index) => (
               <Button
                 key={index}
@@ -224,7 +234,9 @@ export function StaffDashboard() {
           </Card.Section>
           <HorizontalStack position={'center'}>
             <Button>
-              <Text>{translatedObject?.["ADMIN_PAGE.DASHBOARD.CLASSROOM"]}|</Text>
+              <Text>
+                {translatedObject?.['ADMIN_PAGE.DASHBOARD.CLASSROOM']}|
+              </Text>
               <Text>{classroomsCountQuery.data}</Text>
             </Button>
           </HorizontalStack>
@@ -238,7 +250,10 @@ export function StaffDashboard() {
               data={semesterNameList.map((semesterName) => ({
                 r: utils
                   .generateClassificationReport('table')
-                  ?.map((classification: any) => classification[semesterName]),
+                  ?.map(
+                    (classification: any) =>
+                      classification[translatedObject?.[semesterName] as string]
+                  ),
                 theta: [
                   ...(classificationQuery?.data as any),
                   (classificationQuery?.data as any)?.at(0),
@@ -255,7 +270,10 @@ export function StaffDashboard() {
                   ?.map(({ classification }: any) => classification),
                 y: utils
                   .generateClassificationReport('table')
-                  ?.map((classification: any) => classification[semesterName]),
+                  ?.map(
+                    (classification: any) =>
+                      classification[translatedObject?.[semesterName] as string]
+                  ),
                 name: translatedObject?.[semesterName]?.toString(),
                 type: 'bar',
               }))}

@@ -128,29 +128,29 @@ const translationsPlaceHolder = {
 }
 
 const translationText = {
-  "ACCOUNT.TEXT.UPDATE_ACCOUNT_PROFILE": null,
-  "ACCOUNT.TEXT.UPDATE_PASSWORD": null,
-  "ACCOUNT.TEXT.CREATE_ACCOUNT": null,
-  "ACCOUNT_LIST.LABEL.REMOVE": null,
-  "ACCOUNT_LIST.LABEL.CLEAR_ALL": null,
-  "ACCOUNT_LIST.LABEL.ADD_ACCOUNT": null,
-  "ACCOUNT_LIST.LABEL.CREATE_ACCOUNTS": null,
-  "ACCOUNT_LIST.SELECT_INPUT.ADMIN": null,
-  "ACCOUNT_LIST.SELECT_INPUT.STAFF": null,
-  "ACCOUNT_LIST.SELECT_INPUT.TEACHER": null,
-  "ACCOUNT_LIST.SELECT_INPUT.STUDENT": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.FIRST_NAME": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.LAST_NAME": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.GENDER": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.GENDER_MALE": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.GENDER_FEMALE": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.DOB": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.PHONE": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.EMAIL": null,
-  "ACCOUNT_PROFILE.TEXT_INPUT.ADDRESS": null,
-  "ACCOUNT_PROFILE.BUTTON.UPDATE_PROFILE": null,
-  "ACCOUNT_PROFILE.BUTTON.UPDATE": null
-} 
+  'ACCOUNT.TEXT.UPDATE_ACCOUNT_PROFILE': null,
+  'ACCOUNT.TEXT.UPDATE_PASSWORD': null,
+  'ACCOUNT.TEXT.CREATE_ACCOUNT': null,
+  'ACCOUNT_LIST.LABEL.REMOVE': null,
+  'ACCOUNT_LIST.LABEL.CLEAR_ALL': null,
+  'ACCOUNT_LIST.LABEL.ADD_ACCOUNT': null,
+  'ACCOUNT_LIST.LABEL.CREATE_ACCOUNTS': null,
+  'ACCOUNT_LIST.SELECT_INPUT.ADMIN': null,
+  'ACCOUNT_LIST.SELECT_INPUT.STAFF': null,
+  'ACCOUNT_LIST.SELECT_INPUT.TEACHER': null,
+  'ACCOUNT_LIST.SELECT_INPUT.STUDENT': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.FIRST_NAME': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.LAST_NAME': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.GENDER': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.GENDER_MALE': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.GENDER_FEMALE': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.DOB': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.PHONE': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.EMAIL': null,
+  'ACCOUNT_PROFILE.TEXT_INPUT.ADDRESS': null,
+  'ACCOUNT_PROFILE.BUTTON.UPDATE_PROFILE': null,
+  'ACCOUNT_PROFILE.BUTTON.UPDATE': null,
+}
 
 const translationTextRoot = {
   "ACCOUNT_LIST_PAGE.TITLE": null
@@ -165,13 +165,15 @@ export function useAccountListPage() {
   }), {} as any))
 
   const { translatedObject: translatedObjectPlaceHolder } = useTranslation(translationsPlaceHolder)
-  
-  const { translatedObject: translatedTextRoot } = useTranslation(translationTextRoot)
+
+  const { translatedObject: translatedTextRoot } =
+    useTranslation(translationTextRoot)
 
   const { translatedObject: translatedText } = useTranslation(translationText)
 
-  const { translatedObject: translatedObjectAccountListButtons } = useTranslation(translationsButtons)
-  
+  const { translatedObject: translatedObjectAccountListButtons } =
+    useTranslation(translationsButtons)
+
   const { translatedObject } = useTranslation(tableHeaders.reduce((result, {label}) => ({
     ...result,
     [label]: null
@@ -214,7 +216,10 @@ export function useAccountListPage() {
   return {
     table: {
       accountList: data?.accounts || [],
-      tableHeaders: tableHeaders.map(({label,...item}) => ({...item,label: translatedObject?.[label]})) as typeof tableHeaders,
+      tableHeaders: tableHeaders.map(({ label, ...item }) => ({
+        ...item,
+        label: translatedObject?.[label],
+      })) as typeof tableHeaders,
     },
     state: {
       profileUpdateModal: {
@@ -245,8 +250,11 @@ export function useAccountListPage() {
       translatedObjectAccountListButtons,
       translatedObjectPlaceHolder,
       translatedText,
-      translationsButtons,
-      searchSelectOption: searchSelectOption.map(({label="",...item}) => ({...item,label: translatedSearchItems?.[label]})) as typeof searchSelectOption
+      translationsButtons: translatedObjectAccountListButtons,
+      searchSelectOption: searchSelectOption.map(({ label = '', ...item }) => ({
+        ...item,
+        label: translatedSearchItems?.[label],
+      })) as typeof searchSelectOption,
     },
     form: { profileForm, createForm, passwordForm },
     account,

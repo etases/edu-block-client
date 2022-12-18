@@ -241,10 +241,16 @@ function transformApiModel(data) {
   )
 }
 
-function subjectReport({ data, subjectNameList, classroomName, returnType, translate }) {
+function subjectReport({
+  data,
+  subjectNameList,
+  classroomName,
+  returnType,
+  translate,
+}) {
   if (!data || !subjectNameList) return
 
-  const formattedData = translate(subjectNameList).reduce(
+  const formattedData = subjectNameList.reduce(
     (result, subjectName) => ({
       ...result,
       [translate(subjectName)]: data.map(
@@ -277,15 +283,21 @@ function subjectReport({ data, subjectNameList, classroomName, returnType, trans
   )
 }
 
-function semesterReport({ data, semesterNameList, classroomName, returnType, translate }) {
+function semesterReport({
+  data,
+  semesterNameList,
+  classroomName,
+  returnType,
+  translate,
+}) {
   if (!data) return
 
   const formattedData = semesterNameList.reduce(
     (result, semesterName) => ({
       ...result,
-      [translate(semesterName)]: data.map(
+      [semesterName]: data.map(
         ({ classroom, classification, student, ...subjects }) => ({
-          [translate('studentName')]: [student.firstName, student.lastName].join(' '),
+          studentName: [student.firstName, student.lastName].join(' '),
           ...Object.entries(subjects).reduce(
             (result, [subjectName, subjectData]) => ({
               ...result,
