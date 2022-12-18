@@ -16,26 +16,25 @@ import { useQueries, useQuery } from '@tanstack/react-query'
 import { dayjs } from '@utilities/functions'
 import Plot from 'react-plotly.js'
 
-const translate = {
-  "ADMIN_PAGE.SIDEBAR.DASHBOARD": null,
-  "ADMIN_PAGE.SIDEBAR.ACCOUNT": null,
-  "ADMIN_PAGE.SIDEBAR.CLASSROOM": null,
-  "ADMIN_PAGE.DASHBOARD.TITLE": null,
-  "ADMIN_PAGE.DASHBOARD.TEACHER": null,
-  "ADMIN_PAGE.DASHBOARD.STUDENT": null,
-  "ADMIN_PAGE.DASHBOARD.CLASSROOM": null,
-  "ADMIN_PAGE.DASHBOARD.GET_GRADE": null,
-  "ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION": null,
-  "ADMIN_PAGE.DASHBOARD.YEAR": null,
-  "ADMIN_PAGE.DASHBOARD.GRADE": null,
-  "firstHalf": null,
-  "secondHalf": null,
-  "final": null,
+const translation = {
+  'ADMIN_PAGE.SIDEBAR.DASHBOARD': null,
+  'ADMIN_PAGE.SIDEBAR.ACCOUNT': null,
+  'ADMIN_PAGE.SIDEBAR.CLASSROOM': null,
+  'ADMIN_PAGE.DASHBOARD.TITLE': null,
+  'ADMIN_PAGE.DASHBOARD.TEACHER': null,
+  'ADMIN_PAGE.DASHBOARD.STUDENT': null,
+  'ADMIN_PAGE.DASHBOARD.CLASSROOM': null,
+  'ADMIN_PAGE.DASHBOARD.GET_GRADE': null,
+  'ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION': null,
+  'ADMIN_PAGE.DASHBOARD.YEAR': null,
+  'ADMIN_PAGE.DASHBOARD.GRADE': null,
+  firstHalf: null,
+  secondHalf: null,
+  final: null,
 }
 
 export function AdminDashboard() {
-
-  const {translatedObject} = useTranslation(translate);
+  const { translatedObject } = useTranslation(translation)
 
   const {
     query: { gradeRecordQuery, classificationQuery },
@@ -122,10 +121,13 @@ export function AdminDashboard() {
       return pageInfo.totalEntries
     },
   })
+
+  const chartData = utils.generateClassificationReport('table')
+
   return (
     <VerticalStack>
       <HorizontalStack>
-        <Title>{translatedObject?.["ADMIN_PAGE.DASHBOARD.TITLE"]}</Title>
+        <Title>{translatedObject?.['ADMIN_PAGE.DASHBOARD.TITLE']}</Title>
       </HorizontalStack>
       <Divider />
       <HorizontalStack grow={true}>
@@ -140,7 +142,9 @@ export function AdminDashboard() {
               label: year,
             }
           })}
-          placeholder={translatedObject?.["ADMIN_PAGE.DASHBOARD.YEAR"]?.toString()}
+          placeholder={translatedObject?.[
+            'ADMIN_PAGE.DASHBOARD.YEAR'
+          ]?.toString()}
           value={state.year.year.toString()}
           onChange={(value) => state.year.setYear(Number(value))}
         />
@@ -149,7 +153,9 @@ export function AdminDashboard() {
             value: grade.toString(),
             label: ['Grade', grade].join(' '),
           }))}
-          placeholder={translatedObject?.["ADMIN_PAGE.DASHBOARD.GRADE"]?.toString()}
+          placeholder={translatedObject?.[
+            'ADMIN_PAGE.DASHBOARD.GRADE'
+          ]?.toString()}
           value={state.grade.grade.toString()}
           onChange={(value) => state.grade.setGrade(Number(value))}
         />
@@ -164,7 +170,7 @@ export function AdminDashboard() {
           }
           disabled={gradeRecordQuery.data?.length === 0}
         >
-          {translatedObject?.["ADMIN_PAGE.DASHBOARD.GET_GRADE"]}
+          {translatedObject?.['ADMIN_PAGE.DASHBOARD.GET_GRADE']}
         </Button>
         <Button
           disabled={gradeRecordQuery.data?.length === 0}
@@ -177,7 +183,7 @@ export function AdminDashboard() {
             )
           }
         >
-          {translatedObject?.["ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION"]}
+          {translatedObject?.['ADMIN_PAGE.DASHBOARD.GET_CLASSIFICATION']}
         </Button>
       </HorizontalStack>
       <Divider />
@@ -200,8 +206,14 @@ export function AdminDashboard() {
             {[
               { color: 'red', label: 'Admin|' },
               { color: 'orange', label: 'Staff|' },
-              { color: 'blue', label: `${translatedObject?.["ADMIN_PAGE.DASHBOARD.TEACHER"]}|` },
-              { color: 'grape', label: `${translatedObject?.["ADMIN_PAGE.DASHBOARD.STUDENT"]}|` },
+              {
+                color: 'blue',
+                label: `${translatedObject?.['ADMIN_PAGE.DASHBOARD.TEACHER']}|`,
+              },
+              {
+                color: 'grape',
+                label: `${translatedObject?.['ADMIN_PAGE.DASHBOARD.STUDENT']}|`,
+              },
             ].map(({ color, label }, index) => (
               <Button
                 key={index}
@@ -224,7 +236,9 @@ export function AdminDashboard() {
           </Card.Section>
           <HorizontalStack position={'center'}>
             <Button>
-              <Text>{translatedObject?.["ADMIN_PAGE.DASHBOARD.CLASSROOM"]}|</Text>
+              <Text>
+                {translatedObject?.['ADMIN_PAGE.DASHBOARD.CLASSROOM']}|
+              </Text>
               <Text>{classroomsCountQuery.data}</Text>
             </Button>
           </HorizontalStack>
@@ -236,9 +250,10 @@ export function AdminDashboard() {
           <>
             <Plot
               data={semesterNameList.map((semesterName) => ({
-                r: utils
-                  .generateClassificationReport('table')
-                  ?.map((classification: any) => classification[semesterName]),
+                r: (chartData as any[])?.map(
+                  (classification: any) =>
+                    classification[translatedObject?.[semesterName] as string]
+                ),
                 theta: [
                   ...(classificationQuery?.data as any),
                   (classificationQuery?.data as any)?.at(0),
@@ -250,12 +265,13 @@ export function AdminDashboard() {
             />
             <Plot
               data={semesterNameList.map((semesterName) => ({
-                x: utils
-                  .generateClassificationReport('table')
-                  ?.map(({ classification }: any) => classification),
-                y: utils
-                  .generateClassificationReport('table')
-                  ?.map((classification: any) => classification[semesterName]),
+                x: (chartData as any[])?.map(
+                  ({ classification }: any) => classification
+                ),
+                y: (chartData as any[])?.map(
+                  (classification: any) =>
+                    classification[translatedObject?.[semesterName] as string]
+                ),
                 name: translatedObject?.[semesterName]?.toString(),
                 type: 'bar',
               }))}
